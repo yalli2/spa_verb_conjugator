@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/nocturne-fcaafbbc-7b87-4d97-864b-b6ab317fb0be/styles.css">
+<script src="_ds/nocturne-fcaafbbc-7b87-4d97-864b-b6ab317fb0be/_ds_bundle.js"></script>
+<style>
+body{margin:0;background:var(--color-bg);}
+.cj-scroll::-webkit-scrollbar{display:none}
+.cj-scroll{-ms-overflow-style:none;scrollbar-width:none}
+.cj-input{appearance:none;outline:none}
+.cj-input::placeholder{color:color-mix(in srgb, var(--color-text) 35%, transparent)}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:18px;padding:40px 16px 56px;background:radial-gradient(ellipse at 50% -10%, var(--color-accent-900) 0%, var(--color-bg) 55%);font-family:var(--font-body);">
+
+  <div style="width:402px;max-width:100%;display:flex;align-items:baseline;justify-content:space-between;">
+    <div style="font-family:var(--font-heading);font-weight:500;font-size:18px;color:var(--color-text);">Conjuga</div>
+    <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 45%, transparent);">interactive prototype</div>
+  </div>
+
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
+    <div class="cj-scroll" style="height:100%;display:flex;flex-direction:column;box-sizing:border-box;">
+
+      <!-- ONBOARDING -->
+      <sc-if value="{{ isOnboarding }}" hint-placeholder-val="{{ true }}">
+        <div class="cj-scroll" style="flex:1;overflow:auto;padding:70px 22px 24px;display:flex;flex-direction:column;gap:22px;">
+          <div>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">{{ txtGreeting }}</div>
+            <h1 style="font-size:28px;margin:0 0 8px;color:var(--color-text);">{{ txtOnboardingQuestion }}</h1>
+            <p style="font-size:13px;opacity:.7;margin:0;color:var(--color-text);">{{ txtOnboardingSub }}</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div onClick="{{ pickLevelA1 }}" style="cursor:pointer;padding:14px 16px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <div><div style="font-family:var(--font-heading);font-size:15px;color:var(--color-text);">A1</div><div style="font-size:12px;opacity:.65;color:var(--color-text);">{{ levelDescA1 }}</div></div>
+            </div>
+            <div onClick="{{ pickLevelA2 }}" style="cursor:pointer;padding:14px 16px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <div><div style="font-family:var(--font-heading);font-size:15px;color:var(--color-text);">A2</div><div style="font-size:12px;opacity:.65;color:var(--color-text);">{{ levelDescA2 }}</div></div>
+            </div>
+            <div onClick="{{ pickLevelB1 }}" style="cursor:pointer;padding:14px 16px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <div><div style="font-family:var(--font-heading);font-size:15px;color:var(--color-text);">B1</div><div style="font-size:12px;opacity:.65;color:var(--color-text);">{{ levelDescB1 }}</div></div>
+            </div>
+            <div onClick="{{ pickLevelB2 }}" style="cursor:pointer;padding:14px 16px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <div><div style="font-family:var(--font-heading);font-size:15px;color:var(--color-text);">B2</div><div style="font-size:12px;opacity:.65;color:var(--color-text);">{{ levelDescB2 }}</div></div>
+            </div>
+            <div onClick="{{ pickLevelC1 }}" style="cursor:pointer;padding:14px 16px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <div><div style="font-family:var(--font-heading);font-size:15px;color:var(--color-text);">C1</div><div style="font-size:12px;opacity:.65;color:var(--color-text);">{{ levelDescC1 }}</div></div>
+            </div>
+            <div onClick="{{ pickLevelC2 }}" style="cursor:pointer;padding:14px 16px;border-radius:var(--radius-md);background:var(--color-accent-900);border:1px solid var(--color-accent);display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <div><div style="font-family:var(--font-heading);font-size:15px;color:var(--color-accent-100);">C2</div><div style="font-size:12px;opacity:.8;color:var(--color-accent-200);">{{ levelDescC2 }}</div></div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- HOME -->
+      <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;overflow:auto;padding:58px 18px 10px;display:flex;flex-direction:column;gap:16px;" class="cj-scroll">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-family:var(--font-heading);font-weight:500;font-size:20px;color:var(--color-text);">{{ txtGreeting }}</div>
+              <div style="font-size:12px;opacity:.6;color:var(--color-text);">{{ levelLabel }} {{ txtTrackWord }} · {{ txtHomeSub }}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;position:relative;">
+              <div onClick="{{ toggleLanguageMenu }}" style="cursor:pointer;height:34px;padding:0 11px;border-radius:999px;background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;gap:6px;">
+                <span style="font-size:12px;font-family:var(--font-heading);color:var(--color-text);">{{ currentLangFlag }}</span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <sc-if value="{{ languageMenuOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;top:40px;right:0;z-index:30;width:188px;border-radius:var(--radius-md);background:var(--color-surface);box-shadow:var(--shadow-md);overflow:hidden;">
+                  <sc-for list="{{ languageRows }}" as="lang" hint-placeholder-count="6">
+                    <div onClick="{{ lang.onClick }}" style="{{ lang.style }}">
+                      <span>{{ lang.label }}</span>
+                      <span style="font-size:10px;opacity:.6;">{{ lang.tag }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <div onClick="{{ toggleLevelMenu }}" style="cursor:pointer;height:34px;padding:0 11px;border-radius:999px;background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;gap:6px;">
+                <span style="font-size:12px;font-family:var(--font-heading);color:var(--color-text);">{{ currentLevelTag }}</span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <sc-if value="{{ levelMenuOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;top:40px;right:48px;z-index:30;width:200px;border-radius:var(--radius-md);background:var(--color-surface);box-shadow:var(--shadow-md);overflow:hidden;">
+                  <sc-for list="{{ levelRows }}" as="lvl" hint-placeholder-count="6">
+                    <div onClick="{{ lvl.onClick }}" style="{{ lvl.style }}">
+                      <span>{{ lvl.label }}</span>
+                      <span style="font-size:10px;opacity:.6;">{{ lvl.tag }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <div onClick="{{ goProfile }}" style="cursor:pointer;width:38px;height:38px;border-radius:50%;background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;">
+            <div style="flex:1;padding:12px;border-radius:var(--radius-md);background:var(--color-surface);display:flex;align-items:center;gap:9px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e3a469" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1 3-3 4.5-3 8a3 3 0 0 0 6 0c1.2 1 1.8 2.6 1.8 4.2A5.8 5.8 0 0 1 11 20a5.8 5.8 0 0 1-5.8-5.8C5.2 9 8 6 12 2z"/></svg>
+              <div><div style="font-family:var(--font-heading);font-size:16px;color:var(--color-text);">{{ streak }}</div><div style="font-size:10px;opacity:.6;color:var(--color-text);">{{ txtDayStreak }}</div></div>
+            </div>
+            <div style="flex:1;padding:12px;border-radius:var(--radius-md);background:var(--color-surface);display:flex;align-items:center;gap:9px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 5 13h5l-1 9 9-12h-5l1-8z"/></svg>
+              <div><div style="font-family:var(--font-heading);font-size:16px;color:var(--color-text);">Lv {{ xpLevel }}</div><div style="font-size:10px;opacity:.6;color:var(--color-text);">{{ xpTotal }} XP</div></div>
+            </div>
+          </div>
+
+          <div style="padding:14px;border-radius:var(--radius-md);background:var(--color-surface);display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <div style="font-size:12px;color:var(--color-text);opacity:.75;">{{ txtTodaysGoal }}</div>
+              <div style="font-size:12px;color:var(--color-accent);">{{ dailyGoalToday }} / {{ dailyGoalTarget }} XP</div>
+            </div>
+            <div style="height:6px;border-radius:99px;background:var(--color-neutral-800);overflow:hidden;">
+              <div style="{{ dailyGoalBarStyle }}"></div>
+            </div>
+          </div>
+
+          <div onClick="{{ startMixed }}" style="cursor:pointer;padding:16px;border-radius:var(--radius-lg);background:var(--color-accent-900);border:1px solid var(--color-accent);display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-family:var(--font-heading);font-size:16px;color:var(--color-accent-100);">{{ txtContinuePractice }}</div>
+              <div style="font-size:12px;color:var(--color-accent-200);opacity:.9;">{{ txtMixedSession }}</div>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-100)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </div>
+
+          <div>
+            <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.55;color:var(--color-text);margin-bottom:8px;">{{ txtPracticeModes }}</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+              <div onClick="{{ startFill }}" style="cursor:pointer;padding:13px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;flex-direction:column;gap:7px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h10M4 17h7"/></svg>
+                <div style="font-size:13px;font-family:var(--font-heading);color:var(--color-text);">{{ txtModeFillTitle }}</div>
+                <div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ txtModeFillSub }}</div>
+              </div>
+              <div onClick="{{ startMc }}" style="cursor:pointer;padding:13px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;flex-direction:column;gap:7px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+                <div style="font-size:13px;font-family:var(--font-heading);color:var(--color-text);">{{ txtModeMcTitle }}</div>
+                <div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ txtModeMcSub }}</div>
+              </div>
+              <div onClick="{{ startCloze }}" style="cursor:pointer;padding:13px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;flex-direction:column;gap:7px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5zM20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5z"/></svg>
+                <div style="font-size:13px;font-family:var(--font-heading);color:var(--color-text);">{{ txtModeClozeTitle }}</div>
+                <div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ txtModeClozeSub }}</div>
+              </div>
+              <div onClick="{{ startTable }}" style="cursor:pointer;padding:13px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;flex-direction:column;gap:7px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16"/></svg>
+                <div style="font-size:13px;font-family:var(--font-heading);color:var(--color-text);">{{ txtModeTableTitle }}</div>
+                <div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ txtModeTableSub }}</div>
+              </div>
+              <div onClick="{{ startTimed }}" style="cursor:pointer;grid-column:span 2;padding:13px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;gap:10px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>
+                <div><div style="font-size:13px;font-family:var(--font-heading);color:var(--color-text);">{{ txtModeSpeedTitle }}</div><div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ txtModeSpeedSub }}</div></div>
+              </div>
+            </div>
+          </div>
+
+          <sc-if value="{{ hasMistakes }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ startMistakes }}" style="cursor:pointer;padding:13px 14px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:9px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"><path d="M12 9v4M12 16.5h.01"/><path d="M10.3 3.9 2.6 17.5A1.8 1.8 0 0 0 4.2 20h15.6a1.8 1.8 0 0 0 1.6-2.5L13.7 3.9a1.8 1.8 0 0 0-3.4 0z"/></svg>
+                <div style="font-size:13px;color:var(--color-text);">{{ txtReviewMistakes }}</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"><path d="M9 6l6 6-6 6"/></svg>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="flex-shrink:0;display:flex;border-top:1px solid var(--color-divider);padding:10px 10px 26px;background:var(--color-bg);">
+          <div onClick="{{ goHome }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ tabHomeColor }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v9h14v-9"/></svg>
+            <div style="font-size:10px;color:{{ tabHomeColor }};">{{ txtTabHome }}</div>
+          </div>
+          <div onClick="{{ goLibrary }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ tabLibraryColor }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5zM20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5z"/></svg>
+            <div style="font-size:10px;color:{{ tabLibraryColor }};">{{ txtTabLibrary }}</div>
+          </div>
+          <div onClick="{{ goProfile }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ tabProfileColor }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2"/></svg>
+            <div style="font-size:10px;color:{{ tabProfileColor }};">{{ txtTabProfile }}</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- LIBRARY -->
+      <sc-if value="{{ isLibrary }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;overflow:auto;padding:58px 18px 10px;display:flex;flex-direction:column;gap:14px;" class="cj-scroll">
+          <sc-if value="{{ libraryVerbInf }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div onClick="{{ closeVerbDetail }}" style="display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--color-text);opacity:.7;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+                <span style="font-size:12px;">{{ txtBackToLibrary }}</span>
+              </div>
+              <div>
+                <h2 style="font-size:24px;margin:0 0 2px;color:var(--color-text);">{{ libraryVerbInf }}</h2>
+                <div style="font-size:13px;opacity:.6;color:var(--color-text);">{{ libraryVerbEn }} · {{ libraryVerbGroup }}</div>
+              </div>
+              <div class="cj-scroll" style="display:flex;gap:7px;overflow:auto;">
+                <div onClick="{{ setTensePresente }}" style="{{ tenseChipStyle0 }}">{{ txtTensePresente }}</div>
+                <div onClick="{{ setTensePreterito }}" style="{{ tenseChipStyle1 }}">{{ txtTensePreterito }}</div>
+                <div onClick="{{ setTenseImperfecto }}" style="{{ tenseChipStyle2 }}">{{ txtTenseImperfecto }}</div>
+                <div onClick="{{ setTenseFuturo }}" style="{{ tenseChipStyle3 }}">{{ txtTenseFuturo }}</div>
+                <div onClick="{{ setTenseSubjuntivo }}" style="{{ tenseChipStyle4 }}">{{ txtTenseSubjuntivo }}</div>
+              </div>
+              <div style="border-radius:var(--radius-md);background:var(--color-surface);overflow:hidden;">
+                <sc-for list="{{ libraryTableRows }}" as="row" hint-placeholder-count="6">
+                  <div style="display:flex;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--color-divider);">
+                    <span style="font-size:13px;opacity:.6;color:var(--color-text);">{{ row.pronoun }}</span>
+                    <span style="font-size:13px;font-family:var(--font-heading);color:var(--color-text);">{{ row.form }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <button type="button" onClick="{{ practiceThisVerb }}" class="btn btn-primary btn-block">{{ txtPracticeThisVerbBtn }}</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ libraryListVisible }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <h2 style="font-size:22px;margin:0;color:var(--color-text);">{{ txtLibraryTitle }}</h2>
+              <div class="cj-scroll" style="display:flex;gap:7px;overflow:auto;">
+                <div onClick="{{ filterAll }}" style="{{ filterChipStyleAll }}">{{ txtFilterAllLabel }}</div>
+                <div onClick="{{ filterA1 }}" style="{{ filterChipStyleA1 }}">A1</div>
+                <div onClick="{{ filterA2 }}" style="{{ filterChipStyleA2 }}">A2</div>
+                <div onClick="{{ filterB1 }}" style="{{ filterChipStyleB1 }}">B1</div>
+                <div onClick="{{ filterB2 }}" style="{{ filterChipStyleB2 }}">B2</div>
+                <div onClick="{{ filterC1 }}" style="{{ filterChipStyleC1 }}">C1</div>
+                <div onClick="{{ filterC2 }}" style="{{ filterChipStyleC2 }}">C2</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <sc-for list="{{ libraryVerbs }}" as="v" hint-placeholder-count="8">
+                  <div onClick="{{ v.onClick }}" style="cursor:pointer;padding:13px 14px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;">
+                    <div>
+                      <div style="font-family:var(--font-heading);font-size:15px;color:var(--color-text);">{{ v.inf }}</div>
+                      <div style="font-size:12px;opacity:.6;color:var(--color-text);">{{ v.en }}</div>
+                    </div>
+                    <span style="{{ v.tagStyle }}">{{ v.groupLabel }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="flex-shrink:0;display:flex;border-top:1px solid var(--color-divider);padding:10px 10px 26px;background:var(--color-bg);">
+          <div onClick="{{ goHome }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ tabHomeColor }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v9h14v-9"/></svg>
+            <div style="font-size:10px;color:{{ tabHomeColor }};">{{ txtTabHome }}</div>
+          </div>
+          <div onClick="{{ goLibrary }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ tabLibraryColor }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5zM20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5z"/></svg>
+            <div style="font-size:10px;color:{{ tabLibraryColor }};">{{ txtTabLibrary }}</div>
+          </div>
+          <div onClick="{{ goProfile }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ tabProfileColor }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2"/></svg>
+            <div style="font-size:10px;color:{{ tabProfileColor }};">{{ txtTabProfile }}</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- PROFILE -->
+      <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;overflow:auto;padding:58px 18px 10px;display:flex;flex-direction:column;gap:16px;" class="cj-scroll">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:52px;height:52px;border-radius:50%;background:var(--color-accent-800);display:flex;align-items:center;justify-content:center;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-100)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2"/></svg>
+            </div>
+            <div>
+              <div style="font-family:var(--font-heading);font-size:17px;color:var(--color-text);">{{ txtProfileLearner }}</div>
+              <div style="font-size:12px;opacity:.6;color:var(--color-text);">{{ txtLevelTrack }}</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+            <div style="padding:13px;border-radius:var(--radius-md);background:var(--color-surface);"><div style="font-family:var(--font-heading);font-size:19px;color:var(--color-text);">{{ streak }}</div><div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ txtDayStreak }}</div></div>
+            <div style="padding:13px;border-radius:var(--radius-md);background:var(--color-surface);"><div style="font-family:var(--font-heading);font-size:19px;color:var(--color-text);">{{ xpTotal }}</div><div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ txtTotalXp }}</div></div>
+            <div style="padding:13px;border-radius:var(--radius-md);background:var(--color-surface);"><div style="font-family:var(--font-heading);font-size:19px;color:var(--color-text);">{{ accuracyPct }}%</div><div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ txtAccuracyLabel }}</div></div>
+            <div style="padding:13px;border-radius:var(--radius-md);background:var(--color-surface);"><div style="font-family:var(--font-heading);font-size:19px;color:var(--color-text);">{{ masteredCount }}</div><div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ txtVerbsMastered }}</div></div>
+          </div>
+
+          <div>
+            <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.55;color:var(--color-text);margin-bottom:8px;">{{ txtDailyGoalHeader }}</div>
+            <div class="seg" style="display:inline-flex;">
+              <div onClick="{{ setGoal20 }}" style="{{ goalSegStyle20 }}">20 XP</div>
+              <div onClick="{{ setGoal50 }}" style="{{ goalSegStyle50 }}">50 XP</div>
+              <div onClick="{{ setGoal100 }}" style="{{ goalSegStyle100 }}">100 XP</div>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.55;color:var(--color-text);margin-bottom:8px;">{{ txtLeaderboardHeader }}</div>
+            <div style="border-radius:var(--radius-md);background:var(--color-surface);overflow:hidden;">
+              <sc-for list="{{ leaderboard }}" as="row" hint-placeholder-count="5">
+                <div style="{{ row.rowStyle }}">
+                  <span style="font-size:12px;width:16px;color:var(--color-text);opacity:.6;">{{ row.rank }}</span>
+                  <span style="flex:1;font-size:13px;color:{{ row.nameColor }};">{{ row.name }}</span>
+                  <span style="font-size:12px;color:var(--color-text);opacity:.7;">{{ row.xp }} XP</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <sc-if value="{{ hasMistakes }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ startMistakes }}" style="cursor:pointer;padding:13px 14px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;">
+              <div style="font-size:13px;color:var(--color-text);">{{ txtReviewMistakes }}</div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"><path d="M9 6l6 6-6 6"/></svg>
+            </div>
+          </sc-if>
+        </div>
+        <div style="flex-shrink:0;display:flex;border-top:1px solid var(--color-divider);padding:10px 10px 26px;background:var(--color-bg);">
+          <div onClick="{{ goHome }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ tabHomeColor }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v9h14v-9"/></svg>
+            <div style="font-size:10px;color:{{ tabHomeColor }};">{{ txtTabHome }}</div>
+          </div>
+          <div onClick="{{ goLibrary }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ tabLibraryColor }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5zM20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5z"/></svg>
+            <div style="font-size:10px;color:{{ tabLibraryColor }};">{{ txtTabLibrary }}</div>
+          </div>
+          <div onClick="{{ goProfile }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ tabProfileColor }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4 3.4-6.2 7.5-6.2s7.5 2.2 7.5 6.2"/></svg>
+            <div style="font-size:10px;color:{{ tabProfileColor }};">{{ txtTabProfile }}</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- SESSION -->
+      <sc-if value="{{ isSession }}" hint-placeholder-val="{{ false }}">
+        <div style="flex-shrink:0;padding:54px 18px 10px;display:flex;align-items:center;gap:12px;">
+          <div onClick="{{ exitSession }}" style="cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+          </div>
+          <div style="flex:1;height:5px;border-radius:99px;background:var(--color-neutral-800);overflow:hidden;">
+            <div style="{{ sessionProgressBarStyle }}"></div>
+          </div>
+          <sc-if value="{{ isTimedSession }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:12px;font-family:var(--font-heading);color:var(--color-accent);min-width:28px;text-align:right;">{{ timeLeft }}s</div>
+          </sc-if>
+        </div>
+
+        <div class="cj-scroll" style="flex:1;overflow:auto;padding:12px 18px 24px;display:flex;flex-direction:column;gap:18px;">
+          <div>
+            <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent);margin-bottom:4px;">{{ currentTenseLabel }}</div>
+            <sc-if value="{{ isTableQuestion }}" hint-placeholder-val="{{ false }}">
+              <h2 style="font-size:24px;margin:0;color:var(--color-text);">{{ currentVerbInf }}<span style="font-size:14px;opacity:.55;"> — {{ currentVerbEn }}</span></h2>
+            </sc-if>
+            <sc-if value="{{ isPlainFill }}" hint-placeholder-val="{{ false }}">
+              <h2 style="font-size:22px;margin:0;color:var(--color-text);">{{ currentVerbInf }} <span style="opacity:.5;">·</span> {{ currentPronoun }}</h2>
+            </sc-if>
+            <sc-if value="{{ isSentenceQuestion }}" hint-placeholder-val="{{ false }}">
+              <h2 style="font-size:19px;line-height:1.5;margin:0;color:var(--color-text);">{{ currentSentenceDisplay }}</h2>
+              <div style="font-size:13px;line-height:1.5;margin-top:4px;color:color-mix(in srgb, var(--color-text) 55%, transparent);">{{ sentenceTranslation }}</div>
+            </sc-if>
+          </div>
+
+          <sc-if value="{{ showSpecialChars }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <sc-for list="{{ specialChars }}" as="sc" hint-placeholder-count="9">
+                <div onClick="{{ sc.onClick }}" style="cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);background:var(--color-surface);border:1px solid var(--color-divider);font-size:15px;color:var(--color-text);">{{ sc.ch }}</div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <!-- fill / cloze text input -->
+          <sc-if value="{{ showTextInput }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <input class="input cj-input" type="text" value="{{ userInput }}" onChange="{{ onInputChange }}" placeholder="{{ txtInputPlaceholder }}" disabled="{{ answered }}" style="{{ textInputStyle }}" />
+              <sc-if value="{{ answered }}" hint-placeholder-val="{{ false }}">
+                <div style="{{ feedbackBoxStyle }}">{{ feedbackText }}</div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- multiple choice -->
+          <sc-if value="{{ showOptions }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:9px;">
+              <sc-for list="{{ mcOptions }}" as="opt" hint-placeholder-count="4">
+                <div onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <!-- full table -->
+          <sc-if value="{{ isTableQuestion }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <sc-for list="{{ tableRows }}" as="row" hint-placeholder-count="6">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <span style="width:68px;font-size:12px;opacity:.6;color:var(--color-text);flex-shrink:0;">{{ row.pronoun }}</span>
+                  <input class="input cj-input" type="text" value="{{ row.value }}" onChange="{{ row.onChange }}" onFocus="{{ row.onFocus }}" disabled="{{ answered }}" style="{{ row.style }}" />
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ answered }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ nextQuestion }}" class="btn btn-primary btn-block">{{ continueLabel }}</button>
+          </sc-if>
+          <sc-if value="{{ showCheckButton }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ submitAnswer }}" class="btn btn-secondary btn-block" disabled="{{ submitDisabled }}">{{ txtCheckBtn }}</button>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- RESULTS -->
+      <sc-if value="{{ isResults }}" hint-placeholder-val="{{ false }}">
+        <div class="cj-scroll" style="flex:1;overflow:auto;padding:80px 22px 24px;display:flex;flex-direction:column;gap:18px;">
+          <div style="text-align:center;">
+            <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent);margin-bottom:10px;">{{ txtSessionComplete }}</div>
+            <div style="font-family:var(--font-heading);font-size:30px;color:var(--color-text);">{{ resultsHeadline }}</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+            <div style="padding:14px;border-radius:var(--radius-md);background:var(--color-surface);text-align:center;"><div style="font-family:var(--font-heading);font-size:22px;color:var(--color-text);">{{ resultsAccuracy }}%</div><div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ txtAccuracyLabelResults }}</div></div>
+            <div style="padding:14px;border-radius:var(--radius-md);background:var(--color-surface);text-align:center;"><div style="font-family:var(--font-heading);font-size:22px;color:var(--color-accent);">+{{ resultsXp }}</div><div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ txtXpEarnedLabel }}</div></div>
+          </div>
+          <sc-if value="{{ resultsStreakBumped }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:12px 14px;border-radius:var(--radius-md);background:var(--color-accent-900);border:1px solid var(--color-accent);font-size:13px;color:var(--color-accent-100);">{{ txtStreakHit }} 🔥</div>
+          </sc-if>
+          <sc-if value="{{ resultsHasMistakes }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ startMistakes }}" class="btn btn-secondary btn-block">{{ txtReviewSessionMistakes }}</button>
+          </sc-if>
+          <button type="button" onClick="{{ goHome }}" class="btn btn-primary btn-block">{{ txtBackToHome }}</button>
+        </div>
+      </sc-if>
+
+    </div>
+  </x-import>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.pronouns = ['yo','tú','él/ella','nosotros','vosotros','ellos/ellas'];
+    this.subjects = ['Yo','Tú','Él','Nosotros','Vosotros','Ellos'];
+    this.tenses = [
+      {id:'presente', label:'Presente'},
+      {id:'preterito', label:'Pretérito'},
+      {id:'imperfecto', label:'Imperfecto'},
+      {id:'futuro', label:'Futuro'},
+      {id:'subjuntivo', label:'Subjuntivo'},
+    ];
+    this.verbs = [
+      {inf:'hablar', en:'to speak', group:'regular', level:'A1', forms:{presente:['hablo','hablas','habla','hablamos','habláis','hablan'],preterito:['hablé','hablaste','habló','hablamos','hablasteis','hablaron'],imperfecto:['hablaba','hablabas','hablaba','hablábamos','hablabais','hablaban'],futuro:['hablaré','hablarás','hablará','hablaremos','hablaréis','hablarán'],subjuntivo:['hable','hables','hable','hablemos','habléis','hablen']}},
+      {inf:'comer', en:'to eat', group:'regular', level:'A1', forms:{presente:['como','comes','come','comemos','coméis','comen'],preterito:['comí','comiste','comió','comimos','comisteis','comieron'],imperfecto:['comía','comías','comía','comíamos','comíais','comían'],futuro:['comeré','comerás','comerá','comeremos','comeréis','comerán'],subjuntivo:['coma','comas','coma','comamos','comáis','coman']}},
+      {inf:'vivir', en:'to live', group:'regular', level:'A1', forms:{presente:['vivo','vives','vive','vivimos','vivís','viven'],preterito:['viví','viviste','vivió','vivimos','vivisteis','vivieron'],imperfecto:['vivía','vivías','vivía','vivíamos','vivíais','vivían'],futuro:['viviré','vivirás','vivirá','viviremos','viviréis','vivirán'],subjuntivo:['viva','vivas','viva','vivamos','viváis','vivan']}},
+      {inf:'ser', en:'to be', group:'irregular', level:'A1', forms:{presente:['soy','eres','es','somos','sois','son'],preterito:['fui','fuiste','fue','fuimos','fuisteis','fueron'],imperfecto:['era','eras','era','éramos','erais','eran'],futuro:['seré','serás','será','seremos','seréis','serán'],subjuntivo:['sea','seas','sea','seamos','seáis','sean']}},
+      {inf:'estar', en:'to be', group:'irregular', level:'A1', forms:{presente:['estoy','estás','está','estamos','estáis','están'],preterito:['estuve','estuviste','estuvo','estuvimos','estuvisteis','estuvieron'],imperfecto:['estaba','estabas','estaba','estábamos','estabais','estaban'],futuro:['estaré','estarás','estará','estaremos','estaréis','estarán'],subjuntivo:['esté','estés','esté','estemos','estéis','estén']}},
+      {inf:'ir', en:'to go', group:'irregular', level:'A1', forms:{presente:['voy','vas','va','vamos','vais','van'],preterito:['fui','fuiste','fue','fuimos','fuisteis','fueron'],imperfecto:['iba','ibas','iba','íbamos','ibais','iban'],futuro:['iré','irás','irá','iremos','iréis','irán'],subjuntivo:['vaya','vayas','vaya','vayamos','vayáis','vayan']}},
+      {inf:'tener', en:'to have', group:'irregular', level:'A2', forms:{presente:['tengo','tienes','tiene','tenemos','tenéis','tienen'],preterito:['tuve','tuviste','tuvo','tuvimos','tuvisteis','tuvieron'],imperfecto:['tenía','tenías','tenía','teníamos','teníais','tenían'],futuro:['tendré','tendrás','tendrá','tendremos','tendréis','tendrán'],subjuntivo:['tenga','tengas','tenga','tengamos','tengáis','tengan']}},
+      {inf:'hacer', en:'to do / make', group:'irregular', level:'A2', forms:{presente:['hago','haces','hace','hacemos','hacéis','hacen'],preterito:['hice','hiciste','hizo','hicimos','hicisteis','hicieron'],imperfecto:['hacía','hacías','hacía','hacíamos','hacíais','hacían'],futuro:['haré','harás','hará','haremos','haréis','harán'],subjuntivo:['haga','hagas','haga','hagamos','hagáis','hagan']}},
+      {inf:'querer', en:'to want', group:'irregular', level:'A2', forms:{presente:['quiero','quieres','quiere','queremos','queréis','quieren'],preterito:['quise','quisiste','quiso','quisimos','quisisteis','quisieron'],imperfecto:['quería','querías','quería','queríamos','queríais','querían'],futuro:['querré','querrás','querrá','querremos','querréis','querrán'],subjuntivo:['quiera','quieras','quiera','queramos','queráis','quieran']}},
+      {inf:'poder', en:'to be able to', group:'irregular', level:'A2', forms:{presente:['puedo','puedes','puede','podemos','podéis','pueden'],preterito:['pude','pudiste','pudo','pudimos','pudisteis','pudieron'],imperfecto:['podía','podías','podía','podíamos','podíais','podían'],futuro:['podré','podrás','podrá','podremos','podréis','podrán'],subjuntivo:['pueda','puedas','pueda','podamos','podáis','puedan']}},
+      {inf:'ver', en:'to see', group:'irregular', level:'A2', forms:{presente:['veo','ves','ve','vemos','veis','ven'],preterito:['vi','viste','vio','vimos','visteis','vieron'],imperfecto:['veía','veías','veía','veíamos','veíais','veían'],futuro:['veré','verás','verá','veremos','veréis','verán'],subjuntivo:['vea','veas','vea','veamos','veáis','vean']}},
+      {inf:'decir', en:'to say / tell', group:'irregular', level:'B1', forms:{presente:['digo','dices','dice','decimos','decís','dicen'],preterito:['dije','dijiste','dijo','dijimos','dijisteis','dijeron'],imperfecto:['decía','decías','decía','decíamos','decíais','decían'],futuro:['diré','dirás','dirá','diremos','diréis','dirán'],subjuntivo:['diga','digas','diga','digamos','digáis','digan']}},
+      {inf:'dar', en:'to give', group:'irregular', level:'B1', forms:{presente:['doy','das','da','damos','dais','dan'],preterito:['di','diste','dio','dimos','disteis','dieron'],imperfecto:['daba','dabas','daba','dábamos','dabais','daban'],futuro:['daré','darás','dará','daremos','daréis','darán'],subjuntivo:['dé','des','dé','demos','deis','den']}},
+      {inf:'saber', en:'to know', group:'irregular', level:'B1', forms:{presente:['sé','sabes','sabe','sabemos','sabéis','saben'],preterito:['supe','supiste','supo','supimos','supisteis','supieron'],imperfecto:['sabía','sabías','sabía','sabíamos','sabíais','sabían'],futuro:['sabré','sabrás','sabrá','sabremos','sabréis','sabrán'],subjuntivo:['sepa','sepas','sepa','sepamos','sepáis','sepan']}},
+      {inf:'venir', en:'to come', group:'irregular', level:'B1', forms:{presente:['vengo','vienes','viene','venimos','venís','vienen'],preterito:['vine','viniste','vino','vinimos','vinisteis','vinieron'],imperfecto:['venía','venías','venía','veníamos','veníais','venían'],futuro:['vendré','vendrás','vendrá','vendremos','vendréis','vendrán'],subjuntivo:['venga','vengas','venga','vengamos','vengáis','vengan']}},
+      {inf:'poner', en:'to put', group:'irregular', level:'B1', forms:{presente:['pongo','pones','pone','ponemos','ponéis','ponen'],preterito:['puse','pusiste','puso','pusimos','pusisteis','pusieron'],imperfecto:['ponía','ponías','ponía','poníamos','poníais','ponían'],futuro:['pondré','pondrás','pondrá','pondremos','pondréis','pondrán'],subjuntivo:['ponga','pongas','ponga','pongamos','pongáis','pongan']}},
+      {inf:'salir', en:'to leave / go out', group:'irregular', level:'B2', forms:{presente:['salgo','sales','sale','salimos','salís','salen'],preterito:['salí','saliste','salió','salimos','salisteis','salieron'],imperfecto:['salía','salías','salía','salíamos','salíais','salían'],futuro:['saldré','saldrás','saldrá','saldremos','saldréis','saldrán'],subjuntivo:['salga','salgas','salga','salgamos','salgáis','salgan']}},
+      {inf:'traer', en:'to bring', group:'irregular', level:'B2', forms:{presente:['traigo','traes','trae','traemos','traéis','traen'],preterito:['traje','trajiste','trajo','trajimos','trajisteis','trajeron'],imperfecto:['traía','traías','traía','traíamos','traíais','traían'],futuro:['traeré','traerás','traerá','traeremos','traeréis','traerán'],subjuntivo:['traiga','traigas','traiga','traigamos','traigáis','traigan']}},
+      {inf:'volver', en:'to return', group:'irregular', level:'B2', forms:{presente:['vuelvo','vuelves','vuelve','volvemos','volvéis','vuelven'],preterito:['volví','volviste','volvió','volvimos','volvisteis','volvieron'],imperfecto:['volvía','volvías','volvía','volvíamos','volvíais','volvían'],futuro:['volveré','volverás','volverá','volveremos','volveréis','volverán'],subjuntivo:['vuelva','vuelvas','vuelva','volvamos','volváis','vuelvan']}},
+      {inf:'pedir', en:'to ask for', group:'irregular', level:'B2', forms:{presente:['pido','pides','pide','pedimos','pedís','piden'],preterito:['pedí','pediste','pidió','pedimos','pedisteis','pidieron'],imperfecto:['pedía','pedías','pedía','pedíamos','pedíais','pedían'],futuro:['pediré','pedirás','pedirá','pediremos','pediréis','pedirán'],subjuntivo:['pida','pidas','pida','pidamos','pidáis','pidan']}},
+      {inf:'dormir', en:'to sleep', group:'irregular', level:'B2', forms:{presente:['duermo','duermes','duerme','dormimos','dormís','duermen'],preterito:['dormí','dormiste','durmió','dormimos','dormisteis','durmieron'],imperfecto:['dormía','dormías','dormía','dormíamos','dormíais','dormían'],futuro:['dormiré','dormirás','dormirá','dormiremos','dormiréis','dormirán'],subjuntivo:['duerma','duermas','duerma','durmamos','durmáis','duerman']}},
+      {inf:'sentir', en:'to feel', group:'irregular', level:'C1', forms:{presente:['siento','sientes','siente','sentimos','sentís','sienten'],preterito:['sentí','sentiste','sintió','sentimos','sentisteis','sintieron'],imperfecto:['sentía','sentías','sentía','sentíamos','sentíais','sentían'],futuro:['sentiré','sentirás','sentirá','sentiremos','sentiréis','sentirán'],subjuntivo:['sienta','sientas','sienta','sintamos','sintáis','sientan']}},
+      {inf:'pensar', en:'to think', group:'irregular', level:'C1', forms:{presente:['pienso','piensas','piensa','pensamos','pensáis','piensan'],preterito:['pensé','pensaste','pensó','pensamos','pensasteis','pensaron'],imperfecto:['pensaba','pensabas','pensaba','pensábamos','pensabais','pensaban'],futuro:['pensaré','pensarás','pensará','pensaremos','pensaréis','pensarán'],subjuntivo:['piense','pienses','piense','pensemos','penséis','piensen']}},
+      {inf:'conocer', en:'to know / meet', group:'irregular', level:'C1', forms:{presente:['conozco','conoces','conoce','conocemos','conocéis','conocen'],preterito:['conocí','conociste','conoció','conocimos','conocisteis','conocieron'],imperfecto:['conocía','conocías','conocía','conocíamos','conocíais','conocían'],futuro:['conoceré','conocerás','conocerá','conoceremos','conoceréis','conocerán'],subjuntivo:['conozca','conozcas','conozca','conozcamos','conozcáis','conozcan']}},
+      {inf:'seguir', en:'to follow / continue', group:'irregular', level:'C1', forms:{presente:['sigo','sigues','sigue','seguimos','seguís','siguen'],preterito:['seguí','seguiste','siguió','seguimos','seguisteis','siguieron'],imperfecto:['seguía','seguías','seguía','seguíamos','seguíais','seguían'],futuro:['seguiré','seguirás','seguirá','seguiremos','seguiréis','seguirán'],subjuntivo:['siga','sigas','siga','sigamos','sigáis','sigan']}},
+      {inf:'elegir', en:'to choose', group:'irregular', level:'C2', forms:{presente:['elijo','eliges','elige','elegimos','elegís','eligen'],preterito:['elegí','elegiste','eligió','elegimos','elegisteis','eligieron'],imperfecto:['elegía','elegías','elegía','elegíamos','elegíais','elegían'],futuro:['elegiré','elegirás','elegirá','elegiremos','elegiréis','elegirán'],subjuntivo:['elija','elijas','elija','elijamos','elijáis','elijan']}},
+      {inf:'construir', en:'to build', group:'irregular', level:'C2', forms:{presente:['construyo','construyes','construye','construimos','construís','construyen'],preterito:['construí','construiste','construyó','construimos','construisteis','construyeron'],imperfecto:['construía','construías','construía','construíamos','construíais','construían'],futuro:['construiré','construirás','construirá','construiremos','construiréis','construirán'],subjuntivo:['construya','construyas','construya','construyamos','construyáis','construyan']}},
+      {inf:'producir', en:'to produce', group:'irregular', level:'C2', forms:{presente:['produzco','produces','produce','producimos','producís','producen'],preterito:['produje','produjiste','produjo','produjimos','produjisteis','produjeron'],imperfecto:['producía','producías','producía','producíamos','producíais','producían'],futuro:['produciré','producirás','producirá','produciremos','produciréis','producirán'],subjuntivo:['produzca','produzcas','produzca','produzcamos','produzcáis','produzcan']}},
+      {inf:'distinguir', en:'to distinguish', group:'irregular', level:'C2', forms:{presente:['distingo','distingues','distingue','distinguimos','distinguís','distinguen'],preterito:['distinguí','distinguiste','distinguió','distinguimos','distinguisteis','distinguieron'],imperfecto:['distinguía','distinguías','distinguía','distinguíamos','distinguíais','distinguían'],futuro:['distinguiré','distinguirás','distinguirá','distinguiremos','distinguiréis','distinguirán'],subjuntivo:['distinga','distingas','distinga','distingamos','distingáis','distingan']}},
+    ];
+    // Regular -ar/-er/-ir verbs: conjugated algorithmically (guaranteed-correct, incl. c/g/z preterite-yo & subjunctive spelling shifts) to responsibly scale vocabulary without hand-authoring 30 forms per verb.
+    const REGULAR_VERB_DATA = [
+      ['trabajar','to work','A1'],['estudiar','to study','A1'],['caminar','to walk','A1'],['cocinar','to cook','A1'],['limpiar','to clean','A1'],['comprar','to buy','A1'],['cantar','to sing','A1'],['bailar','to dance','A1'],['viajar','to travel','A1'],['escuchar','to listen','A1'],
+      ['mirar','to look / watch','A1'],['ayudar','to help','A1'],['llamar','to call','A1'],['llevar','to carry / wear','A1'],['pasar','to pass / happen','A1'],['necesitar','to need','A1'],['usar','to use','A1'],['tomar','to take / drink','A1'],['preparar','to prepare','A1'],['terminar','to finish','A1'],
+      ['entrar','to enter','A1'],['dejar','to leave / let','A1'],['desayunar','to have breakfast','A1'],['cenar','to have dinner','A1'],['nadar','to swim','A1'],['pintar','to paint','A1'],['lavar','to wash','A1'],['descansar','to rest','A1'],['regresar','to return','A1'],['visitar','to visit','A1'],
+      ['aprender','to learn','A2'],['beber','to drink','A2'],['vender','to sell','A2'],['romper','to break','A2'],['responder','to answer','A2'],['comprender','to understand','A2'],['deber','to owe / must','A2'],['correr','to run','A2'],['temer','to fear','A2'],['meter','to put in','A2'],
+      ['escribir','to write','A2'],['abrir','to open','A2'],['recibir','to receive','A2'],['decidir','to decide','A2'],['permitir','to allow','A2'],['subir','to go up','A2'],['compartir','to share','A2'],['discutir','to discuss','A2'],['existir','to exist','A2'],['insistir','to insist','A2'],
+      ['invitar','to invite','A2'],['explicar','to explain','A2'],['practicar','to practice','A2'],['buscar','to look for','A2'],['tocar','to touch / play','A2'],['llegar','to arrive','A2'],['pagar','to pay','A2'],['apagar','to turn off','A2'],['cambiar','to change','A2'],['ganar','to win / earn','A2'],
+      ['gastar','to spend','B1'],['formar','to form','B1'],['mandar','to send / order','B1'],['marcar','to mark / dial','B1'],['dedicar','to dedicate','B1'],['indicar','to indicate','B1'],['separar','to separate','B1'],['completar','to complete','B1'],['alquilar','to rent','B1'],['reservar','to reserve','B1'],
+      ['firmar','to sign','B1'],['saltar','to jump','B1'],['gritar','to shout','B1'],['llorar','to cry','B1'],['amar','to love','B1'],['odiar','to hate','B1'],['charlar','to chat','B1'],['aceptar','to accept','B1'],['molestar','to bother','B1'],['depender','to depend','B1'],
+      ['prometer','to promise','B1'],['sorprender','to surprise','B1'],['ceder','to yield','B1'],['proceder','to proceed','B1'],['exceder','to exceed','B1'],['coser','to sew','B1'],['suceder','to happen','B1'],['barrer','to sweep','B1'],['toser','to cough','B1'],['definir','to define','B1'],
+      ['describir','to describe','B2'],['imprimir','to print','B2'],['cumplir','to fulfill','B2'],['consistir','to consist','B2'],['resistir','to resist','B2'],['admitir','to admit','B2'],['transmitir','to transmit','B2'],['invadir','to invade','B2'],['unir','to unite','B2'],['analizar','to analyze','B2'],
+      ['organizar','to organize','B2'],['utilizar','to use / utilize','B2'],['realizar','to carry out','B2'],['alcanzar','to reach','B2'],['cruzar','to cross','B2'],['avanzar','to advance','B2'],['lanzar','to throw / launch','B2'],['destacar','to stand out','B2'],['colocar','to place','B2'],['provocar','to provoke','B2'],
+      ['equivocar','to mistake','C1'],['clasificar','to classify','C1'],['modificar','to modify','C1'],['verificar','to verify','C1'],['justificar','to justify','C1'],['identificar','to identify','C1'],['notificar','to notify','C1'],['significar','to mean','C1'],['navegar','to navigate / sail','C1'],['entregar','to deliver','C1'],
+      ['cargar','to load / charge','C1'],['agregar','to add','C1'],['interrogar','to interrogate','C1'],['investigar','to investigate','C1'],['obligar','to force','C1'],['castigar','to punish','C1'],['juzgar','to judge','C1'],['disfrutar','to enjoy','C1'],['ahorrar','to save (money)','C1'],['arreglar','to fix','C1'],
+      ['suspender','to suspend / fail','C2'],['pretender','to intend / claim','C2'],['ofender','to offend','C2'],['esconder','to hide','C2'],['corresponder','to correspond','C2'],['persistir','to persist','C2'],['asistir','to attend','C2'],['omitir','to omit','C2'],['emitir','to emit','C2'],['añadir','to add','C2'],
+      ['dividir','to divide','C2'],['aplaudir','to applaud','C2'],['sacudir','to shake','C2'],['pulir','to polish','C2'],['batir','to beat','C2'],['partir','to depart / split','C2'],['repartir','to distribute','C2'],['cubrir','to cover','C2'],['reclamar','to claim / demand','C2'],['tratar','to treat / try','C2'],
+      ['revelar','to reveal','C2'],['generar','to generate','C2'],['observar','to observe','C2'],['determinar','to determine','C2'],['formular','to formulate','C2'],['consultar','to consult','C2'],['elaborar','to elaborate / produce','C2'],['ejecutar','to execute','C2'],['fabricar','to manufacture','C2'],['facilitar','to facilitate','C2'],
+      ['garantizar','to guarantee','C2'],['implementar','to implement','C2'],['manipular','to manipulate','C2'],['negociar','to negotiate','C2'],['orientar','to orient','C2'],['participar','to participate','C2'],['planear','to plan','C2'],['presentar','to present','C2'],['registrar','to register','C2'],['reflejar','to reflect','C2'],
+      ['regular','to regulate','C2'],['restaurar','to restore','C2'],['transformar','to transform','C2'],['valorar','to value','C2'],['asumir','to assume','C2'],['difundir','to spread / broadcast','C2'],['fundir','to melt / fuse','C2'],['residir','to reside','C2'],['presidir','to preside','C2'],['percibir','to perceive','C2'],
+    ];
+    REGULAR_VERB_DATA.forEach(([inf, en, level]) => { this.verbs.push({ inf, en, group: 'regular', level, forms: this.conjugateRegular(inf) }); });
+    // Stem-changing irregular verbs, grouped by change type (e-ie, o-ue, e-i), via a rule-based engine.
+    const STEM_VERB_DATA = [
+      ['cerrar','to close','A1','ie'], ['empezar','to start / begin','A1','ie'], ['comenzar','to begin','A2','ie'], ['negar','to deny','B1','ie'], ['calentar','to heat','B1','ie'], ['recomendar','to recommend','B2','ie'], ['atravesar','to cross','C1','ie'], ['apretar','to squeeze / tighten','C2','ie'],
+      ['contar','to count / tell','A1','ue'], ['recordar','to remember','A1','ue'], ['mostrar','to show','A2','ue'], ['probar','to try / taste','A2','ue'], ['soñar','to dream','B1','ue'], ['encontrar','to find','B1','ue'], ['volar','to fly','B2','ue'], ['rogar','to beg','C1','ue'], ['colgar','to hang','C2','ue'],
+      ['entender','to understand','A2','ie'], ['perder','to lose','A2','ie'], ['encender','to light / turn on','B1','ie'], ['defender','to defend','B1','ie'], ['extender','to extend','B2','ie'], ['tender','to tend / hang out','C1','ie'],
+      ['mover','to move','A2','ue'], ['resolver','to resolve','B1','ue'], ['doler','to hurt','B1','ue'], ['devolver','to give back','B2','ue'], ['moler','to grind','C1','ue'], ['soler','to usually do','C2','ue'],
+      ['mentir','to lie','A2','ie'], ['preferir','to prefer','A2','ie'], ['advertir','to warn','B1','ie'], ['convertir','to convert','B1','ie'], ['herir','to wound','B2','ie'], ['sugerir','to suggest','C1','ie'], ['hervir','to boil','C2','ie'],
+      ['morir','to die','B1','ue'],
+      ['servir','to serve','A2','i'], ['repetir','to repeat','A2','i'], ['despedir','to say goodbye / fire','B1','i'], ['medir','to measure','B1','i'], ['impedir','to prevent','C1','i'], ['competir','to compete','C2','i'],
+    ];
+    STEM_VERB_DATA.forEach(([inf, en, level, change]) => { this.verbs.push({ inf, en, group: 'irregular', level, forms: this.conjugateStemChanging(inf, change) }); });
+    // Reflexive verbs: pronoun-prefixed forms built from a regular, stem-changing, or already-hand-coded irregular base.
+    const REFLEXIVE_VERB_DATA = [
+      ['levantarse','to get up','A1','regular',null], ['lavarse','to wash oneself','A1','regular',null], ['ducharse','to shower','A1','regular',null], ['bañarse','to bathe','A1','regular',null], ['llamarse','to be called / named','A1','regular',null], ['sentarse','to sit down','A1','stem','ie'],
+      ['peinarse','to comb your hair','A2','regular',null], ['maquillarse','to put on makeup','A2','regular',null], ['afeitarse','to shave','A2','regular',null], ['quitarse','to take off (clothes)','A2','regular',null], ['quedarse','to stay','A2','regular',null], ['despertarse','to wake up','A2','stem','ie'], ['acostarse','to go to bed','A2','stem','ue'], ['vestirse','to get dressed','A2','stem','i'], ['divertirse','to have fun','A2','stem','ie'],
+      ['olvidarse','to forget','B1','regular',null], ['enojarse','to get angry','B1','regular',null], ['preocuparse','to worry','B1','regular',null], ['casarse','to get married','B1','regular',null], ['dormirse','to fall asleep','B1','irregular',null], ['sentirse','to feel','B1','irregular',null], ['ponerse','to put on / become','B1','irregular',null],
+      ['enamorarse','to fall in love','B2','regular',null], ['mudarse','to move (residence)','B2','regular',null], ['relajarse','to relax','B2','regular',null], ['cansarse','to get tired','B2','regular',null], ['aburrirse','to get bored','B2','regular',null], ['irse','to leave / go away','B2','irregular',null],
+      ['sorprenderse','to be surprised','C1','regular',null], ['acordarse','to remember','C1','stem','ue'],
+    ];
+    REFLEXIVE_VERB_DATA.forEach(([inf, en, level, mode, change]) => { this.verbs.push({ inf, en, group: 'irregular', level, forms: this.conjugateReflexive(inf, mode, change) }); });
+    // Hand-coded irregular: oír (common top-20 verb with a y-spelling preterite).
+    this.verbs.push({ inf: 'oír', en: 'to hear', group: 'irregular', level: 'A1', forms: {
+      presente: ['oigo','oyes','oye','oímos','oís','oyen'], preterito: ['oí','oíste','oyó','oímos','oísteis','oyeron'],
+      imperfecto: ['oía','oías','oía','oíamos','oíais','oían'], futuro: ['oiré','oirás','oirá','oiremos','oiréis','oirán'],
+      subjuntivo: ['oiga','oigas','oiga','oigamos','oigáis','oigan'] } });
+    // mantener, derived from the hand-coded irregular "tener".
+    this.verbs.push({ inf: 'mantener', en: 'to maintain / keep', group: 'irregular', level: 'B1', forms: this.deriveFromBase('man', 'tener') });
+    const ZC_VERB_DATA = [
+      ['parecer','to seem','B2'], ['aparecer','to appear','C1'], ['ofrecer','to offer','C1'], ['nacer','to be born','C1'], ['crecer','to grow','C1'],
+      ['reconocer','to recognize','C2'], ['merecer','to deserve','C2'], ['obedecer','to obey','C2'], ['permanecer','to remain','C2'], ['pertenecer','to belong','C2'], ['establecer','to establish','C2'], ['agradecer','to thank / be grateful','C2'],
+    ];
+    ZC_VERB_DATA.forEach(([inf, en, level]) => { this.verbs.push({ inf, en, group: 'irregular', level, forms: this.conjugateZc(inf) }); });
+    this.verbs.push({ inf: 'dirigir', en: 'to direct', group: 'irregular', level: 'C1', forms: this.conjugateGj('dirigir') });
+    const MORE_REGULAR_DATA = [
+      ['preguntar','to ask','A1'], ['parar','to stop','A2'], ['acabar','to finish / end','A2'], ['considerar','to consider','B2'], ['descubrir','to discover','B2'], ['ocurrir','to occur / happen','B2'], ['crear','to create','B1'], ['lograr','to achieve / manage to','B1'],
+    ];
+    MORE_REGULAR_DATA.forEach(([inf, en, level]) => { this.verbs.push({ inf, en, group: 'regular', level, forms: this.conjugateRegular(inf) }); });
+    this.verbs.push({ inf: 'costar', en: 'to cost', group: 'irregular', level: 'B1', forms: this.conjugateStemChanging('costar', 'ue') });
+    this.complements = {hablar:'español', comer:'pizza', vivir:'en Madrid', ser:'muy amable', estar:'cansado', tener:'mucha prisa', ir:'al cine', hacer:'la tarea', querer:'un café', poder:'ayudarte', ver:'una película', decir:'la verdad', dar:'un regalo', saber:'la respuesta', venir:'a la fiesta', poner:'la mesa', salir:'temprano', traer:'el postre', volver:'a casa', pedir:'ayuda', dormir:'ocho horas', sentir:'mucho frío', pensar:'en el futuro', conocer:'a mucha gente', seguir:'las instrucciones', elegir:'el mejor plan', construir:'una casa', producir:'buenos resultados', distinguir:'los colores'};
+    this.cueSuffix = {presente:'ahora', preterito:'ayer', imperfecto:'de niño', futuro:'mañana'};
+    this.levelOrder = ['A1','A2','B1','B2','C1','C2'];
+    this.levelLabels = {A1:'Beginner essentials', A2:'Everyday basics', B1:'Everyday fluency', B2:'Independent user', C1:'Advanced nuance', C2:'Near-native mastery'};
+    const allTenseIds = this.tenses.map(t=>t.id);
+    this.levelTenses = {A1:['presente','preterito'], A2:['presente','preterito','imperfecto'], B1:['presente','preterito','imperfecto','futuro'], B2:allTenseIds, C1:allTenseIds, C2:allTenseIds};
+    this.pools = {};
+    this.levelOrder.forEach((lvl, idx) => {
+      const cumVerbs = this.verbs.filter(v => this.levelOrder.indexOf(v.level) <= idx).map(v => v.inf);
+      this.pools[lvl] = { verbs: cumVerbs, tenses: this.levelTenses[lvl] };
+    });
+    this.state = {
+      screen: 'onboarding',
+      levelPicked: null,
+      xpTotal: 1280,
+      streak: 6,
+      streakBumpedToday: false,
+      dailyGoalTarget: 50,
+      dailyGoalToday: 20,
+      lifetimeCorrect: 41,
+      lifetimeTotal: 50,
+      mistakes: [
+        {id:'seed1', verbInf:'tener', verbEn:'to have', tenseId:'subjuntivo', tenseLabel:'Subjuntivo', personIdx:3, pronoun:'nosotros', answer:'tengamos'},
+        {id:'seed2', verbInf:'ir', verbEn:'to go', tenseId:'preterito', tenseLabel:'Pretérito', personIdx:4, pronoun:'vosotros', answer:'fuisteis'},
+      ],
+      libraryFilter: 'all',
+      libraryVerbInf: null,
+      libraryTense: 'presente',
+      session: null,
+      results: null,
+      language: 'es',
+      languageMenuOpen: false,
+      levelMenuOpen: false,
+    };
+    this.languages = [
+      { code: 'es', label: 'Español', tag: 'ES' },
+      { code: 'ko', label: '한국어', tag: 'KO' },
+      { code: 'fr', label: 'Français', tag: 'FR' },
+      { code: 'it', label: 'Italiano', tag: 'IT' },
+      { code: 'pt', label: 'Português', tag: 'PT' },
+      { code: 'de', label: 'Deutsch', tag: 'DE' },
+      { code: 'en', label: 'English', tag: 'EN' },
+    ];
+    this.t = {
+      en: { greeting:'Hello!', onboardingQuestion:"What's your level?", onboardingSub:'Pick a starting point — Conjuga adapts the verbs and tenses as you go.',
+        levelDesc:{A1:'Beginner essentials — presente & pretérito', A2:'Everyday basics — adds imperfecto', B1:'Everyday fluency — adds futuro', B2:'Independent user — all five tenses', C1:'Advanced nuance — tricky irregulars', C2:'Near-native mastery — the full verb set'},
+        homeSub:"ready for today's practice?", trackWord:'track', dayStreak:'day streak', todaysGoal:"Today's goal", continuePractice:'Continue practice', mixedSession:'Mixed session · 8 questions', practiceModes:'Practice modes',
+        modeFillTitle:'Fill-in', modeFillSub:'Type the form', modeMcTitle:'Multiple choice', modeMcSub:'Pick the form', modeClozeTitle:'Sentence context', modeClozeSub:'Cloze in a sentence', modeTableTitle:'Full table', modeTableSub:'All six persons', modeSpeedTitle:'Speed round', modeSpeedSub:'45 seconds, as many as you can',
+        reviewMistakes:'Review {n} mistakes', tabHome:'Home', tabLibrary:'Library', tabProfile:'Profile', libraryTitle:'Verb library', filterAllLabel:'All', regularVerb:'Regular verb', irregularVerb:'Irregular verb', practiceThisVerbBtn:'Practice this verb', backToLibrary:'Library',
+        tensePresente:'Present', tensePreterito:'Preterite', tenseImperfecto:'Imperfect', tenseFuturo:'Future', tenseSubjuntivo:'Subjunctive',
+        correctFeedback:'Correct!', wasAnswer:'Answer: "{a}"', inputPlaceholder:'type the form…', checkBtn:'Check', continueBtn:'Continue', seeResultsBtn:'See results',
+        sessionComplete:'Session complete', accuracyLabel:'accuracy', xpEarnedLabel:'XP earned', streakHit:'Daily goal hit — streak now {n} days', reviewSessionMistakes:'Review mistakes from this session', backToHome:'Back to home',
+        excellent:'Excellent!', good:'Great job!', keepGoing:'Keep it up!', practiceMore:'Keep practicing!',
+        profileLearner:'Learner', levelTrack:'Level {lvl} · {track} track', totalXp:'total XP', verbsMastered:'verbs mastered', dailyGoalHeader:'Daily goal', leaderboardHeader:'Leaderboard · this week', active:'Active',
+        subj:['I','You','He/She','We','You all','They'], cueG:{presente:'now',preterito:'yesterday',imperfecto:'as a child',futuro:'tomorrow'}, wishThat:'I wish that' },
+      es: { greeting:'¡Hola!', onboardingQuestion:'¿Cuál es tu nivel?', onboardingSub:'Elige un punto de partida — Conjuga adapta los verbos y tiempos a tu ritmo.',
+        levelDesc:{A1:'Fundamentos — presente y pretérito', A2:'Básico cotidiano — añade el imperfecto', B1:'Fluidez cotidiana — añade el futuro', B2:'Usuario independiente — los cinco tiempos', C1:'Matices avanzados — irregulares difíciles', C2:'Dominio casi nativo — todos los verbos'},
+        homeSub:'¿listo para practicar hoy?', trackWord:'nivel', dayStreak:'días de racha', todaysGoal:'Meta de hoy', continuePractice:'Continuar práctica', mixedSession:'Sesión mixta · 8 preguntas', practiceModes:'Modos de práctica',
+        modeFillTitle:'Completar', modeFillSub:'Escribe la forma', modeMcTitle:'Opción múltiple', modeMcSub:'Elige la forma', modeClozeTitle:'Contexto', modeClozeSub:'Completa la frase', modeTableTitle:'Tabla completa', modeTableSub:'Las seis personas', modeSpeedTitle:'Modo rápido', modeSpeedSub:'45 segundos, responde lo que puedas',
+        reviewMistakes:'Repasar {n} errores', tabHome:'Inicio', tabLibrary:'Biblioteca', tabProfile:'Perfil', libraryTitle:'Biblioteca de verbos', filterAllLabel:'Todos', regularVerb:'Verbo regular', irregularVerb:'Verbo irregular', practiceThisVerbBtn:'Practicar este verbo', backToLibrary:'Biblioteca',
+        tensePresente:'Presente', tensePreterito:'Pretérito', tenseImperfecto:'Imperfecto', tenseFuturo:'Futuro', tenseSubjuntivo:'Subjuntivo',
+        correctFeedback:'¡Correcto!', wasAnswer:'Era "{a}"', inputPlaceholder:'escribe la forma…', checkBtn:'Comprobar', continueBtn:'Continuar', seeResultsBtn:'Ver resultados',
+        sessionComplete:'Sesión completa', accuracyLabel:'precisión', xpEarnedLabel:'XP ganada', streakHit:'Meta diaria cumplida — racha de {n} días', reviewSessionMistakes:'Repasar errores de esta sesión', backToHome:'Volver al inicio',
+        excellent:'¡Excelente!', good:'¡Muy bien!', keepGoing:'¡Sigue así!', practiceMore:'¡A practicar más!',
+        profileLearner:'Estudiante', levelTrack:'Nivel {lvl} · ruta {track}', totalXp:'XP total', verbsMastered:'verbos dominados', dailyGoalHeader:'Meta diaria', leaderboardHeader:'Clasificación · esta semana', active:'Activo',
+        subj:['Yo','Tú','Él/Ella','Nosotros','Vosotros','Ellos'], cueG:{presente:'ahora',preterito:'ayer',imperfecto:'de niño',futuro:'mañana'}, wishThat:'Ojalá que' },
+      ko: { greeting:'안녕하세요!', onboardingQuestion:'당신의 레벨은 무엇인가요?', onboardingSub:'시작할 레벨을 선택하세요 — Conjuga가 동사와 시제를 맞춰드립니다.',
+        levelDesc:{A1:'기초 — 현재형과 과거형', A2:'일상 기초 — 불완료 과거 추가', B1:'일상 유창함 — 미래형 추가', B2:'독립적 사용자 — 다섯 가지 시제 모두', C1:'고급 뉘앙스 — 까다로운 불규칙 동사', C2:'원어민에 가까운 숙달 — 전체 동사'},
+        homeSub:'오늘 연습할 준비 되셨나요?', trackWord:'레벨', dayStreak:'일 연속 학습', todaysGoal:'오늘의 목표', continuePractice:'연습 계속하기', mixedSession:'혼합 세션 · 문제 8개', practiceModes:'연습 모드',
+        modeFillTitle:'빈칸 채우기', modeFillSub:'형태를 입력하세요', modeMcTitle:'객관식', modeMcSub:'형태를 고르세요', modeClozeTitle:'문장 맥락', modeClozeSub:'문장 속 빈칸 채우기', modeTableTitle:'전체 표', modeTableSub:'6인칭 모두', modeSpeedTitle:'스피드 라운드', modeSpeedSub:'45초 동안 최대한 많이',
+        reviewMistakes:'오답 {n}개 복습', tabHome:'홈', tabLibrary:'라이브러리', tabProfile:'프로필', libraryTitle:'동사 라이브러리', filterAllLabel:'전체', regularVerb:'규칙 동사', irregularVerb:'불규칙 동사', practiceThisVerbBtn:'이 동사 연습하기', backToLibrary:'라이브러리',
+        tensePresente:'현재', tensePreterito:'단순과거', tenseImperfecto:'불완료과거', tenseFuturo:'미래', tenseSubjuntivo:'접속법',
+        correctFeedback:'정답이에요!', wasAnswer:'정답: "{a}"', inputPlaceholder:'형태를 입력하세요…', checkBtn:'확인', continueBtn:'계속', seeResultsBtn:'결과 보기',
+        sessionComplete:'세션 완료', accuracyLabel:'정확도', xpEarnedLabel:'획득 XP', streakHit:'오늘의 목표 달성 — {n}일 연속 학습', reviewSessionMistakes:'이번 세션 오답 복습', backToHome:'홈으로',
+        excellent:'훌륭해요!', good:'잘했어요!', keepGoing:'계속 해봐요!', practiceMore:'더 연습해봐요!',
+        profileLearner:'학습자', levelTrack:'레벨 {lvl} · {track} 트랙', totalXp:'총 XP', verbsMastered:'숙달한 동사', dailyGoalHeader:'일일 목표', leaderboardHeader:'리더보드 · 이번 주', active:'사용중',
+        subj:['나는','너는','그/그녀는','우리는','너희는','그들은'], cueG:{presente:'지금',preterito:'어제',imperfecto:'어릴 때',futuro:'내일'}, wishThat:'~하면 좋겠다' },
+      fr: { greeting:'Bonjour !', onboardingQuestion:'Quel est ton niveau ?', onboardingSub:'Choisis un point de départ — Conjuga adapte les verbes et les temps au fur et à mesure.',
+        levelDesc:{A1:'Bases essentielles — présent et passé simple', A2:"Quotidien de base — ajoute l'imparfait", B1:'Aisance quotidienne — ajoute le futur', B2:'Utilisateur indépendant — les cinq temps', C1:'Nuances avancées — irréguliers difficiles', C2:'Maîtrise quasi native — tous les verbes'},
+        homeSub:"prêt à pratiquer aujourd'hui ?", trackWord:'niveau', dayStreak:'jours de suite', todaysGoal:'Objectif du jour', continuePractice:'Continuer la pratique', mixedSession:'Session mixte · 8 questions', practiceModes:'Modes de pratique',
+        modeFillTitle:'À compléter', modeFillSub:'Écris la forme', modeMcTitle:'Choix multiple', modeMcSub:'Choisis la forme', modeClozeTitle:'Contexte', modeClozeSub:'Complète la phrase', modeTableTitle:'Tableau complet', modeTableSub:'Les six personnes', modeSpeedTitle:'Mode rapide', modeSpeedSub:'45 secondes, autant que possible',
+        reviewMistakes:'Revoir {n} erreurs', tabHome:'Accueil', tabLibrary:'Bibliothèque', tabProfile:'Profil', libraryTitle:'Bibliothèque de verbes', filterAllLabel:'Tous', regularVerb:'Verbe régulier', irregularVerb:'Verbe irrégulier', practiceThisVerbBtn:'Pratiquer ce verbe', backToLibrary:'Bibliothèque',
+        tensePresente:'Présent', tensePreterito:'Passé simple', tenseImperfecto:'Imparfait', tenseFuturo:'Futur', tenseSubjuntivo:'Subjonctif',
+        correctFeedback:'Correct !', wasAnswer:'Réponse : « {a} »', inputPlaceholder:'écris la forme…', checkBtn:'Vérifier', continueBtn:'Continuer', seeResultsBtn:'Voir les résultats',
+        sessionComplete:'Session terminée', accuracyLabel:'précision', xpEarnedLabel:'XP gagnés', streakHit:'Objectif atteint — série de {n} jours', reviewSessionMistakes:'Revoir les erreurs de cette session', backToHome:"Retour à l'accueil",
+        excellent:'Excellent !', good:'Très bien !', keepGoing:'Continue comme ça !', practiceMore:'Il faut pratiquer plus !',
+        profileLearner:'Apprenant', levelTrack:'Niveau {lvl} · parcours {track}', totalXp:'XP total', verbsMastered:'verbes maîtrisés', dailyGoalHeader:'Objectif quotidien', leaderboardHeader:'Classement · cette semaine', active:'Actif',
+        subj:['Je','Tu','Il/Elle','Nous','Vous','Ils'], cueG:{presente:'maintenant',preterito:'hier',imperfecto:'enfant',futuro:'demain'}, wishThat:'Je souhaite que' },
+      it: { greeting:'Ciao!', onboardingQuestion:'Qual è il tuo livello?', onboardingSub:'Scegli un punto di partenza — Conjuga adatta verbi e tempi man mano.',
+        levelDesc:{A1:'Basi essenziali — presente e passato remoto', A2:"Quotidiano di base — aggiunge l'imperfetto", B1:'Scorrevolezza quotidiana — aggiunge il futuro', B2:'Utente autonomo — tutti e cinque i tempi', C1:'Sfumature avanzate — irregolari difficili', C2:'Padronanza quasi nativa — tutti i verbi'},
+        homeSub:'pronto a esercitarti oggi?', trackWord:'livello', dayStreak:'giorni di fila', todaysGoal:'Obiettivo di oggi', continuePractice:"Continua l'esercizio", mixedSession:'Sessione mista · 8 domande', practiceModes:'Modalità di esercizio',
+        modeFillTitle:'Completa', modeFillSub:'Scrivi la forma', modeMcTitle:'Scelta multipla', modeMcSub:'Scegli la forma', modeClozeTitle:'Contesto', modeClozeSub:'Completa la frase', modeTableTitle:'Tabella completa', modeTableSub:'Tutte e sei le persone', modeSpeedTitle:'Modalità veloce', modeSpeedSub:'45 secondi, il più possibile',
+        reviewMistakes:'Rivedi {n} errori', tabHome:'Home', tabLibrary:'Libreria', tabProfile:'Profilo', libraryTitle:'Libreria dei verbi', filterAllLabel:'Tutti', regularVerb:'Verbo regolare', irregularVerb:'Verbo irregolare', practiceThisVerbBtn:'Esercitati con questo verbo', backToLibrary:'Libreria',
+        tensePresente:'Presente', tensePreterito:'Passato remoto', tenseImperfecto:'Imperfetto', tenseFuturo:'Futuro', tenseSubjuntivo:'Congiuntivo',
+        correctFeedback:'Corretto!', wasAnswer:'Risposta: "{a}"', inputPlaceholder:'scrivi la forma…', checkBtn:'Verifica', continueBtn:'Continua', seeResultsBtn:'Vedi i risultati',
+        sessionComplete:'Sessione completata', accuracyLabel:'precisione', xpEarnedLabel:'XP guadagnati', streakHit:'Obiettivo raggiunto — serie di {n} giorni', reviewSessionMistakes:'Rivedi gli errori di questa sessione', backToHome:'Torna alla home',
+        excellent:'Eccellente!', good:'Ottimo lavoro!', keepGoing:'Continua così!', practiceMore:'Esercitati ancora!',
+        profileLearner:'Studente', levelTrack:'Livello {lvl} · percorso {track}', totalXp:'XP totali', verbsMastered:'verbi padroneggiati', dailyGoalHeader:'Obiettivo giornaliero', leaderboardHeader:'Classifica · questa settimana', active:'Attivo',
+        subj:['Io','Tu','Lui/Lei','Noi','Voi','Loro'], cueG:{presente:'adesso',preterito:'ieri',imperfecto:'da bambino',futuro:'domani'}, wishThat:'Vorrei che' },
+      pt: { greeting:'Olá!', onboardingQuestion:'Qual é o seu nível?', onboardingSub:'Escolha um ponto de partida — o Conjuga adapta verbos e tempos aos poucos.',
+        levelDesc:{A1:'Fundamentos — presente e pretérito perfeito', A2:'Básico do dia a dia — acrescenta o pretérito imperfeito', B1:'Fluência do dia a dia — acrescenta o futuro', B2:'Usuário independente — os cinco tempos', C1:'Nuances avançadas — irregulares difíceis', C2:'Domínio quase nativo — todos os verbos'},
+        homeSub:'pronto para praticar hoje?', trackWord:'nível', dayStreak:'dias seguidos', todaysGoal:'Meta de hoje', continuePractice:'Continuar a prática', mixedSession:'Sessão mista · 8 perguntas', practiceModes:'Modos de prática',
+        modeFillTitle:'Completar', modeFillSub:'Escreva a forma', modeMcTitle:'Múltipla escolha', modeMcSub:'Escolha a forma', modeClozeTitle:'Contexto', modeClozeSub:'Complete a frase', modeTableTitle:'Tabela completa', modeTableSub:'As seis pessoas', modeSpeedTitle:'Modo rápido', modeSpeedSub:'45 segundos, o máximo que conseguir',
+        reviewMistakes:'Rever {n} erros', tabHome:'Início', tabLibrary:'Biblioteca', tabProfile:'Perfil', libraryTitle:'Biblioteca de verbos', filterAllLabel:'Todos', regularVerb:'Verbo regular', irregularVerb:'Verbo irregular', practiceThisVerbBtn:'Praticar este verbo', backToLibrary:'Biblioteca',
+        tensePresente:'Presente', tensePreterito:'Pretérito perfeito', tenseImperfecto:'Pretérito imperfeito', tenseFuturo:'Futuro', tenseSubjuntivo:'Subjuntivo',
+        correctFeedback:'Correto!', wasAnswer:'Resposta: "{a}"', inputPlaceholder:'escreva a forma…', checkBtn:'Verificar', continueBtn:'Continuar', seeResultsBtn:'Ver resultados',
+        sessionComplete:'Sessão concluída', accuracyLabel:'precisão', xpEarnedLabel:'XP ganho', streakHit:'Meta diária batida — sequência de {n} dias', reviewSessionMistakes:'Rever erros desta sessão', backToHome:'Voltar ao início',
+        excellent:'Excelente!', good:'Muito bem!', keepGoing:'Continue assim!', practiceMore:'Pratique mais!',
+        profileLearner:'Estudante', levelTrack:'Nível {lvl} · trilha {track}', totalXp:'XP total', verbsMastered:'verbos dominados', dailyGoalHeader:'Meta diária', leaderboardHeader:'Classificação · esta semana', active:'Ativo',
+        subj:['Eu','Você','Ele/Ela','Nós','Vocês','Eles'], cueG:{presente:'agora',preterito:'ontem',imperfecto:'quando criança',futuro:'amanhã'}, wishThat:'Espero que' },
+      de: { greeting:'Hallo!', onboardingQuestion:'Was ist dein Niveau?', onboardingSub:'Wähle einen Startpunkt — Conjuga passt Verben und Zeitformen unterwegs an.',
+        levelDesc:{A1:'Grundlagen — Präsens und Vergangenheit', A2:'Alltagsbasis — ergänzt das Imperfekt', B1:'Alltagssicherheit — ergänzt das Futur', B2:'Selbstständige Sprachverwendung — alle fünf Zeitformen', C1:'Fortgeschrittene Nuancen — schwierige Unregelmäßigkeiten', C2:'Nahezu muttersprachliches Niveau — alle Verben'},
+        homeSub:'bereit für die heutige Übung?', trackWord:'Niveau', dayStreak:'Tage in Folge', todaysGoal:'Heutiges Ziel', continuePractice:'Übung fortsetzen', mixedSession:'Gemischte Sitzung · 8 Fragen', practiceModes:'Übungsmodi',
+        modeFillTitle:'Lückentext', modeFillSub:'Form eintippen', modeMcTitle:'Multiple Choice', modeMcSub:'Form auswählen', modeClozeTitle:'Satzkontext', modeClozeSub:'Lücke im Satz', modeTableTitle:'Vollständige Tabelle', modeTableSub:'Alle sechs Personen', modeSpeedTitle:'Schnellrunde', modeSpeedSub:'45 Sekunden, so viele wie möglich',
+        reviewMistakes:'{n} Fehler wiederholen', tabHome:'Start', tabLibrary:'Bibliothek', tabProfile:'Profil', libraryTitle:'Verbbibliothek', filterAllLabel:'Alle', regularVerb:'Regelmäßiges Verb', irregularVerb:'Unregelmäßiges Verb', practiceThisVerbBtn:'Dieses Verb üben', backToLibrary:'Bibliothek',
+        tensePresente:'Präsens', tensePreterito:'Indefinido', tenseImperfecto:'Imperfekt', tenseFuturo:'Futur', tenseSubjuntivo:'Subjuntiv',
+        correctFeedback:'Richtig!', wasAnswer:'Antwort: „{a}"', inputPlaceholder:'Form eingeben…', checkBtn:'Prüfen', continueBtn:'Weiter', seeResultsBtn:'Ergebnisse ansehen',
+        sessionComplete:'Sitzung beendet', accuracyLabel:'Genauigkeit', xpEarnedLabel:'XP erhalten', streakHit:'Tagesziel erreicht — {n} Tage in Folge', reviewSessionMistakes:'Fehler dieser Sitzung wiederholen', backToHome:'Zurück zur Startseite',
+        excellent:'Ausgezeichnet!', good:'Sehr gut!', keepGoing:'Weiter so!', practiceMore:'Noch mehr üben!',
+        profileLearner:'Lernende(r)', levelTrack:'Stufe {lvl} · {track}-Pfad', totalXp:'XP gesamt', verbsMastered:'gemeisterte Verben', dailyGoalHeader:'Tagesziel', leaderboardHeader:'Bestenliste · diese Woche', active:'Aktiv',
+        subj:['Ich','Du','Er/Sie','Wir','Ihr','Sie'], cueG:{presente:'jetzt',preterito:'gestern',imperfecto:'als Kind',futuro:'morgen'}, wishThat:'Ich wünschte, dass' },
+    };
+  }
+
+  initVt() {
+    // Per-verb meaning translations [ko, fr, it, pt, de] for the sentence-translation gloss.
+    this.vt = {
+      hablar:['말하다','parler','parlare','falar','sprechen'], comer:['먹다','manger','mangiare','comer','essen'], vivir:['살다','vivre','vivere','viver','leben'], ser:['이다','être','essere','ser','sein'], estar:['있다','être','stare','estar','sein'], ir:['가다','aller','andare','ir','gehen'], tener:['가지다','avoir','avere','ter','haben'], hacer:['하다','faire','fare','fazer','machen'], querer:['원하다','vouloir','volere','querer','wollen'], poder:['할 수 있다','pouvoir','potere','poder','können'],
+      ver:['보다','voir','vedere','ver','sehen'], decir:['말하다','dire','dire','dizer','sagen'], dar:['주다','donner','dare','dar','geben'], saber:['알다','savoir','sapere','saber','wissen'], venir:['오다','venir','venire','vir','kommen'], poner:['놓다','mettre','mettere','pôr','legen'], salir:['나가다','sortir','uscire','sair','ausgehen'], traer:['가져오다','apporter','portare','trazer','bringen'], volver:['돌아가다','revenir','tornare','voltar','zurückkehren'], pedir:['요청하다','demander','chiedere','pedir','bitten'],
+      dormir:['자다','dormir','dormire','dormir','schlafen'], sentir:['느끼다','sentir','sentire','sentir','fühlen'], pensar:['생각하다','penser','pensare','pensar','denken'], conocer:['알다','connaître','conoscere','conhecer','kennen'], seguir:['따르다','suivre','seguire','seguir','folgen'], elegir:['선택하다','choisir','scegliere','escolher','wählen'], construir:['짓다','construire','costruire','construir','bauen'], producir:['생산하다','produire','produrre','produzir','produzieren'], distinguir:['구별하다','distinguer','distinguere','distinguir','unterscheiden'],
+      trabajar:['일하다','travailler','lavorare','trabalhar','arbeiten'], estudiar:['공부하다','étudier','studiare','estudar','studieren'], caminar:['걷다','marcher','camminare','caminhar','gehen'], cocinar:['요리하다','cuisiner','cucinare','cozinhar','kochen'], limpiar:['청소하다','nettoyer','pulire','limpar','putzen'], comprar:['사다','acheter','comprare','comprar','kaufen'], cantar:['노래하다','chanter','cantare','cantar','singen'], bailar:['춤추다','danser','ballare','dançar','tanzen'], viajar:['여행하다','voyager','viaggiare','viajar','reisen'], escuchar:['듣다','écouter','ascoltare','escutar','zuhören'],
+      mirar:['보다','regarder','guardare','olhar','schauen'], ayudar:['돕다','aider','aiutare','ajudar','helfen'], llamar:['부르다','appeler','chiamare','chamar','rufen'], llevar:['가져가다','porter','portare','levar','tragen'], pasar:['지나가다','passer','passare','passar','passieren'], necesitar:['필요하다','avoir besoin de','aver bisogno di','precisar','brauchen'], usar:['사용하다','utiliser','usare','usar','benutzen'], tomar:['마시다','prendre','prendere','tomar','nehmen'], preparar:['준비하다','préparer','preparare','preparar','vorbereiten'], terminar:['끝내다','terminer','finire','terminar','beenden'],
+      entrar:['들어가다','entrer','entrare','entrar','eintreten'], dejar:['두다','laisser','lasciare','deixar','lassen'], desayunar:['아침 먹다','prendre le petit-déjeuner','fare colazione','tomar café da manhã','frühstücken'], cenar:['저녁 먹다','dîner','cenare','jantar','zu Abend essen'], nadar:['수영하다','nager','nuotare','nadar','schwimmen'], pintar:['그리다','peindre','dipingere','pintar','malen'], lavar:['씻다','laver','lavare','lavar','waschen'], descansar:['쉬다','se reposer','riposare','descansar','ausruhen'], regresar:['돌아오다','retourner','tornare','regressar','zurückkehren'], visitar:['방문하다','visiter','visitare','visitar','besuchen'],
+      aprender:['배우다','apprendre','imparare','aprender','lernen'], beber:['마시다','boire','bere','beber','trinken'], vender:['팔다','vendre','vendere','vender','verkaufen'], romper:['깨다','casser','rompere','quebrar','zerbrechen'], responder:['대답하다','répondre','rispondere','responder','antworten'], comprender:['이해하다','comprendre','capire','compreender','verstehen'], deber:['해야 하다','devoir','dovere','dever','müssen'], correr:['달리다','courir','correre','correr','laufen'], temer:['두려워하다','craindre','temere','temer','fürchten'], meter:['넣다','mettre','mettere','meter','hineinlegen'],
+      escribir:['쓰다','écrire','scrivere','escrever','schreiben'], abrir:['열다','ouvrir','aprire','abrir','öffnen'], recibir:['받다','recevoir','ricevere','receber','empfangen'], decidir:['결정하다','décider','decidere','decidir','entscheiden'], permitir:['허락하다','permettre','permettere','permitir','erlauben'], subir:['올라가다','monter','salire','subir','hinaufgehen'], compartir:['공유하다','partager','condividere','compartilhar','teilen'], discutir:['토론하다','discuter','discutere','discutir','diskutieren'], existir:['존재하다','exister','esistere','existir','existieren'], insistir:['주장하다','insister','insistere','insistir','bestehen'],
+      invitar:['초대하다','inviter','invitare','convidar','einladen'], explicar:['설명하다','expliquer','spiegare','explicar','erklären'], practicar:['연습하다','pratiquer','praticare','praticar','üben'], buscar:['찾다','chercher','cercare','buscar','suchen'], tocar:['만지다','toucher','toccare','tocar','berühren'], llegar:['도착하다','arriver','arrivare','chegar','ankommen'], pagar:['지불하다','payer','pagare','pagar','bezahlen'], apagar:['끄다','éteindre','spegnere','apagar','ausschalten'], cambiar:['바꾸다','changer','cambiare','mudar','ändern'], ganar:['이기다','gagner','guadagnare','ganhar','gewinnen'],
+      gastar:['쓰다','dépenser','spendere','gastar','ausgeben'], formar:['형성하다','former','formare','formar','bilden'], mandar:['보내다','envoyer','mandare','mandar','schicken'], marcar:['표시하다','marquer','segnare','marcar','markieren'], dedicar:['헌신하다','dédier','dedicare','dedicar','widmen'], indicar:['가리키다','indiquer','indicare','indicar','anzeigen'], separar:['분리하다','séparer','separare','separar','trennen'], completar:['완성하다','compléter','completare','completar','vervollständigen'], alquilar:['빌리다','louer','affittare','alugar','mieten'], reservar:['예약하다','réserver','prenotare','reservar','reservieren'],
+      firmar:['서명하다','signer','firmare','assinar','unterschreiben'], saltar:['뛰다','sauter','saltare','saltar','springen'], gritar:['소리치다','crier','gridare','gritar','schreien'], llorar:['울다','pleurer','piangere','chorar','weinen'], amar:['사랑하다','aimer','amare','amar','lieben'], odiar:['미워하다','détester','odiare','odiar','hassen'], charlar:['수다떨다','bavarder','chiacchierare','conversar','plaudern'], aceptar:['받아들이다','accepter','accettare','aceitar','akzeptieren'], molestar:['귀찮게 하다','déranger','infastidire','incomodar','stören'], depender:['의존하다','dépendre','dipendere','depender','abhängen'],
+      prometer:['약속하다','promettre','promettere','prometer','versprechen'], sorprender:['놀라게 하다','surprendre','sorprendere','surpreender','überraschen'], ceder:['양보하다','céder','cedere','ceder','nachgeben'], proceder:['진행하다','procéder','procedere','proceder','vorgehen'], exceder:['초과하다','excéder','eccedere','exceder','überschreiten'], coser:['바느질하다','coudre','cucire','costurar','nähen'], suceder:['일어나다','se passer','succedere','suceder','geschehen'], barrer:['쓸다','balayer','spazzare','varrer','fegen'], toser:['기침하다','tousser','tossire','tossir','husten'], definir:['정의하다','définir','definire','definir','definieren'],
+      describir:['묘사하다','décrire','descrivere','descrever','beschreiben'], imprimir:['인쇄하다','imprimer','stampare','imprimir','drucken'], cumplir:['이행하다','accomplir','adempiere','cumprir','erfüllen'], consistir:['구성되다','consister','consistere','consistir','bestehen'], resistir:['저항하다','résister','resistere','resistir','widerstehen'], admitir:['인정하다','admettre','ammettere','admitir','zugeben'], transmitir:['전달하다','transmettre','trasmettere','transmitir','übertragen'], invadir:['침략하다','envahir','invadere','invadir','invadieren'], unir:['연합하다','unir','unire','unir','vereinen'], analizar:['분석하다','analyser','analizzare','analisar','analysieren'],
+      organizar:['조직하다','organiser','organizzare','organizar','organisieren'], utilizar:['사용하다','utiliser','utilizzare','utilizar','nutzen'], realizar:['실행하다','réaliser','realizzare','realizar','durchführen'], alcanzar:['도달하다','atteindre','raggiungere','alcançar','erreichen'], cruzar:['건너다','traverser','attraversare','atravessar','überqueren'], avanzar:['전진하다','avancer','avanzare','avançar','vorankommen'], lanzar:['던지다','lancer','lanciare','lançar','werfen'], destacar:['두드러지다','se distinguer','distinguersi','destacar-se','hervorstechen'], colocar:['놓다','placer','collocare','colocar','platzieren'], provocar:['유발하다','provoquer','provocare','provocar','provozieren'],
+      equivocar:['실수하다','se tromper','sbagliare','enganar-se','sich irren'], clasificar:['분류하다','classifier','classificare','classificar','klassifizieren'], modificar:['수정하다','modifier','modificare','modificar','ändern'], verificar:['확인하다','vérifier','verificare','verificar','überprüfen'], justificar:['정당화하다','justifier','giustificare','justificar','rechtfertigen'], identificar:['식별하다','identifier','identificare','identificar','identifizieren'], notificar:['통지하다','notifier','notificare','notificar','benachrichtigen'], significar:['의미하다','signifier','significare','significar','bedeuten'], navegar:['항해하다','naviguer','navigare','navegar','segeln'], entregar:['전달하다','livrer','consegnare','entregar','liefern'],
+      cargar:['싣다','charger','caricare','carregar','laden'], agregar:['추가하다','ajouter','aggiungere','acrescentar','hinzufügen'], interrogar:['심문하다','interroger','interrogare','interrogar','verhören'], investigar:['조사하다','enquêter','investigare','investigar','untersuchen'], obligar:['강요하다','obliger','obbligare','obrigar','zwingen'], castigar:['처벌하다','punir','punire','castigar','bestrafen'], juzgar:['판단하다','juger','giudicare','julgar','beurteilen'], disfrutar:['즐기다','profiter','godere','aproveitar','genießen'], ahorrar:['저축하다','économiser','risparmiare','poupar','sparen'], arreglar:['고치다','réparer','aggiustare','consertar','reparieren'],
+      suspender:['정지시키다','suspendre','sospendere','suspender','aussetzen'], pretender:['의도하다','prétendre','pretendere','pretender','beabsichtigen'], ofender:['모욕하다','offenser','offendere','ofender','beleidigen'], esconder:['숨기다','cacher','nascondere','esconder','verstecken'], corresponder:['상응하다','correspondre','corrispondere','corresponder','entsprechen'], persistir:['지속하다','persister','persistere','persistir','beharren'], asistir:['참석하다','assister','assistere','assistir','teilnehmen'], omitir:['생략하다','omettre','omettere','omitir','auslassen'], emitir:['방출하다','émettre','emettere','emitir','ausstrahlen'], añadir:['추가하다','ajouter','aggiungere','adicionar','hinzufügen'],
+      dividir:['나누다','diviser','dividere','dividir','teilen'], aplaudir:['박수치다','applaudir','applaudire','aplaudir','applaudieren'], sacudir:['흔들다','secouer','scuotere','sacudir','schütteln'], pulir:['닦다','polir','lucidare','polir','polieren'], batir:['휘젓다','battre','sbattere','bater','schlagen'], partir:['출발하다','partir','partire','partir','abreisen'], repartir:['나눠주다','distribuer','distribuire','repartir','verteilen'], cubrir:['덮다','couvrir','coprire','cobrir','bedecken'], reclamar:['요구하다','réclamer','reclamare','reclamar','fordern'], tratar:['다루다','traiter','trattare','tratar','behandeln'],
+      revelar:['드러내다','révéler','rivelare','revelar','enthüllen'], generar:['생성하다','générer','generare','gerar','erzeugen'], observar:['관찰하다','observer','osservare','observar','beobachten'], determinar:['결정하다','déterminer','determinare','determinar','bestimmen'], formular:['공식화하다','formuler','formulare','formular','formulieren'], consultar:['상담하다','consulter','consultare','consultar','konsultieren'], elaborar:['작성하다','élaborer','elaborare','elaborar','ausarbeiten'], ejecutar:['실행하다','exécuter','eseguire','executar','ausführen'], fabricar:['제조하다','fabriquer','fabbricare','fabricar','herstellen'], facilitar:['촉진하다','faciliter','facilitare','facilitar','erleichtern'],
+      garantizar:['보장하다','garantir','garantire','garantir','garantieren'], implementar:['시행하다','implémenter','implementare','implementar','umsetzen'], manipular:['조작하다','manipuler','manipolare','manipular','manipulieren'], negociar:['협상하다','négocier','negoziare','negociar','verhandeln'], orientar:['안내하다','orienter','orientare','orientar','orientieren'], participar:['참여하다','participer','partecipare','participar','teilnehmen'], planear:['계획하다','planifier','pianificare','planejar','planen'], presentar:['제시하다','présenter','presentare','apresentar','präsentieren'], registrar:['등록하다','enregistrer','registrare','registrar','registrieren'], reflejar:['반영하다','refléter','riflettere','refletir','widerspiegeln'],
+      regular:['규제하다','réguler','regolare','regular','regulieren'], restaurar:['복원하다','restaurer','restaurare','restaurar','restaurieren'], transformar:['변형시키다','transformer','trasformare','transformar','verwandeln'], valorar:['평가하다','évaluer','valutare','valorizar','bewerten'], asumir:['떠맡다','assumer','assumere','assumir','übernehmen'], difundir:['퍼뜨리다','diffuser','diffondere','difundir','verbreiten'], fundir:['녹이다','fondre','fondere','fundir','schmelzen'], residir:['거주하다','résider','risiedere','residir','wohnen'], presidir:['주재하다','présider','presiedere','presidir','vorsitzen'], percibir:['인식하다','percevoir','percepire','perceber','wahrnehmen'],
+      cerrar:['닫다','fermer','chiudere','fechar','schließen'], empezar:['시작하다','commencer','iniziare','começar','beginnen'], comenzar:['시작하다','commencer','cominciare','começar','anfangen'], negar:['부정하다','nier','negare','negar','verneinen'], calentar:['데우다','chauffer','scaldare','aquecer','erwärmen'], recomendar:['추천하다','recommander','raccomandare','recomendar','empfehlen'], atravesar:['가로지르다','traverser','attraversare','atravessar','durchqueren'], apretar:['조이다','serrer','stringere','apertar','drücken'],
+      contar:['세다','compter','contare','contar','zählen'], recordar:['기억하다','se souvenir','ricordare','lembrar','sich erinnern'], mostrar:['보여주다','montrer','mostrare','mostrar','zeigen'], probar:['시도하다','essayer','provare','provar','probieren'], soñar:['꿈꾸다','rêver','sognare','sonhar','träumen'], encontrar:['찾다','trouver','trovare','encontrar','finden'], volar:['날다','voler','volare','voar','fliegen'], rogar:['간청하다','supplier','pregare','rogar','bitten'], colgar:['걸다','suspendre','appendere','pendurar','aufhängen'],
+      entender:['이해하다','comprendre','capire','entender','verstehen'], perder:['잃다','perdre','perdere','perder','verlieren'], encender:['켜다','allumer','accendere','acender','anzünden'], defender:['방어하다','défendre','difendere','defender','verteidigen'], extender:['확장하다','étendre','estendere','estender','ausdehnen'], tender:['널다','étendre','stendere','estender','hinlegen'],
+      mover:['움직이다','bouger','muovere','mover','bewegen'], resolver:['해결하다','résoudre','risolvere','resolver','lösen'], doler:['아프다','faire mal','far male','doer','schmerzen'], devolver:['돌려주다','rendre','restituire','devolver','zurückgeben'], moler:['갈다','moudre','macinare','moer','mahlen'], soler:['보통 ~하다','avoir l\'habitude de','essere solito','costumar','pflegen zu'],
+      mentir:['거짓말하다','mentir','mentire','mentir','lügen'], preferir:['선호하다','préférer','preferire','preferir','bevorzugen'], advertir:['경고하다','avertir','avvertire','advertir','warnen'], convertir:['바꾸다','convertir','convertire','converter','verwandeln'], herir:['상처 입히다','blesser','ferire','ferir','verletzen'], sugerir:['제안하다','suggérer','suggerire','sugerir','vorschlagen'], hervir:['끓이다','bouillir','bollire','ferver','kochen'], morir:['죽다','mourir','morire','morrer','sterben'],
+      servir:['봉사하다','servir','servire','servir','dienen'], repetir:['반복하다','répéter','ripetere','repetir','wiederholen'], despedir:['작별하다','dire au revoir','salutare','despedir-se','sich verabschieden'], medir:['측정하다','mesurer','misurare','medir','messen'], impedir:['막다','empêcher','impedire','impedir','verhindern'], competir:['경쟁하다','concourir','competere','competir','konkurrieren'],
+      levantarse:['일어나다','se lever','alzarsi','levantar-se','aufstehen'], lavarse:['씻다','se laver','lavarsi','lavar-se','sich waschen'], ducharse:['샤워하다','se doucher','farsi la doccia','tomar banho','duschen'], bañarse:['목욕하다','se baigner','farsi il bagno','tomar banho','baden'], llamarse:['~라고 불리다','s\'appeler','chiamarsi','chamar-se','heißen'], sentarse:['앉다','s\'asseoir','sedersi','sentar-se','sich setzen'],
+      peinarse:['머리를 빗다','se peigner','pettinarsi','pentear-se','sich kämmen'], maquillarse:['화장하다','se maquiller','truccarsi','maquiar-se','sich schminken'], afeitarse:['면도하다','se raser','radersi','barbear-se','sich rasieren'], quitarse:['벗다','enlever','togliersi','tirar a roupa','ausziehen'], quedarse:['머무르다','rester','restare','ficar','bleiben'], despertarse:['깨다','se réveiller','svegliarsi','acordar-se','aufwachen'], acostarse:['눕다','se coucher','coricarsi','deitar-se','sich hinlegen'], vestirse:['옷을 입다','s\'habiller','vestirsi','vestir-se','sich anziehen'], divertirse:['즐기다','s\'amuser','divertirsi','divertir-se','sich amüsieren'],
+      olvidarse:['잊다','oublier','dimenticarsi','esquecer-se','vergessen'], enojarse:['화내다','se fâcher','arrabbiarsi','zangar-se','sich ärgern'], preocuparse:['걱정하다','s\'inquiéter','preoccuparsi','preocupar-se','sich sorgen'], casarse:['결혼하다','se marier','sposarsi','casar-se','heiraten'], dormirse:['잠들다','s\'endormir','addormentarsi','adormecer','einschlafen'], sentirse:['느끼다','se sentir','sentirsi','sentir-se','sich fühlen'], ponerse:['~해지다','se mettre','mettersi','pôr-se','werden'],
+      enamorarse:['사랑에 빠지다','tomber amoureux','innamorarsi','apaixonar-se','sich verlieben'], mudarse:['이사하다','déménager','trasferirsi','mudar-se','umziehen'], relajarse:['쉬다','se détendre','rilassarsi','relaxar-se','sich entspannen'], cansarse:['지치다','se fatiguer','stancarsi','cansar-se','müde werden'], aburrirse:['지루해하다','s\'ennuyer','annoiarsi','entediar-se','sich langweilen'], irse:['떠나다','s\'en aller','andarsene','ir-se embora','weggehen'], sorprenderse:['놀라다','être surpris','sorprendersi','surpreender-se','sich wundern'], acordarse:['기억하다','se souvenir','ricordarsi','lembrar-se','sich erinnern'],
+      oír:['듣다','entendre','sentire','ouvir','hören'], mantener:['유지하다','maintenir','mantenere','manter','aufrechterhalten'], parecer:['~처럼 보이다','sembler','sembrare','parecer','scheinen'], aparecer:['나타나다','apparaître','apparire','aparecer','erscheinen'], ofrecer:['제공하다','offrir','offrire','oferecer','anbieten'], nacer:['태어나다','naître','nascere','nascer','geboren werden'], crecer:['자라다','grandir','crescere','crescer','wachsen'],
+      reconocer:['인식하다','reconnaître','riconoscere','reconhecer','erkennen'], merecer:['받을 만하다','mériter','meritare','merecer','verdienen'], obedecer:['복종하다','obéir','obbedire','obedecer','gehorchen'], permanecer:['남아 있다','rester','rimanere','permanecer','bleiben'], pertenecer:['속하다','appartenir','appartenere','pertencer','gehören'], establecer:['설립하다','établir','stabilire','estabelecer','gründen'], agradecer:['감사하다','remercier','ringraziare','agradecer','danken'],
+      dirigir:['지휘하다','diriger','dirigere','dirigir','leiten'], preguntar:['질문하다','demander','chiedere','perguntar','fragen'], parar:['멈추다','arrêter','fermare','parar','anhalten'], acabar:['끝나다','finir','finire','acabar','enden'], considerar:['고려하다','considérer','considerare','considerar','erwägen'], descubrir:['발견하다','découvrir','scoprire','descobrir','entdecken'], ocurrir:['발생하다','se produire','accadere','ocorrer','geschehen'], crear:['창조하다','créer','creare','criar','erschaffen'], lograr:['성취하다','réussir à','riuscire a','conseguir','erreichen'], costar:['비용이 들다','coûter','costare','custar','kosten'],
+    };
+  }
+
+  tr = (key, vars) => {
+    if (!this.vt) this.initVt();
+    const dict = this.t[this.state.language] || this.t.en;
+    let str = dict[key] !== undefined ? dict[key] : this.t.en[key];
+    if (str === undefined) return key;
+    if (vars) Object.keys(vars).forEach(k => { str = str.split('{' + k + '}').join(vars[k]); });
+    return str;
+  };
+  trLevelDesc = (lvl) => { const dict = this.t[this.state.language] || this.t.en; return (dict.levelDesc && dict.levelDesc[lvl]) || this.t.en.levelDesc[lvl]; };
+  trTenseLabel = (tenseId) => this.tr({ presente: 'tensePresente', preterito: 'tensePreterito', imperfecto: 'tenseImperfecto', futuro: 'tenseFuturo', subjuntivo: 'tenseSubjuntivo' }[tenseId]);
+
+  toggleLanguageMenu = () => this.setState(s => ({ languageMenuOpen: !s.languageMenuOpen, levelMenuOpen: false }));
+  selectLanguage = (lang) => { if (lang.soon) return; this.setState({ language: lang.code, languageMenuOpen: false }); };
+  toggleLevelMenu = () => this.setState(s => ({ levelMenuOpen: !s.levelMenuOpen, languageMenuOpen: false }));
+  selectLevel = (lvl) => this.setState({ levelPicked: lvl, levelMenuOpen: false });
+
+  rand = (n) => Math.floor(Math.random() * n);
+  pick = (arr) => arr[this.rand(arr.length)];
+  shuffle = (arr) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = this.rand(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  normalize = (s) => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  verbByInf = (inf) => this.verbs.find(v => v.inf === inf);
+  tenseById = (id) => this.tenses.find(t => t.id === id);
+  pool = () => this.pools[this.state.levelPicked || 'A1'];
+
+  buildSentence(verb, tenseId, personIdx) {
+    const subj = this.subjects[personIdx];
+    const complement = verb.inf.endsWith('se') ? '' : (this.complements[verb.inf] || 'algo');
+    if (tenseId === 'subjuntivo') return `Ojalá que ${subj.toLowerCase()} ___ ${complement}.`.replace('  ', ' ');
+    return `${subj} ___ ${complement} ${this.cueSuffix[tenseId]}.`.replace('  ', ' ');
+  }
+
+  buildSentenceGloss(verb, tenseId, personIdx) {
+    const lang = this.state.language;
+    if (lang === 'es') return '';
+    if (lang === 'en') {
+      const subjectsEN = ['I', 'You', 'He/She', 'We', 'You all', 'They'];
+      const cueEN = { presente: 'now', preterito: 'yesterday', imperfecto: 'as a child', futuro: 'tomorrow' };
+      const IRREG3 = { be: 'is', have: 'has', go: 'goes', do: 'does', say: 'says', 'be able to': 'is able to' };
+      let base = (verb.en || '').replace(/^to\s+/, '').trim();
+      if (tenseId !== 'subjuntivo' && personIdx === 2) {
+        if (IRREG3[base]) base = IRREG3[base];
+        else {
+          const parts = base.split(' ');
+          let w = parts[0];
+          if (/(s|x|z|h)$/.test(w) || /ch$/.test(w)) w += 'es';
+          else if (/[^aeiou]y$/.test(w)) w = w.slice(0, -1) + 'ies';
+          else w += 's';
+          parts[0] = w; base = parts.join(' ');
+        }
+      }
+      if (tenseId === 'subjuntivo') return `I wish that ${subjectsEN[personIdx].toLowerCase()} ${base}.`;
+      return `${subjectsEN[personIdx]} ${base} ${cueEN[tenseId]}.`;
+    }
+    const dict = this.t[lang] || this.t.en;
+    const idx = { ko: 0, fr: 1, it: 2, pt: 3, de: 4 }[lang];
+    const entry = this.vt[verb.inf];
+    const meaning = entry ? entry[idx] : verb.en;
+    const subj = dict.subj[personIdx];
+    if (lang === 'ko') {
+      const k = this.koForms(meaning);
+      if (tenseId === 'subjuntivo') return `${subj} ${k.cond} 좋겠어요.`;
+      const verbForm = tenseId === 'futuro' ? k.future : (tenseId === 'presente' ? k.present : k.past);
+      return `${subj} ${dict.cueG[tenseId]} ${verbForm}.`;
+    }
+    if (tenseId === 'subjuntivo') return `${dict.wishThat} ${subj} · ${meaning}`;
+    return `${subj} · ${dict.cueG[tenseId]} · ${meaning}`;
+  }
+
+  // Korean conjugation: decomposes the final Hangul syllable before trailing "다" and applies
+  // vowel-harmony contraction (해요-style), with hardcoded overrides for the few irregular stems used.
+  koForms(phrase) {
+    const OVERRIDES = {
+      '짓다': { present: '지어요', past: '지었어요', future: '지을 거예요', cond: '지으면' },
+      '걷다': { present: '걸어요', past: '걸었어요', future: '걸을 거예요', cond: '걸으면' },
+      '듣다': { present: '들어요', past: '들었어요', future: '들을 거예요', cond: '들으면' },
+    };
+    for (const key in OVERRIDES) {
+      if (phrase.endsWith(key)) {
+        const prefix = phrase.slice(0, -key.length);
+        const o = OVERRIDES[key];
+        return { present: prefix + o.present, past: prefix + o.past, future: prefix + o.future, cond: prefix + o.cond };
+      }
+    }
+    if (!phrase.endsWith('다')) return { present: phrase, past: phrase, future: phrase, cond: phrase };
+    const stem = phrase.slice(0, -1);
+    const before = stem.slice(0, -1);
+    const last = stem.slice(-1);
+    const BASE = 0xAC00;
+    const code = last.charCodeAt(0) - BASE;
+    if (code < 0 || code > 11171) return { present: phrase, past: phrase, future: phrase, cond: phrase };
+    const final = code % 28, medial = ((code - final) / 28) % 21, initial = (code - final) / 28 / 21 | 0;
+    const compose = (i, m, f) => String.fromCharCode(BASE + (i * 21 + m) * 28 + f);
+    const SSANG_S = 20; // ㅆ final index
+    const condSuffix = final === 0 ? '면' : '으면';
+    const cond = stem + condSuffix;
+    // "하"-irregular (하다 -> 해)
+    if (last === '하') {
+      const presSyl = compose(initial, 1, 0); // 해
+      const pastSyl = compose(initial, 1, SSANG_S); // 했
+      const futSyl = compose(initial, 0, 8); // 할
+      return { present: before + presSyl + '요', past: before + pastSyl + '어요', future: before + futSyl + ' 거예요', cond };
+    }
+    let harmony, presSyl, futureStr;
+    if (final === 0) {
+      // vowel-ending stem: contract
+      const prevChar = before.slice(-1);
+      let pCode = prevChar ? prevChar.charCodeAt(0) - BASE : -1;
+      let prevMedial = (pCode >= 0 && pCode <= 11171) ? ((pCode - pCode % 28) / 28) % 21 : -1;
+      harmony = (medial === 0 || medial === 8) ? 'a' : 'eo';
+      const CONTRACT = { 0:{a:0,eo:0}, 4:{a:4,eo:4}, 1:{a:1,eo:1}, 5:{a:5,eo:5}, 8:{a:9,eo:9}, 13:{a:14,eo:14}, 20:{a:6,eo:6}, 11:{a:10,eo:10} };
+      let newMedial;
+      if (medial === 18) { // ㅡ drop, harmony from preceding syllable
+        harmony = (prevMedial === 0 || prevMedial === 8) ? 'a' : 'eo';
+        newMedial = harmony === 'a' ? 0 : 4;
+      } else if (CONTRACT[medial]) {
+        newMedial = CONTRACT[medial][harmony];
+      } else {
+        newMedial = medial; // fallback, uncontracted (rare medial)
+      }
+      presSyl = CONTRACT[medial] || medial === 18 ? compose(initial, newMedial, 0) : last + (harmony === 'a' ? '아' : '어');
+      const presStr = before + presSyl;
+      const pastStr = before + compose(initial, newMedial, SSANG_S);
+      futureStr = before + compose(initial, medial, 8) + ' 거예요'; // future attaches ㄹ to the ORIGINAL vowel, not the 아/어-contracted one
+      return { present: presStr + '요', past: pastStr + '어요', future: futureStr, cond };
+    } else {
+      // consonant-final stem: append directly
+      harmony = (medial === 0 || medial === 8) ? 'a' : 'eo';
+      const present = stem + (harmony === 'a' ? '아요' : '어요');
+      const past = stem + (harmony === 'a' ? '았어요' : '었어요');
+      const future = stem + (final === 8 ? ' 거예요' : '을 거예요'); // final 8 = ㄹ batchim already
+      return { present, past, future, cond };
+    }
+  }
+
+  lastVowelIdx(stem) { for (let i = stem.length - 1; i >= 0; i--) { if (stem[i] === 'e' || stem[i] === 'o') return i; } return -1; }
+
+  conjugateStemChanging(inf, changeType) {
+    const type = inf.slice(-2);
+    const stem = inf.slice(0, -2);
+    const idx = this.lastVowelIdx(stem);
+    const changedVowel = changeType === 'ue' ? 'ue' : (changeType === 'ie' ? 'ie' : 'i');
+    const reducedVowel = changeType === 'ue' ? 'u' : 'i';
+    const changedStem = stem.slice(0, idx) + changedVowel + stem.slice(idx + 1);
+    const reducedStem = stem.slice(0, idx) + reducedVowel + stem.slice(idx + 1);
+    const AR = { presente: ['o','as','a','amos','áis','an'], preterito: ['é','aste','ó','amos','asteis','aron'], imperfecto: ['aba','abas','aba','ábamos','abais','aban'], subjuntivo: ['e','es','e','emos','éis','en'] };
+    const PRES = { er: ['o','es','e','emos','éis','en'], ir: ['o','es','e','imos','ís','en'] };
+    const PRET = ['í','iste','ió','imos','isteis','ieron'];
+    const IMPF = ['ía','ías','ía','íamos','íais','ían'];
+    const SUBJ = ['a','as','a','amos','áis','an'];
+    const FUT = ['é','ás','á','emos','éis','án'];
+    const changePositions = [0, 1, 2, 5];
+    const forms = {};
+    ['presente', 'preterito', 'imperfecto', 'futuro', 'subjuntivo'].forEach(tenseId => {
+      forms[tenseId] = [0, 1, 2, 3, 4, 5].map(i => {
+        if (tenseId === 'futuro') return inf + FUT[i];
+        let s, ending;
+        if (tenseId === 'presente') {
+          s = changePositions.includes(i) ? changedStem : stem;
+          ending = type === 'ar' ? AR.presente[i] : PRES[type][i];
+        } else if (tenseId === 'preterito') {
+          if (type === 'ar') { s = i === 0 ? this.fixArStem(stem) : stem; ending = AR.preterito[i]; }
+          else { s = (type === 'ir' && (i === 2 || i === 5)) ? reducedStem : stem; ending = PRET[i]; }
+        } else if (tenseId === 'imperfecto') {
+          s = stem; ending = type === 'ar' ? AR.imperfecto[i] : IMPF[i];
+        } else {
+          if (type === 'ar') { s = this.fixArStem(changePositions.includes(i) ? changedStem : stem); ending = AR.subjuntivo[i]; }
+          else { s = changePositions.includes(i) ? changedStem : (type === 'ir' ? reducedStem : stem); ending = SUBJ[i]; }
+        }
+        return s + ending;
+      });
+    });
+    return forms;
+  }
+
+  conjugateZc(inf) {
+    // -ecer/-acer/-ocer/-ucir type verbs: c->zc only in presente-yo and throughout subjuntivo.
+    const type = inf.slice(-2);
+    const stem = inf.slice(0, -2);
+    const zcStem = stem.slice(0, -1) + 'zc';
+    const PRES = { er: ['o','es','e','emos','éis','en'], ir: ['o','es','e','imos','ís','en'] };
+    const PRET = ['í','iste','ió','imos','isteis','ieron'];
+    const IMPF = ['ía','ías','ía','íamos','íais','ían'];
+    const SUBJ = ['a','as','a','amos','áis','an'];
+    const FUT = ['é','ás','á','emos','éis','án'];
+    const forms = {};
+    ['presente', 'preterito', 'imperfecto', 'futuro', 'subjuntivo'].forEach(tenseId => {
+      forms[tenseId] = [0, 1, 2, 3, 4, 5].map(i => {
+        if (tenseId === 'futuro') return inf + FUT[i];
+        if (tenseId === 'preterito') return stem + PRET[i];
+        if (tenseId === 'imperfecto') return stem + IMPF[i];
+        if (tenseId === 'subjuntivo') return zcStem + SUBJ[i];
+        return (i === 0 ? zcStem + 'o' : stem + PRES[type][i]);
+      });
+    });
+    return forms;
+  }
+
+  conjugateGj(inf) {
+    // -gir/-guir type verbs: g->j only in presente-yo and throughout subjuntivo (no stem vowel change).
+    const stem = inf.slice(0, -2);
+    const jStem = stem.slice(0, -1) + 'j';
+    const PRES = ['o','es','e','imos','ís','en'];
+    const PRET = ['í','iste','ió','imos','isteis','ieron'];
+    const IMPF = ['ía','ías','ía','íamos','íais','ían'];
+    const SUBJ = ['a','as','a','amos','áis','an'];
+    const FUT = ['é','ás','á','emos','éis','án'];
+    const forms = {};
+    ['presente', 'preterito', 'imperfecto', 'futuro', 'subjuntivo'].forEach(tenseId => {
+      forms[tenseId] = [0, 1, 2, 3, 4, 5].map(i => {
+        if (tenseId === 'futuro') return inf + FUT[i];
+        if (tenseId === 'preterito') return stem + PRET[i];
+        if (tenseId === 'imperfecto') return stem + IMPF[i];
+        if (tenseId === 'subjuntivo') return jStem + SUBJ[i];
+        return (i === 0 ? jStem + 'o' : stem + PRES[i]);
+      });
+    });
+    return forms;
+  }
+
+  deriveFromBase(prefix, baseInf) {
+    const base = this.verbByInf(baseInf);
+    const forms = {};
+    Object.keys(base.forms).forEach(t => { forms[t] = base.forms[t].map(f => prefix + f); });
+    return forms;
+  }
+
+  conjugateReflexive(reflexiveInf, mode, changeType) {
+    const baseInf = reflexiveInf.slice(0, -2);
+    let baseForms;
+    if (mode === 'irregular') baseForms = this.verbByInf(baseInf).forms;
+    else if (mode === 'stem') baseForms = this.conjugateStemChanging(baseInf, changeType);
+    else baseForms = this.conjugateRegular(baseInf);
+    const pronouns = ['me', 'te', 'se', 'nos', 'os', 'se'];
+    const forms = {};
+    Object.keys(baseForms).forEach(t => { forms[t] = baseForms[t].map((f, i) => `${pronouns[i]} ${f}`); });
+    return forms;
+  }
+
+  fixArStem(stem) {
+    if (stem.endsWith('c')) return stem.slice(0, -1) + 'qu';
+    if (stem.endsWith('g')) return stem.slice(0, -1) + 'gu';
+    if (stem.endsWith('z')) return stem.slice(0, -1) + 'c';
+    return stem;
+  }
+
+  conjugateRegular(inf) {
+    const type = inf.slice(-2);
+    const stem = inf.slice(0, -2);
+    const AR = { presente: ['o','as','a','amos','áis','an'], preterito: ['é','aste','ó','amos','asteis','aron'], imperfecto: ['aba','abas','aba','ábamos','abais','aban'], subjuntivo: ['e','es','e','emos','éis','en'] };
+    const PRES = { er: ['o','es','e','emos','éis','en'], ir: ['o','es','e','imos','ís','en'] };
+    const PRET = ['í','iste','ió','imos','isteis','ieron'];
+    const IMPF = ['ía','ías','ía','íamos','íais','ían'];
+    const SUBJ = ['a','as','a','amos','áis','an'];
+    const FUT = ['é','ás','á','emos','éis','án'];
+    const forms = {};
+    ['presente', 'preterito', 'imperfecto', 'futuro', 'subjuntivo'].forEach(tenseId => {
+      forms[tenseId] = [0, 1, 2, 3, 4, 5].map(i => {
+        if (tenseId === 'futuro') return inf + FUT[i];
+        let s = stem, ending;
+        if (type === 'ar') {
+          ending = AR[tenseId][i];
+          if ((tenseId === 'preterito' && i === 0) || tenseId === 'subjuntivo') s = this.fixArStem(s);
+        } else {
+          if (tenseId === 'presente') ending = PRES[type][i];
+          else if (tenseId === 'preterito') ending = PRET[i];
+          else if (tenseId === 'imperfecto') ending = IMPF[i];
+          else ending = SUBJ[i];
+        }
+        return s + ending;
+      });
+    });
+    return forms;
+  }
+
+  buildQuestion(qtype, opts = {}) {
+    const p = this.pool();
+    const verb = opts.verbInf ? this.verbByInf(opts.verbInf) : this.verbByInf(this.pick(p.verbs));
+    const tenseId = opts.tenseId || this.pick(p.tenses.filter(t => qtype !== 'presente' || true));
+    const tense = this.tenseById(tenseId);
+    const personIdx = this.rand(6);
+    const answer = verb.forms[tenseId][personIdx];
+    const base = { qtype, verb, verbInf: verb.inf, verbEn: verb.en, tenseId, tenseLabel: tense.label, personIdx, pronoun: this.pronouns[personIdx], answer };
+    if (qtype === 'fill') return { ...base, promptMain: `${verb.inf} — ${this.pronouns[personIdx]}` };
+    if (qtype === 'table') return { ...base, pronoun: null, answers: verb.forms[tenseId].slice() };
+    const sentence = this.buildSentence(verb, tenseId, personIdx);
+    if (qtype === 'cloze') return { ...base, sentence };
+    const otherForms = verb.forms[tenseId].filter((_, i) => i !== personIdx);
+    const distractors = this.shuffle(otherForms).slice(0, 3);
+    const options = this.shuffle([answer, ...distractors]);
+    return { ...base, sentence, options };
+  }
+
+  generateSession(mode, opts = {}) {
+    if (mode === 'mistakes') {
+      const qs = this.state.mistakes.map(m => ({ qtype: 'fill', verbInf: m.verbInf, verbEn: m.verbEn, tenseId: m.tenseId, tenseLabel: m.tenseLabel, personIdx: m.personIdx, pronoun: m.pronoun, answer: m.answer, promptMain: `${m.verbInf} — ${m.pronoun}` }));
+      return { mode, questions: qs };
+    }
+    if (mode === 'table') return { mode, questions: Array.from({ length: 4 }, () => this.buildQuestion('table')) };
+    if (mode === 'timed') return { mode, questions: Array.from({ length: 20 }, () => this.buildQuestion('mc')), timeLeft: 45 };
+    if (mode === 'mixed') { const types = ['mc', 'fill', 'cloze']; return { mode, questions: Array.from({ length: 8 }, (_, i) => this.buildQuestion(types[i % 3], opts)) }; }
+    const len = opts.verbInf ? 6 : 8;
+    return { mode, questions: Array.from({ length: len }, () => this.buildQuestion(mode, opts)) };
+  }
+
+  pointsFor = (qtype, correct) => ({ fill: correct ? 10 : 2, cloze: correct ? 10 : 2, mc: correct ? 8 : 1, table: correct ? 3 : 0 }[qtype] || 0);
+
+  startSessionWith = (mode, opts = {}) => {
+    if (this.timerId) { clearInterval(this.timerId); this.timerId = null; }
+    const gen = this.generateSession(mode, opts);
+    const q0 = gen.questions[0];
+    this.setState({
+      screen: 'session',
+      session: { mode, questions: gen.questions, index: 0, correctUnits: 0, totalUnits: 0, xpEarned: 0, feedback: null, userInput: '', tableInputs: q0 && q0.qtype === 'table' ? new Array(6).fill('') : [], timeLeft: gen.timeLeft || null },
+    });
+    if (mode === 'timed') {
+      this.timerId = setInterval(() => {
+        this.setState(s => {
+          if (!s.session) return {};
+          const t = s.session.timeLeft - 1;
+          if (t <= 0) { clearInterval(this.timerId); this.timerId = null; setTimeout(this.finishSession, 0); return { session: { ...s.session, timeLeft: 0 } }; }
+          return { session: { ...s.session, timeLeft: t } };
+        });
+      }, 1000);
+    }
+  };
+
+  startMixed = () => this.startSessionWith('mixed');
+  startFill = () => this.startSessionWith('fill');
+  startMc = () => this.startSessionWith('mc');
+  startCloze = () => this.startSessionWith('cloze');
+  startTable = () => this.startSessionWith('table');
+  startTimed = () => this.startSessionWith('timed');
+  startMistakes = () => this.startSessionWith('mistakes');
+  practiceThisVerb = () => this.startSessionWith('fill', { verbInf: this.state.libraryVerbInf });
+
+  onInputChange = (e) => { const v = e.target.value; this.setState(s => ({ session: { ...s.session, userInput: v } })); };
+  updateTableInput = (i, v) => this.setState(s => { const arr = s.session.tableInputs.slice(); arr[i] = v; return { session: { ...s.session, tableInputs: arr } }; });
+  setFocusedRow = (i) => this.setState(s => ({ session: { ...s.session, focusedRow: i } }));
+  insertChar = (c) => this.setState(s => {
+    const ses = s.session; if (!ses) return {};
+    const q = ses.questions[ses.index];
+    if (q.qtype === 'table') {
+      const arr = ses.tableInputs.slice(); const i = ses.focusedRow || 0;
+      arr[i] = (arr[i] || '') + c;
+      return { session: { ...ses, tableInputs: arr } };
+    }
+    return { session: { ...ses, userInput: (ses.userInput || '') + c } };
+  });
+
+  pushMistake = (q) => this.setState(s => ({ mistakes: [{ id: `${Date.now()}_${this.rand(9999)}`, verbInf: q.verbInf, verbEn: q.verbEn, tenseId: q.tenseId, tenseLabel: q.tenseLabel, personIdx: q.personIdx, pronoun: q.pronoun, answer: q.answer }, ...s.mistakes].slice(0, 30) }));
+
+  submitAnswer = () => {
+    const s = this.state.session;
+    const q = s.questions[s.index];
+    let correctUnits = 0, totalUnits = 1, xp = 0, selected = s.selected;
+    if (q.qtype === 'table') {
+      totalUnits = 6;
+      q.answers.forEach((ans, i) => { if (this.normalize(s.tableInputs[i]) === this.normalize(ans)) correctUnits++; else this.pushMistake({ ...q, personIdx: i, pronoun: this.pronouns[i], answer: ans }); });
+      xp = correctUnits * 3;
+    } else if (q.qtype === 'mc') {
+      const ok = selected === q.answer; correctUnits = ok ? 1 : 0; xp = this.pointsFor('mc', ok); if (!ok) this.pushMistake(q);
+    } else {
+      const ok = this.normalize(s.userInput) === this.normalize(q.answer); correctUnits = ok ? 1 : 0; xp = this.pointsFor(q.qtype, ok); if (!ok) this.pushMistake(q);
+    }
+    this.setState(st => ({
+      session: { ...st.session, feedback: 'shown', correctUnits: st.session.correctUnits + correctUnits, totalUnits: st.session.totalUnits + totalUnits, xpEarned: st.session.xpEarned + xp },
+    }));
+  };
+
+  selectOption = (opt) => this.setState(s => ({ session: { ...s.session, selected: opt } }));
+
+  nextQuestion = () => {
+    const s = this.state.session;
+    if (s.index + 1 >= s.questions.length) { this.finishSession(); return; }
+    const nq = s.questions[s.index + 1];
+    this.setState(st => ({ session: { ...st.session, index: st.session.index + 1, feedback: null, userInput: '', selected: null, tableInputs: nq.qtype === 'table' ? new Array(6).fill('') : [] } }));
+  };
+
+  finishSession = () => {
+    if (this.timerId) { clearInterval(this.timerId); this.timerId = null; }
+    const s = this.state.session;
+    if (!s) return;
+    const accuracy = s.totalUnits > 0 ? Math.round((s.correctUnits / s.totalUnits) * 100) : 0;
+    this.setState(st => {
+      const newDailyToday = st.dailyGoalToday + s.xpEarned;
+      const bump = !st.streakBumpedToday && newDailyToday >= st.dailyGoalTarget;
+      return {
+        screen: 'results',
+        session: null,
+        xpTotal: st.xpTotal + s.xpEarned,
+        dailyGoalToday: newDailyToday,
+        streak: bump ? st.streak + 1 : st.streak,
+        streakBumpedToday: bump ? true : st.streakBumpedToday,
+        lifetimeCorrect: st.lifetimeCorrect + s.correctUnits,
+        lifetimeTotal: st.lifetimeTotal + s.totalUnits,
+        results: { accuracy, xp: s.xpEarned, streakBumped: bump, hadMistakes: s.correctUnits < s.totalUnits },
+      };
+    });
+  };
+
+  exitSession = () => { const s = this.state.session; if (s && (s.index > 0 || s.feedback)) this.finishSession(); else { if (this.timerId) { clearInterval(this.timerId); this.timerId = null; } this.setState({ screen: 'home', session: null }); } };
+
+  goHome = () => this.setState({ screen: 'home' });
+  goLibrary = () => this.setState({ screen: 'library', libraryVerbInf: null });
+  goProfile = () => this.setState({ screen: 'profile' });
+  pickLevelA1 = () => this.setState({ screen: 'home', levelPicked: 'A1' });
+  pickLevelA2 = () => this.setState({ screen: 'home', levelPicked: 'A2' });
+  pickLevelB1 = () => this.setState({ screen: 'home', levelPicked: 'B1' });
+  pickLevelB2 = () => this.setState({ screen: 'home', levelPicked: 'B2' });
+  pickLevelC1 = () => this.setState({ screen: 'home', levelPicked: 'C1' });
+  pickLevelC2 = () => this.setState({ screen: 'home', levelPicked: 'C2' });
+
+  filterAll = () => this.setState({ libraryFilter: 'all' });
+  filterA1 = () => this.setState({ libraryFilter: 'A1' });
+  filterA2 = () => this.setState({ libraryFilter: 'A2' });
+  filterB1 = () => this.setState({ libraryFilter: 'B1' });
+  filterB2 = () => this.setState({ libraryFilter: 'B2' });
+  filterC1 = () => this.setState({ libraryFilter: 'C1' });
+  filterC2 = () => this.setState({ libraryFilter: 'C2' });
+  selectVerb = (inf) => this.setState({ libraryVerbInf: inf, libraryTense: 'presente' });
+  closeVerbDetail = () => this.setState({ libraryVerbInf: null });
+  setTensePresente = () => this.setState({ libraryTense: 'presente' });
+  setTensePreterito = () => this.setState({ libraryTense: 'preterito' });
+  setTenseImperfecto = () => this.setState({ libraryTense: 'imperfecto' });
+  setTenseFuturo = () => this.setState({ libraryTense: 'futuro' });
+  setTenseSubjuntivo = () => this.setState({ libraryTense: 'subjuntivo' });
+
+  setGoal20 = () => this.setState({ dailyGoalTarget: 20 });
+  setGoal50 = () => this.setState({ dailyGoalTarget: 50 });
+  setGoal100 = () => this.setState({ dailyGoalTarget: 100 });
+
+  componentWillUnmount() { if (this.timerId) clearInterval(this.timerId); }
+
+  renderVals() {
+    const s = this.state;
+    const chipStyle = (active) => `cursor:pointer;padding:6px 13px;border-radius:999px;font-size:12px;white-space:nowrap;flex-shrink:0;border:1px solid ${active ? 'var(--color-accent)' : 'var(--color-divider)'};color:${active ? 'var(--color-accent)' : 'var(--color-text)'};opacity:${active ? '1' : '.75'};`;
+    const vals = {
+      isOnboarding: s.screen === 'onboarding', isHome: s.screen === 'home', isLibrary: s.screen === 'library', isProfile: s.screen === 'profile', isSession: s.screen === 'session', isResults: s.screen === 'results',
+      pickLevelA1: this.pickLevelA1, pickLevelA2: this.pickLevelA2, pickLevelB1: this.pickLevelB1, pickLevelB2: this.pickLevelB2, pickLevelC1: this.pickLevelC1, pickLevelC2: this.pickLevelC2,
+      levelLabel: s.levelPicked || 'A1',
+      streak: s.streak, xpTotal: s.xpTotal, xpLevel: Math.floor(s.xpTotal / 500) + 1,
+      dailyGoalToday: s.dailyGoalToday, dailyGoalTarget: s.dailyGoalTarget,
+      dailyGoalBarStyle: `height:100%;border-radius:99px;background:var(--color-accent);width:${Math.min(100, Math.round((s.dailyGoalToday / s.dailyGoalTarget) * 100))}%;`,
+      startMixed: this.startMixed, startFill: this.startFill, startMc: this.startMc, startCloze: this.startCloze, startTable: this.startTable, startTimed: this.startTimed, startMistakes: this.startMistakes,
+      hasMistakes: s.mistakes.length > 0, mistakeCount: s.mistakes.length,
+      goHome: this.goHome, goLibrary: this.goLibrary, goProfile: this.goProfile,
+      tabHomeColor: s.screen === 'home' ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 55%, transparent)',
+      tabLibraryColor: s.screen === 'library' ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 55%, transparent)',
+      tabProfileColor: s.screen === 'profile' ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 55%, transparent)',
+      accuracyPct: s.lifetimeTotal > 0 ? Math.round((s.lifetimeCorrect / s.lifetimeTotal) * 100) : 0,
+      masteredCount: Math.max(0, this.verbs.length - new Set(s.mistakes.map(m => m.verbInf)).size),
+      setGoal20: this.setGoal20, setGoal50: this.setGoal50, setGoal100: this.setGoal100,
+      toggleLanguageMenu: this.toggleLanguageMenu, languageMenuOpen: s.languageMenuOpen,
+      currentLangFlag: (this.languages.find(l => l.code === s.language) || this.languages[0]).tag,
+      languageRows: this.languages.map(l => ({
+        label: l.label, tag: l.code === s.language ? this.tr('active') : '',
+        onClick: () => this.selectLanguage(l),
+        style: `display:flex;align-items:center;justify-content:space-between;padding:10px 13px;font-size:13px;border-bottom:1px solid var(--color-divider);color:${l.code === s.language ? 'var(--color-accent)' : 'var(--color-text)'};cursor:pointer;`,
+      })),
+      toggleLevelMenu: this.toggleLevelMenu, levelMenuOpen: s.levelMenuOpen,
+      currentLevelTag: s.levelPicked || 'A1',
+      levelRows: this.levelOrder.map(lvl => ({
+        label: lvl, tag: lvl === (s.levelPicked || 'A1') ? this.tr('active') : '',
+        onClick: () => this.selectLevel(lvl),
+        style: `display:flex;align-items:center;justify-content:space-between;padding:10px 13px;font-size:13px;border-bottom:1px solid var(--color-divider);color:${lvl === (s.levelPicked || 'A1') ? 'var(--color-accent)' : 'var(--color-text)'};cursor:pointer;`,
+      })),
+      txtGreeting: this.tr('greeting'), txtOnboardingQuestion: this.tr('onboardingQuestion'), txtOnboardingSub: this.tr('onboardingSub'),
+      levelDescA1: this.trLevelDesc('A1'), levelDescA2: this.trLevelDesc('A2'), levelDescB1: this.trLevelDesc('B1'), levelDescB2: this.trLevelDesc('B2'), levelDescC1: this.trLevelDesc('C1'), levelDescC2: this.trLevelDesc('C2'),
+      txtHomeSub: this.tr('homeSub'), txtTrackWord: this.tr('trackWord'), txtDayStreak: this.tr('dayStreak'), txtTodaysGoal: this.tr('todaysGoal'), txtContinuePractice: this.tr('continuePractice'), txtMixedSession: this.tr('mixedSession'), txtPracticeModes: this.tr('practiceModes'),
+      txtModeFillTitle: this.tr('modeFillTitle'), txtModeFillSub: this.tr('modeFillSub'), txtModeMcTitle: this.tr('modeMcTitle'), txtModeMcSub: this.tr('modeMcSub'), txtModeClozeTitle: this.tr('modeClozeTitle'), txtModeClozeSub: this.tr('modeClozeSub'), txtModeTableTitle: this.tr('modeTableTitle'), txtModeTableSub: this.tr('modeTableSub'), txtModeSpeedTitle: this.tr('modeSpeedTitle'), txtModeSpeedSub: this.tr('modeSpeedSub'),
+      txtReviewMistakes: this.tr('reviewMistakes', { n: s.mistakes.length }),
+      txtTabHome: this.tr('tabHome'), txtTabLibrary: this.tr('tabLibrary'), txtTabProfile: this.tr('tabProfile'),
+      txtLibraryTitle: this.tr('libraryTitle'), txtFilterAllLabel: this.tr('filterAllLabel'), txtBackToLibrary: this.tr('backToLibrary'), txtPracticeThisVerbBtn: this.tr('practiceThisVerbBtn'),
+      txtTensePresente: this.tr('tensePresente'), txtTensePreterito: this.tr('tensePreterito'), txtTenseImperfecto: this.tr('tenseImperfecto'), txtTenseFuturo: this.tr('tenseFuturo'), txtTenseSubjuntivo: this.tr('tenseSubjuntivo'),
+      txtInputPlaceholder: this.tr('inputPlaceholder'), txtCheckBtn: this.tr('checkBtn'),
+      txtProfileLearner: this.tr('profileLearner'), txtLevelTrack: this.tr('levelTrack', { lvl: Math.floor(s.xpTotal / 500) + 1, track: s.levelPicked || 'A1' }), txtTotalXp: this.tr('totalXp'), txtAccuracyLabel: this.tr('accuracyLabel'), txtVerbsMastered: this.tr('verbsMastered'), txtDailyGoalHeader: this.tr('dailyGoalHeader'), txtLeaderboardHeader: this.tr('leaderboardHeader'),
+      goalSegStyle20: `padding:7px 12px;font-size:12px;cursor:pointer;border-right:1px solid var(--color-divider);color:${s.dailyGoalTarget === 20 ? 'var(--color-accent)' : 'var(--color-text)'};box-shadow:${s.dailyGoalTarget === 20 ? 'inset 0 0 0 1px var(--color-accent)' : 'none'};`,
+      goalSegStyle50: `padding:7px 12px;font-size:12px;cursor:pointer;border-right:1px solid var(--color-divider);color:${s.dailyGoalTarget === 50 ? 'var(--color-accent)' : 'var(--color-text)'};box-shadow:${s.dailyGoalTarget === 50 ? 'inset 0 0 0 1px var(--color-accent)' : 'none'};`,
+      goalSegStyle100: `padding:7px 12px;font-size:12px;cursor:pointer;color:${s.dailyGoalTarget === 100 ? 'var(--color-accent)' : 'var(--color-text)'};box-shadow:${s.dailyGoalTarget === 100 ? 'inset 0 0 0 1px var(--color-accent)' : 'none'};`,
+    };
+
+    // leaderboard
+    const board = [
+      { rank: 1, name: 'Sofía M.', xp: 2140, isMe: false },
+      { rank: 2, name: 'Diego R.', xp: 1870, isMe: false },
+      { rank: 3, name: 'Tú', xp: s.xpTotal, isMe: true },
+      { rank: 4, name: 'Marta L.', xp: 1050, isMe: false },
+      { rank: 5, name: 'Pau G.', xp: 860, isMe: false },
+    ];
+    vals.leaderboard = board.map(r => ({ ...r, rowStyle: `display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--color-divider);${r.isMe ? 'background:var(--color-accent-900);' : ''}`, nameColor: r.isMe ? 'var(--color-accent-100)' : 'var(--color-text)' }));
+
+    // library
+    const filtered = this.verbs.filter(v => s.libraryFilter === 'all' || v.level === s.libraryFilter).slice().sort((a, b) => this.levelOrder.indexOf(a.level) - this.levelOrder.indexOf(b.level) || a.inf.localeCompare(b.inf));
+    vals.libraryListVisible = !s.libraryVerbInf;
+    vals.libraryVerbs = filtered.map(v => ({ inf: v.inf, en: v.en, groupLabel: v.level, tagStyle: `font-size:10px;padding:3px 9px;border-radius:5px;background:var(--color-accent-800);color:var(--color-accent-100);`, onClick: () => this.selectVerb(v.inf) }));
+    vals.filterChipStyleAll = chipStyle(s.libraryFilter === 'all');
+    this.levelOrder.forEach(lvl => { vals[`filterChipStyle${lvl}`] = chipStyle(s.libraryFilter === lvl); });
+    vals.filterAll = this.filterAll; vals.filterA1 = this.filterA1; vals.filterA2 = this.filterA2; vals.filterB1 = this.filterB1; vals.filterB2 = this.filterB2; vals.filterC1 = this.filterC1; vals.filterC2 = this.filterC2;
+
+    if (s.libraryVerbInf) {
+      const v = this.verbByInf(s.libraryVerbInf);
+      vals.libraryVerbInf = v.inf; vals.libraryVerbEn = v.en; vals.libraryVerbGroup = `${v.level} · ${v.group === 'regular' ? this.tr('regularVerb') : this.tr('irregularVerb')}`;
+      vals.closeVerbDetail = this.closeVerbDetail; vals.practiceThisVerb = this.practiceThisVerb;
+      vals.setTensePresente = this.setTensePresente; vals.setTensePreterito = this.setTensePreterito; vals.setTenseImperfecto = this.setTenseImperfecto; vals.setTenseFuturo = this.setTenseFuturo; vals.setTenseSubjuntivo = this.setTenseSubjuntivo;
+      const tenseIds = ['presente', 'preterito', 'imperfecto', 'futuro', 'subjuntivo'];
+      tenseIds.forEach((t, i) => { vals[`tenseChipStyle${i}`] = chipStyle(s.libraryTense === t); });
+      vals.libraryTableRows = this.pronouns.map((p, i) => ({ pronoun: p, form: v.forms[s.libraryTense][i] }));
+    } else {
+      vals.libraryVerbInf = null;
+    }
+
+    // session
+    if (s.session) {
+      const ses = s.session;
+      const q = ses.questions[ses.index];
+      vals.sessionProgressBarStyle = `height:100%;border-radius:99px;background:var(--color-accent);width:${Math.round(((ses.index) / ses.questions.length) * 100)}%;`;
+      vals.isTimedSession = ses.mode === 'timed'; vals.timeLeft = ses.timeLeft;
+      vals.currentTenseLabel = this.trTenseLabel(q.tenseId); vals.currentVerbInf = q.verbInf; vals.currentVerbEn = q.verbEn; vals.currentPronoun = q.pronoun;
+      vals.isTableQuestion = q.qtype === 'table';
+      vals.isPlainFill = q.qtype === 'fill';
+      vals.isSentenceQuestion = q.qtype === 'cloze' || q.qtype === 'mc';
+      vals.answered = !!ses.feedback;
+      vals.exitSession = this.exitSession; vals.nextQuestion = this.nextQuestion; vals.submitAnswer = this.submitAnswer;
+      vals.continueLabel = ses.index + 1 >= ses.questions.length ? this.tr('seeResultsBtn') : this.tr('continueBtn');
+
+      if (q.qtype === 'cloze' || q.qtype === 'mc') {
+        vals.currentSentenceDisplay = ses.feedback ? q.sentence.replace('___', q.answer) : q.sentence;
+        vals.sentenceTranslation = this.buildSentenceGloss(q.verb, q.tenseId, q.personIdx);
+      }
+
+      vals.showSpecialChars = !ses.feedback;
+      vals.specialChars = ['á','é','í','ó','ú','ñ','ü','¿','¡'].map(ch => ({ ch, onClick: () => this.insertChar(ch) }));
+      vals.showTextInput = q.qtype === 'fill' || q.qtype === 'cloze';
+      if (vals.showTextInput) {
+        vals.userInput = ses.userInput; vals.onInputChange = this.onInputChange;
+        const ok = ses.feedback && this.normalize(ses.userInput) === this.normalize(q.answer);
+        vals.textInputStyle = `font-size:16px;padding:12px 14px;${ses.feedback ? `border-color:${ok ? '#6fbf8f' : '#d98282'};` : ''}`;
+        if (ses.feedback) { vals.feedbackText = ok ? this.tr('correctFeedback') : this.tr('wasAnswer', { a: q.answer }); vals.feedbackBoxStyle = `font-size:13px;padding:10px 12px;border-radius:var(--radius-md);background:${ok ? 'rgba(111,191,143,0.12)' : 'rgba(217,130,130,0.12)'};color:${ok ? '#8fd4ab' : '#e3a1a1'};`; }
+      }
+
+      vals.showOptions = q.qtype === 'mc';
+      if (vals.showOptions) {
+        vals.mcOptions = q.options.map(opt => {
+          let bg = 'var(--color-surface)', border = 'var(--color-divider)', color = 'var(--color-text)';
+          if (ses.feedback) {
+            if (opt === q.answer) { border = '#6fbf8f'; bg = 'rgba(111,191,143,0.12)'; color = '#8fd4ab'; }
+            else if (opt === ses.selected) { border = '#d98282'; bg = 'rgba(217,130,130,0.12)'; color = '#e3a1a1'; }
+          } else if (opt === ses.selected) { border = 'var(--color-accent)'; bg = 'var(--color-accent-900)'; color = 'var(--color-accent-100)'; }
+          return { label: opt, onClick: ses.feedback ? () => {} : () => this.selectOption(opt), style: `cursor:pointer;padding:14px;border-radius:var(--radius-md);background:${bg};border:1px solid ${border};color:${color};font-size:15px;font-family:var(--font-heading);` };
+        });
+      }
+
+      if (q.qtype === 'table') {
+        vals.tableRows = this.pronouns.map((p, i) => {
+          const val = ses.tableInputs[i] || '';
+          const ok = ses.feedback && this.normalize(val) === this.normalize(q.answers[i]);
+          const bad = ses.feedback && !ok;
+          return { pronoun: p, value: val, onChange: (e) => this.updateTableInput(i, e.target.value), onFocus: () => this.setFocusedRow(i), style: `flex:1;${ses.feedback ? `border-color:${ok ? '#6fbf8f' : '#d98282'};` : ''}` };
+        });
+      }
+
+      vals.showCheckButton = !ses.feedback;
+      vals.submitDisabled = q.qtype === 'mc' ? !ses.selected : (q.qtype === 'table' ? false : !ses.userInput);
+    } else {
+      vals.isTableQuestion = false; vals.isPlainFill = false; vals.isSentenceQuestion = false; vals.answered = false; vals.showTextInput = false; vals.showOptions = false; vals.showCheckButton = false;
+    }
+
+    if (s.results) {
+      vals.resultsAccuracy = s.results.accuracy; vals.resultsXp = s.results.xp; vals.resultsStreakBumped = s.results.streakBumped; vals.resultsHasMistakes = s.results.hadMistakes;
+      vals.resultsHeadline = s.results.accuracy >= 90 ? this.tr('excellent') : s.results.accuracy >= 70 ? this.tr('good') : s.results.accuracy >= 40 ? this.tr('keepGoing') : this.tr('practiceMore');
+    }
+    vals.txtSessionComplete = this.tr('sessionComplete'); vals.txtAccuracyLabelResults = this.tr('accuracyLabel'); vals.txtXpEarnedLabel = this.tr('xpEarnedLabel'); vals.txtStreakHit = this.tr('streakHit', { n: s.streak }); vals.txtReviewSessionMistakes = this.tr('reviewSessionMistakes'); vals.txtBackToHome = this.tr('backToHome');
+
+    return vals;
+  }
+}
+
+</script>
+</body>
+</html>
