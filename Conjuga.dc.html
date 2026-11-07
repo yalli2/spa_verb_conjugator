@@ -163,7 +163,7 @@ body{margin:0;background:var(--color-bg);}
           </div>
 
           <sc-if value="{{ hasMistakes }}" hint-placeholder-val="{{ false }}">
-            <div onClick="{{ startMistakes }}" style="cursor:pointer;padding:13px 14px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;">
+            <div onClick="{{ goNotebook }}" style="cursor:pointer;padding:13px 14px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;">
               <div style="display:flex;align-items:center;gap:9px;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"><path d="M12 9v4M12 16.5h.01"/><path d="M10.3 3.9 2.6 17.5A1.8 1.8 0 0 0 4.2 20h15.6a1.8 1.8 0 0 0 1.6-2.5L13.7 3.9a1.8 1.8 0 0 0-3.4 0z"/></svg>
                 <div style="font-size:13px;color:var(--color-text);">{{ txtReviewMistakes }}</div>
@@ -305,7 +305,7 @@ body{margin:0;background:var(--color-bg);}
           </div>
 
           <sc-if value="{{ hasMistakes }}" hint-placeholder-val="{{ false }}">
-            <div onClick="{{ startMistakes }}" style="cursor:pointer;padding:13px 14px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;">
+            <div onClick="{{ goNotebook }}" style="cursor:pointer;padding:13px 14px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between;">
               <div style="font-size:13px;color:var(--color-text);">{{ txtReviewMistakes }}</div>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"><path d="M9 6l6 6-6 6"/></svg>
             </div>
@@ -336,6 +336,7 @@ body{margin:0;background:var(--color-bg);}
           <div style="flex:1;height:5px;border-radius:99px;background:var(--color-neutral-800);overflow:hidden;">
             <div style="{{ sessionProgressBarStyle }}"></div>
           </div>
+          <div style="font-size:12px;font-family:var(--font-heading);color:color-mix(in srgb, var(--color-text) 60%, transparent);white-space:nowrap;">{{ questionCounter }}</div>
           <sc-if value="{{ isTimedSession }}" hint-placeholder-val="{{ false }}">
             <div style="font-size:12px;font-family:var(--font-heading);color:var(--color-accent);min-width:28px;text-align:right;">{{ timeLeft }}s</div>
           </sc-if>
@@ -367,10 +368,8 @@ body{margin:0;background:var(--color-bg);}
           <!-- fill / cloze text input -->
           <sc-if value="{{ showTextInput }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;flex-direction:column;gap:10px;">
-              <input class="input cj-input" type="text" value="{{ userInput }}" onChange="{{ onInputChange }}" placeholder="{{ txtInputPlaceholder }}" disabled="{{ answered }}" style="{{ textInputStyle }}" />
-              <sc-if value="{{ answered }}" hint-placeholder-val="{{ false }}">
-                <div style="{{ feedbackBoxStyle }}">{{ feedbackText }}</div>
-              </sc-if>
+              <input class="input cj-input cj-answer" type="text" value="{{ userInput }}" onChange="{{ onInputChange }}" onKeyDown="{{ onAnswerKeyDown }}" placeholder="{{ txtInputPlaceholder }}" autocomplete="off" autocapitalize="off" spellcheck="false" style="{{ textInputStyle }}" />
+              <div style="font-size:11px;color:color-mix(in srgb, var(--color-text) 45%, transparent);">↵ {{ txtEnterHint }}</div>
             </div>
           </sc-if>
 
@@ -389,17 +388,14 @@ body{margin:0;background:var(--color-bg);}
               <sc-for list="{{ tableRows }}" as="row" hint-placeholder-count="6">
                 <div style="display:flex;align-items:center;gap:10px;">
                   <span style="width:68px;font-size:12px;opacity:.6;color:var(--color-text);flex-shrink:0;">{{ row.pronoun }}</span>
-                  <input class="input cj-input" type="text" value="{{ row.value }}" onChange="{{ row.onChange }}" onFocus="{{ row.onFocus }}" disabled="{{ answered }}" style="{{ row.style }}" />
+                  <input class="input cj-input cj-answer" type="text" value="{{ row.value }}" onChange="{{ row.onChange }}" onFocus="{{ row.onFocus }}" onKeyDown="{{ row.onKeyDown }}" autocomplete="off" autocapitalize="off" spellcheck="false" style="{{ row.style }}" />
                 </div>
               </sc-for>
             </div>
           </sc-if>
 
-          <sc-if value="{{ answered }}" hint-placeholder-val="{{ false }}">
-            <button type="button" onClick="{{ nextQuestion }}" class="btn btn-primary btn-block">{{ continueLabel }}</button>
-          </sc-if>
-          <sc-if value="{{ showCheckButton }}" hint-placeholder-val="{{ false }}">
-            <button type="button" onClick="{{ submitAnswer }}" class="btn btn-secondary btn-block" disabled="{{ submitDisabled }}">{{ txtCheckBtn }}</button>
+          <sc-if value="{{ showNextButton }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ submitAnswer }}" class="btn btn-primary btn-block">{{ nextLabel }}</button>
           </sc-if>
         </div>
       </sc-if>
@@ -418,13 +414,68 @@ body{margin:0;background:var(--color-bg);}
           <sc-if value="{{ resultsStreakBumped }}" hint-placeholder-val="{{ false }}">
             <div style="padding:12px 14px;border-radius:var(--radius-md);background:var(--color-accent-900);border:1px solid var(--color-accent);font-size:13px;color:var(--color-accent-100);">{{ txtStreakHit }} 🔥</div>
           </sc-if>
+          <div style="text-align:center;font-size:14px;color:var(--color-text);">{{ resultsScoreLine }}</div>
+          <div style="padding:11px 13px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);font-size:12px;color:var(--color-text);opacity:.85;">{{ resultsSavedMsg }}</div>
+
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent);">{{ txtReviewTitle }}</div>
+            <sc-for list="{{ reviewRows }}" as="r" hint-placeholder-count="4">
+              <div style="{{ r.style }}">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                  <div style="font-size:13px;font-family:var(--font-heading);color:var(--color-text);">{{ r.title }}</div>
+                  <div style="{{ r.markStyle }}">{{ r.mark }}</div>
+                </div>
+                <div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ r.sub }}</div>
+                <div style="font-size:12px;color:var(--color-text);"><span style="opacity:.6;">{{ txtYourAnswer }}:</span> <span style="{{ r.userStyle }}">{{ r.userAnswer }}</span></div>
+                <sc-if value="{{ r.wrong }}" hint-placeholder-val="{{ true }}">
+                  <div style="font-size:12px;color:var(--color-text);"><span style="opacity:.6;">{{ txtCorrectAnswerLbl }}:</span> <span style="color:#8fd4ab;font-family:var(--font-heading);">{{ r.answer }}</span></div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+
           <sc-if value="{{ resultsHasMistakes }}" hint-placeholder-val="{{ false }}">
-            <button type="button" onClick="{{ startMistakes }}" class="btn btn-secondary btn-block">{{ txtReviewSessionMistakes }}</button>
+            <button type="button" onClick="{{ retrySessionMistakes }}" class="btn btn-secondary btn-block">{{ txtRetrySession }}</button>
           </sc-if>
+          <button type="button" onClick="{{ goNotebook }}" class="btn btn-secondary btn-block">{{ txtNotebookOpen }}</button>
           <button type="button" onClick="{{ goHome }}" class="btn btn-primary btn-block">{{ txtBackToHome }}</button>
         </div>
       </sc-if>
 
+
+      <!-- NOTEBOOK (오답노트) -->
+      <sc-if value="{{ isNotebook }}" hint-placeholder-val="{{ false }}">
+        <div style="flex-shrink:0;padding:54px 18px 8px;display:flex;align-items:center;gap:10px;">
+          <div onClick="{{ goHome }}" style="cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+          </div>
+          <h2 style="flex:1;font-size:22px;margin:0;color:var(--color-text);">{{ txtNotebookTitle }}</h2>
+          <div style="font-size:12px;color:var(--color-accent);font-family:var(--font-heading);">{{ mistakeCount }}</div>
+        </div>
+        <div class="cj-scroll" style="flex:1;overflow:auto;padding:8px 18px 28px;display:flex;flex-direction:column;gap:10px;">
+          <sc-if value="{{ notebookIsEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:22px 16px;border-radius:var(--radius-md);background:var(--color-surface);border:1px dashed var(--color-divider);font-size:13px;line-height:1.6;color:var(--color-text);opacity:.8;text-align:center;">{{ txtNotebookEmpty }}</div>
+          </sc-if>
+          <sc-if value="{{ hasMistakes }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ startMistakes }}" class="btn btn-primary btn-block">{{ txtRetryAll }}</button>
+            <sc-for list="{{ notebookRows }}" as="m" hint-placeholder-count="4">
+              <div style="padding:11px 13px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);display:flex;gap:10px;">
+                <div style="flex:1;display:flex;flex-direction:column;gap:3px;min-width:0;">
+                  <div style="font-size:13px;font-family:var(--font-heading);color:var(--color-text);">{{ m.title }}</div>
+                  <div style="font-size:11px;opacity:.6;color:var(--color-text);">{{ m.sub }}</div>
+                  <div style="font-size:12px;color:var(--color-text);"><span style="opacity:.6;">{{ txtYourAnswer }}:</span> <span style="color:#e3a1a1;text-decoration:line-through;">{{ m.userAnswer }}</span></div>
+                  <div style="font-size:12px;color:var(--color-text);"><span style="opacity:.6;">{{ txtCorrectAnswerLbl }}:</span> <span style="color:#8fd4ab;font-family:var(--font-heading);">{{ m.answer }}</span></div>
+                  <div style="font-size:10px;opacity:.45;color:var(--color-text);">{{ m.meta }}</div>
+                </div>
+                <div onClick="{{ m.onDelete }}" style="cursor:pointer;width:26px;height:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;opacity:.55;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+                </div>
+              </div>
+            </sc-for>
+            <button type="button" onClick="{{ clearNotebook }}" class="btn btn-ghost" style="align-self:center;font-size:12px;opacity:.75;">{{ txtClearAll }}</button>
+          </sc-if>
+        </div>
+      </sc-if>
     </div>
   </x-import>
 
@@ -769,10 +820,7 @@ class Component extends DCLogic {
       dailyGoalToday: 20,
       lifetimeCorrect: 41,
       lifetimeTotal: 50,
-      mistakes: [
-        {id:'seed1', verbInf:'tener', verbEn:'to have', tenseId:'subjuntivo', tenseLabel:'Subjuntivo', personIdx:3, pronoun:'nosotros', answer:'tengamos'},
-        {id:'seed2', verbInf:'ir', verbEn:'to go', tenseId:'preterito', tenseLabel:'Pretérito', personIdx:4, pronoun:'vosotros', answer:'fuisteis'},
-      ],
+      mistakes: this.loadMistakes(),
       libraryFilter: 'all',
       libraryVerbInf: null,
       libraryTense: 'presente',
@@ -870,6 +918,17 @@ class Component extends DCLogic {
         profileLearner:'Lernende(r)', levelTrack:'Stufe {lvl} · {track}-Pfad', totalXp:'XP gesamt', verbsMastered:'gemeisterte Verben', dailyGoalHeader:'Tagesziel', leaderboardHeader:'Bestenliste · diese Woche', active:'Aktiv',
         subj:['Ich','Du','Er/Sie','Wir','Ihr','Sie'], cueG:{presente:'jetzt',preterito:'gestern',imperfecto:'als Kind',futuro:'morgen'}, wishThat:'Ich wünschte, dass' },
     };
+    // Strings for set-based grading and the mistake notebook.
+    const GRADE_T = {
+      en: { nextBtn:'Next →', gradeBtn:'Finish & grade', enterHint:'Press Enter for the next question', notebookTitle:'Mistake notebook', notebookOpen:'Mistake notebook · {n}', notebookEmpty:'No saved mistakes yet. After each set is graded, wrong answers are saved here automatically.', yourAnswer:'Your answer', correctAnswerLbl:'Correct', noAnswer:'(no answer)', clearAll:'Clear all', retryAll:'Practice these again', retrySession:'Retry this set’s mistakes', reviewTitle:'Answer review', scoreLine:'{c} / {t} correct', wrongTimes:'missed ×{n}', savedToNotebook:'{n} wrong answers saved to your notebook', allCorrectMsg:'Perfect — nothing to add to your notebook!' },
+      ko: { nextBtn:'다음 →', gradeBtn:'채점하기', enterHint:'Enter를 누르면 다음 문제로 넘어가요', notebookTitle:'오답노트', notebookOpen:'오답노트 · {n}개', notebookEmpty:'아직 저장된 오답이 없어요. 세트를 다 풀고 채점하면 틀린 문제가 여기에 자동으로 저장돼요.', yourAnswer:'내 답', correctAnswerLbl:'정답', noAnswer:'(무응답)', clearAll:'모두 지우기', retryAll:'오답 다시 풀기', retrySession:'이번 세트 오답 다시 풀기', reviewTitle:'채점 결과', scoreLine:'{t}문제 중 {c}개 정답', wrongTimes:'{n}번 틀림', savedToNotebook:'오답 {n}개를 오답노트에 저장했어요', allCorrectMsg:'모두 정답! 오답노트에 추가할 문제가 없어요.' },
+      es: { nextBtn:'Siguiente →', gradeBtn:'Terminar y corregir', enterHint:'Pulsa Enter para pasar a la siguiente', notebookTitle:'Cuaderno de errores', notebookOpen:'Cuaderno de errores · {n}', notebookEmpty:'Aún no hay errores guardados. Al corregir cada serie, las respuestas incorrectas se guardan aquí.', yourAnswer:'Tu respuesta', correctAnswerLbl:'Correcta', noAnswer:'(sin respuesta)', clearAll:'Borrar todo', retryAll:'Practicar de nuevo', retrySession:'Repetir los errores de esta serie', reviewTitle:'Corrección', scoreLine:'{c} de {t} correctas', wrongTimes:'fallada ×{n}', savedToNotebook:'{n} errores guardados en tu cuaderno', allCorrectMsg:'¡Perfecto! No hay nada que añadir al cuaderno.' },
+      fr: { nextBtn:'Suivant →', gradeBtn:'Terminer et corriger', enterHint:'Appuyez sur Entrée pour la question suivante', notebookTitle:'Carnet d’erreurs', notebookOpen:'Carnet d’erreurs · {n}', notebookEmpty:'Aucune erreur enregistrée. Après chaque correction, les mauvaises réponses sont enregistrées ici.', yourAnswer:'Votre réponse', correctAnswerLbl:'Bonne réponse', noAnswer:'(pas de réponse)', clearAll:'Tout effacer', retryAll:'Les refaire', retrySession:'Refaire les erreurs de cette série', reviewTitle:'Correction', scoreLine:'{c} / {t} correctes', wrongTimes:'ratée ×{n}', savedToNotebook:'{n} erreurs enregistrées dans votre carnet', allCorrectMsg:'Parfait — rien à ajouter au carnet !' },
+      it: { nextBtn:'Avanti →', gradeBtn:'Termina e correggi', enterHint:'Premi Invio per la prossima domanda', notebookTitle:'Quaderno degli errori', notebookOpen:'Quaderno degli errori · {n}', notebookEmpty:'Nessun errore salvato. Dopo ogni correzione, le risposte sbagliate vengono salvate qui.', yourAnswer:'La tua risposta', correctAnswerLbl:'Corretta', noAnswer:'(nessuna risposta)', clearAll:'Cancella tutto', retryAll:'Esercitati di nuovo', retrySession:'Ripeti gli errori di questa serie', reviewTitle:'Correzione', scoreLine:'{c} / {t} corrette', wrongTimes:'sbagliata ×{n}', savedToNotebook:'{n} errori salvati nel quaderno', allCorrectMsg:'Perfetto — niente da aggiungere al quaderno!' },
+      pt: { nextBtn:'Próxima →', gradeBtn:'Terminar e corrigir', enterHint:'Pressione Enter para a próxima pergunta', notebookTitle:'Caderno de erros', notebookOpen:'Caderno de erros · {n}', notebookEmpty:'Nenhum erro salvo ainda. Após cada correção, as respostas erradas são salvas aqui.', yourAnswer:'Sua resposta', correctAnswerLbl:'Correta', noAnswer:'(sem resposta)', clearAll:'Apagar tudo', retryAll:'Praticar de novo', retrySession:'Refazer os erros desta série', reviewTitle:'Correção', scoreLine:'{c} / {t} corretas', wrongTimes:'errada ×{n}', savedToNotebook:'{n} erros salvos no caderno', allCorrectMsg:'Perfeito — nada para adicionar ao caderno!' },
+      de: { nextBtn:'Weiter →', gradeBtn:'Beenden & auswerten', enterHint:'Enter drücken für die nächste Frage', notebookTitle:'Fehlerheft', notebookOpen:'Fehlerheft · {n}', notebookEmpty:'Noch keine Fehler gespeichert. Nach jeder Auswertung werden falsche Antworten hier gespeichert.', yourAnswer:'Deine Antwort', correctAnswerLbl:'Richtig', noAnswer:'(keine Antwort)', clearAll:'Alle löschen', retryAll:'Erneut üben', retrySession:'Fehler dieser Runde wiederholen', reviewTitle:'Auswertung', scoreLine:'{c} / {t} richtig', wrongTimes:'falsch ×{n}', savedToNotebook:'{n} Fehler im Heft gespeichert', allCorrectMsg:'Perfekt — nichts für das Fehlerheft!' },
+    };
+    Object.keys(GRADE_T).forEach(l => { if (this.t[l]) Object.assign(this.t[l], GRADE_T[l]); });
   }
 
   initVt() {
@@ -1214,7 +1273,9 @@ class Component extends DCLogic {
 
   generateSession(mode, opts = {}) {
     if (mode === 'mistakes') {
-      const qs = this.state.mistakes.map(m => ({ qtype: 'fill', verbInf: m.verbInf, verbEn: m.verbEn, tenseId: m.tenseId, tenseLabel: m.tenseLabel, personIdx: m.personIdx, pronoun: m.pronoun, answer: m.answer, promptMain: `${m.verbInf} — ${m.pronoun}` }));
+      const all = this.state.mistakes;
+      const src = opts.ids ? all.filter(m => opts.ids.includes(m.id)) : all.slice(0, 20);
+      const qs = this.shuffle(src).map(m => ({ qtype: 'fill', mistakeId: m.id, verbInf: m.verbInf, verbEn: m.verbEn, tenseId: m.tenseId, tenseLabel: m.tenseLabel, personIdx: m.personIdx, pronoun: m.pronoun, answer: m.answer, promptMain: `${m.verbInf} — ${m.pronoun}` }));
       return { mode, questions: qs };
     }
     if (mode === 'table') return { mode, questions: Array.from({ length: 4 }, () => this.buildQuestion('table')) };
@@ -1229,11 +1290,13 @@ class Component extends DCLogic {
   startSessionWith = (mode, opts = {}) => {
     if (this.timerId) { clearInterval(this.timerId); this.timerId = null; }
     const gen = this.generateSession(mode, opts);
+    if (!gen.questions.length) { this.setState({ screen: 'notebook' }); return; }
     const q0 = gen.questions[0];
     this.setState({
       screen: 'session',
-      session: { mode, questions: gen.questions, index: 0, correctUnits: 0, totalUnits: 0, xpEarned: 0, feedback: null, userInput: '', tableInputs: q0 && q0.qtype === 'table' ? new Array(6).fill('') : [], timeLeft: gen.timeLeft || null },
+      session: { mode, questions: gen.questions, index: 0, answers: [], locked: false, userInput: '', selected: null, focusedRow: 0, tableInputs: q0 && q0.qtype === 'table' ? new Array(6).fill('') : [], timeLeft: gen.timeLeft || null },
     });
+    this.focusAnswer(0);
     if (mode === 'timed') {
       this.timerId = setInterval(() => {
         this.setState(s => {
@@ -1269,58 +1332,132 @@ class Component extends DCLogic {
     return { session: { ...ses, userInput: (ses.userInput || '') + c } };
   });
 
-  pushMistake = (q) => this.setState(s => ({ mistakes: [{ id: `${Date.now()}_${this.rand(9999)}`, verbInf: q.verbInf, verbEn: q.verbEn, tenseId: q.tenseId, tenseLabel: q.tenseLabel, personIdx: q.personIdx, pronoun: q.pronoun, answer: q.answer }, ...s.mistakes].slice(0, 30) }));
+  // ── Mistake notebook (오답노트): saved in this browser so it is still there next time.
+  loadMistakes() {
+    try {
+      const raw = window.localStorage.getItem('conjuga.mistakes.v1');
+      const list = raw ? JSON.parse(raw) : [];
+      return Array.isArray(list) ? list : [];
+    } catch (e) { return []; }
+  }
+  saveMistakes(list) {
+    try { window.localStorage.setItem('conjuga.mistakes.v1', JSON.stringify(list)); } catch (e) {}
+  }
+  setMistakes(list) { this.saveMistakes(list); this.setState({ mistakes: list }); }
+  deleteMistake = (id) => this.setMistakes(this.state.mistakes.filter(m => m.id !== id));
+  clearNotebook = () => this.setMistakes([]);
+  goNotebook = () => this.setState({ screen: 'notebook' });
+  retrySessionMistakes = () => { const r = this.state.results; if (r && r.wrongIds && r.wrongIds.length) this.startSessionWith('mistakes', { ids: r.wrongIds }); };
 
-  submitAnswer = () => {
+  focusAnswer(row) {
+    setTimeout(() => {
+      try {
+        const els = document.querySelectorAll('.cj-answer');
+        const el = els[Math.min(row || 0, els.length - 1)];
+        if (el) el.focus();
+      } catch (e) {}
+    }, 40);
+  }
+
+  // Record the current answer (no feedback yet) and move straight on; grading happens at the end of the set.
+  submitAnswer = (override, force) => {
     const s = this.state.session;
+    if (!s || (s.locked && !force)) return;
     const q = s.questions[s.index];
-    let correctUnits = 0, totalUnits = 1, xp = 0, selected = s.selected;
-    if (q.qtype === 'table') {
-      totalUnits = 6;
-      q.answers.forEach((ans, i) => { if (this.normalize(s.tableInputs[i]) === this.normalize(ans)) correctUnits++; else this.pushMistake({ ...q, personIdx: i, pronoun: this.pronouns[i], answer: ans }); });
-      xp = correctUnits * 3;
-    } else if (q.qtype === 'mc') {
-      const ok = selected === q.answer; correctUnits = ok ? 1 : 0; xp = this.pointsFor('mc', ok); if (!ok) this.pushMistake(q);
-    } else {
-      const ok = this.normalize(s.userInput) === this.normalize(q.answer); correctUnits = ok ? 1 : 0; xp = this.pointsFor(q.qtype, ok); if (!ok) this.pushMistake(q);
+    const rec = q.qtype === 'table' ? { table: s.tableInputs.slice() }
+      : q.qtype === 'mc' ? { selected: override !== undefined && typeof override === 'string' ? override : s.selected }
+      : { text: s.userInput || '' };
+    const answers = s.answers.slice(); answers[s.index] = rec;
+    if (s.index + 1 >= s.questions.length) {
+      this.finishSession(answers);
+      return;
     }
-    this.setState(st => ({
-      session: { ...st.session, feedback: 'shown', correctUnits: st.session.correctUnits + correctUnits, totalUnits: st.session.totalUnits + totalUnits, xpEarned: st.session.xpEarned + xp },
-    }));
-  };
-
-  selectOption = (opt) => this.setState(s => ({ session: { ...s.session, selected: opt } }));
-
-  nextQuestion = () => {
-    const s = this.state.session;
-    if (s.index + 1 >= s.questions.length) { this.finishSession(); return; }
     const nq = s.questions[s.index + 1];
-    this.setState(st => ({ session: { ...st.session, index: st.session.index + 1, feedback: null, userInput: '', selected: null, tableInputs: nq.qtype === 'table' ? new Array(6).fill('') : [] } }));
+    this.setState(st => ({ session: { ...st.session, answers, index: st.session.index + 1, userInput: '', selected: null, focusedRow: 0, locked: false, tableInputs: nq.qtype === 'table' ? new Array(6).fill('') : [] } }));
+    this.focusAnswer(0);
   };
 
-  finishSession = () => {
+  selectOption = (opt) => {
+    const s = this.state.session;
+    if (!s || s.locked) return;
+    this.setState(st => ({ session: { ...st.session, selected: opt, locked: true } }));
+    setTimeout(() => this.submitAnswer(opt, true), 200);
+  };
+
+  onAnswerKeyDown = (e) => { if (e && e.key === 'Enter') { e.preventDefault(); this.submitAnswer(); } };
+  onTableKeyDown = (i, e) => {
+    if (!e || e.key !== 'Enter') return;
+    e.preventDefault();
+    if (i < 5) { this.setFocusedRow(i + 1); this.focusAnswer(i + 1); } else this.submitAnswer();
+  };
+
+  finishSession = (answersArg) => {
     if (this.timerId) { clearInterval(this.timerId); this.timerId = null; }
     const s = this.state.session;
     if (!s) return;
-    const accuracy = s.totalUnits > 0 ? Math.round((s.correctUnits / s.totalUnits) * 100) : 0;
+    const allAnswers = Array.isArray(answersArg) ? answersArg : (s.answers || []);
+    let correctUnits = 0, totalUnits = 0, xp = 0;
+    const review = [], wrong = [], fixedIds = [];
+    allAnswers.forEach((a, qi) => {
+      if (!a) return;
+      const q = s.questions[qi];
+      const common = { verbInf: q.verbInf, verbEn: q.verbEn, tenseId: q.tenseId, tenseLabel: q.tenseLabel };
+      if (q.qtype === 'table') {
+        q.answers.forEach((ans, i) => {
+          const ua = (a.table || [])[i] || '';
+          const ok = this.normalize(ua) === this.normalize(ans);
+          totalUnits++; if (ok) { correctUnits++; xp += 3; }
+          const item = { ...common, personIdx: i, pronoun: this.pronouns[i], answer: ans, userAnswer: ua, qtype: 'table', sentence: null };
+          review.push({ ...item, ok }); if (!ok) wrong.push(item);
+        });
+      } else {
+        const ua = q.qtype === 'mc' ? (a.selected || '') : (a.text || '');
+        const ok = q.qtype === 'mc' ? ua === q.answer : this.normalize(ua) === this.normalize(q.answer);
+        totalUnits++; if (ok) correctUnits++;
+        xp += this.pointsFor(q.qtype, ok);
+        const item = { ...common, personIdx: q.personIdx, pronoun: q.pronoun, answer: q.answer, userAnswer: ua, qtype: q.qtype, sentence: q.sentence || null };
+        review.push({ ...item, ok });
+        if (ok && q.mistakeId) fixedIds.push(q.mistakeId);
+        if (!ok) wrong.push(item);
+      }
+    });
+    // merge wrong answers into the notebook (same verb·tense·person is updated, not duplicated); fixed ones leave it
+    const now = Date.now();
+    let list = this.state.mistakes.filter(m => !fixedIds.includes(m.id));
+    const wrongIds = [];
+    wrong.forEach((w, k) => {
+      const ex = list.find(m => m.verbInf === w.verbInf && m.tenseId === w.tenseId && m.personIdx === w.personIdx);
+      if (ex) {
+        list = [{ ...ex, ...w, id: ex.id, count: (ex.count || 1) + 1, date: now }, ...list.filter(m => m !== ex)];
+        wrongIds.push(ex.id);
+      } else {
+        const id = `${now}_${k}_${this.rand(9999)}`;
+        list = [{ id, ...w, count: 1, date: now }, ...list];
+        wrongIds.push(id);
+      }
+    });
+    list = list.slice(0, 300);
+    this.saveMistakes(list);
+    const accuracy = totalUnits > 0 ? Math.round((correctUnits / totalUnits) * 100) : 0;
     this.setState(st => {
-      const newDailyToday = st.dailyGoalToday + s.xpEarned;
+      const newDailyToday = st.dailyGoalToday + xp;
       const bump = !st.streakBumpedToday && newDailyToday >= st.dailyGoalTarget;
       return {
         screen: 'results',
         session: null,
-        xpTotal: st.xpTotal + s.xpEarned,
+        mistakes: list,
+        xpTotal: st.xpTotal + xp,
         dailyGoalToday: newDailyToday,
         streak: bump ? st.streak + 1 : st.streak,
         streakBumpedToday: bump ? true : st.streakBumpedToday,
-        lifetimeCorrect: st.lifetimeCorrect + s.correctUnits,
-        lifetimeTotal: st.lifetimeTotal + s.totalUnits,
-        results: { accuracy, xp: s.xpEarned, streakBumped: bump, hadMistakes: s.correctUnits < s.totalUnits },
+        lifetimeCorrect: st.lifetimeCorrect + correctUnits,
+        lifetimeTotal: st.lifetimeTotal + totalUnits,
+        results: { accuracy, xp, streakBumped: bump, hadMistakes: wrong.length > 0, correct: correctUnits, total: totalUnits, review, wrongIds, fixedCount: fixedIds.length },
       };
     });
   };
 
-  exitSession = () => { const s = this.state.session; if (s && (s.index > 0 || s.feedback)) this.finishSession(); else { if (this.timerId) { clearInterval(this.timerId); this.timerId = null; } this.setState({ screen: 'home', session: null }); } };
+  exitSession = () => { const s = this.state.session; if (s && s.answers && s.answers.some(Boolean)) this.finishSession(); else { if (this.timerId) { clearInterval(this.timerId); this.timerId = null; } this.setState({ screen: 'home', session: null }); } };
 
   goHome = () => this.setState({ screen: 'home' });
   goLibrary = () => this.setState({ screen: 'library', libraryVerbInf: null });
@@ -1357,7 +1494,7 @@ class Component extends DCLogic {
     const s = this.state;
     const chipStyle = (active) => `cursor:pointer;padding:6px 13px;border-radius:999px;font-size:12px;white-space:nowrap;flex-shrink:0;border:1px solid ${active ? 'var(--color-accent)' : 'var(--color-divider)'};color:${active ? 'var(--color-accent)' : 'var(--color-text)'};opacity:${active ? '1' : '.75'};`;
     const vals = {
-      isOnboarding: s.screen === 'onboarding', isHome: s.screen === 'home', isLibrary: s.screen === 'library', isProfile: s.screen === 'profile', isSession: s.screen === 'session', isResults: s.screen === 'results',
+      isOnboarding: s.screen === 'onboarding', isHome: s.screen === 'home', isLibrary: s.screen === 'library', isProfile: s.screen === 'profile', isSession: s.screen === 'session', isResults: s.screen === 'results', isNotebook: s.screen === 'notebook',
       pickLevelA1: this.pickLevelA1, pickLevelA2: this.pickLevelA2, pickLevelB1: this.pickLevelB1, pickLevelB2: this.pickLevelB2, pickLevelC1: this.pickLevelC1, pickLevelC2: this.pickLevelC2,
       levelLabel: s.levelPicked || 'A1',
       streak: s.streak, xpTotal: s.xpTotal, xpLevel: Math.floor(s.xpTotal / 500) + 1,
@@ -1365,7 +1502,7 @@ class Component extends DCLogic {
       dailyGoalBarStyle: `height:100%;border-radius:99px;background:var(--color-accent);width:${Math.min(100, Math.round((s.dailyGoalToday / s.dailyGoalTarget) * 100))}%;`,
       startMixed: this.startMixed, startFill: this.startFill, startMc: this.startMc, startCloze: this.startCloze, startTable: this.startTable, startTimed: this.startTimed, startMistakes: this.startMistakes,
       hasMistakes: s.mistakes.length > 0, mistakeCount: s.mistakes.length,
-      goHome: this.goHome, goLibrary: this.goLibrary, goProfile: this.goProfile,
+      goHome: this.goHome, goLibrary: this.goLibrary, goProfile: this.goProfile, goNotebook: this.goNotebook, clearNotebook: this.clearNotebook, retrySessionMistakes: this.retrySessionMistakes,
       tabHomeColor: s.screen === 'home' ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 55%, transparent)',
       tabLibraryColor: s.screen === 'library' ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 55%, transparent)',
       tabProfileColor: s.screen === 'profile' ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 55%, transparent)',
@@ -1390,7 +1527,7 @@ class Component extends DCLogic {
       levelDescA1: this.trLevelDesc('A1'), levelDescA2: this.trLevelDesc('A2'), levelDescB1: this.trLevelDesc('B1'), levelDescB2: this.trLevelDesc('B2'), levelDescC1: this.trLevelDesc('C1'), levelDescC2: this.trLevelDesc('C2'),
       txtHomeSub: this.tr('homeSub'), txtTrackWord: this.tr('trackWord'), txtDayStreak: this.tr('dayStreak'), txtTodaysGoal: this.tr('todaysGoal'), txtContinuePractice: this.tr('continuePractice'), txtMixedSession: this.tr('mixedSession'), txtPracticeModes: this.tr('practiceModes'),
       txtModeFillTitle: this.tr('modeFillTitle'), txtModeFillSub: this.tr('modeFillSub'), txtModeMcTitle: this.tr('modeMcTitle'), txtModeMcSub: this.tr('modeMcSub'), txtModeClozeTitle: this.tr('modeClozeTitle'), txtModeClozeSub: this.tr('modeClozeSub'), txtModeTableTitle: this.tr('modeTableTitle'), txtModeTableSub: this.tr('modeTableSub'), txtModeSpeedTitle: this.tr('modeSpeedTitle'), txtModeSpeedSub: this.tr('modeSpeedSub'),
-      txtReviewMistakes: this.tr('reviewMistakes', { n: s.mistakes.length }),
+      txtReviewMistakes: this.tr('notebookOpen', { n: s.mistakes.length }),
       txtTabHome: this.tr('tabHome'), txtTabLibrary: this.tr('tabLibrary'), txtTabProfile: this.tr('tabProfile'),
       txtLibraryTitle: this.tr('libraryTitle'), txtFilterAllLabel: this.tr('filterAllLabel'), txtBackToLibrary: this.tr('backToLibrary'), txtPracticeThisVerbBtn: this.tr('practiceThisVerbBtn'),
       txtTensePresente: this.tr('tensePresente'), txtTensePreterito: this.tr('tensePreterito'), txtTenseImperfecto: this.tr('tenseImperfecto'), txtTenseFuturo: this.tr('tenseFuturo'), txtTenseSubjuntivo: this.tr('tenseSubjuntivo'),
@@ -1441,56 +1578,82 @@ class Component extends DCLogic {
       vals.isTableQuestion = q.qtype === 'table';
       vals.isPlainFill = q.qtype === 'fill';
       vals.isSentenceQuestion = q.qtype === 'cloze' || q.qtype === 'mc';
-      vals.answered = !!ses.feedback;
-      vals.exitSession = this.exitSession; vals.nextQuestion = this.nextQuestion; vals.submitAnswer = this.submitAnswer;
-      vals.continueLabel = ses.index + 1 >= ses.questions.length ? this.tr('seeResultsBtn') : this.tr('continueBtn');
+      vals.answered = false;
+      vals.exitSession = this.exitSession; vals.submitAnswer = () => this.submitAnswer();
+      vals.questionCounter = `${ses.index + 1} / ${ses.questions.length}`;
+      vals.nextLabel = ses.index + 1 >= ses.questions.length ? this.tr('gradeBtn') : this.tr('nextBtn');
+      vals.txtEnterHint = this.tr('enterHint');
+      vals.onAnswerKeyDown = this.onAnswerKeyDown;
 
       if (q.qtype === 'cloze' || q.qtype === 'mc') {
-        vals.currentSentenceDisplay = ses.feedback ? q.sentence.replace('___', q.answer) : q.sentence;
+        vals.currentSentenceDisplay = q.sentence;
         vals.sentenceTranslation = this.buildSentenceGloss(q.verb, q.tenseId, q.personIdx);
       }
 
-      vals.showSpecialChars = !ses.feedback;
-      vals.specialChars = ['á','é','í','ó','ú','ñ','ü','¿','¡'].map(ch => ({ ch, onClick: () => this.insertChar(ch) }));
+      vals.showSpecialChars = q.qtype !== 'mc';
+      vals.specialChars = ['á','é','í','ó','ú','ñ','ü','¿','¡'].map(ch => ({ ch, onClick: () => { this.insertChar(ch); this.focusAnswer(q.qtype === 'table' ? (ses.focusedRow || 0) : 0); } }));
       vals.showTextInput = q.qtype === 'fill' || q.qtype === 'cloze';
       if (vals.showTextInput) {
         vals.userInput = ses.userInput; vals.onInputChange = this.onInputChange;
-        const ok = ses.feedback && this.normalize(ses.userInput) === this.normalize(q.answer);
-        vals.textInputStyle = `font-size:16px;padding:12px 14px;${ses.feedback ? `border-color:${ok ? '#6fbf8f' : '#d98282'};` : ''}`;
-        if (ses.feedback) { vals.feedbackText = ok ? this.tr('correctFeedback') : this.tr('wasAnswer', { a: q.answer }); vals.feedbackBoxStyle = `font-size:13px;padding:10px 12px;border-radius:var(--radius-md);background:${ok ? 'rgba(111,191,143,0.12)' : 'rgba(217,130,130,0.12)'};color:${ok ? '#8fd4ab' : '#e3a1a1'};`; }
+        vals.textInputStyle = 'font-size:16px;padding:12px 14px;';
       }
 
       vals.showOptions = q.qtype === 'mc';
       if (vals.showOptions) {
         vals.mcOptions = q.options.map(opt => {
-          let bg = 'var(--color-surface)', border = 'var(--color-divider)', color = 'var(--color-text)';
-          if (ses.feedback) {
-            if (opt === q.answer) { border = '#6fbf8f'; bg = 'rgba(111,191,143,0.12)'; color = '#8fd4ab'; }
-            else if (opt === ses.selected) { border = '#d98282'; bg = 'rgba(217,130,130,0.12)'; color = '#e3a1a1'; }
-          } else if (opt === ses.selected) { border = 'var(--color-accent)'; bg = 'var(--color-accent-900)'; color = 'var(--color-accent-100)'; }
-          return { label: opt, onClick: ses.feedback ? () => {} : () => this.selectOption(opt), style: `cursor:pointer;padding:14px;border-radius:var(--radius-md);background:${bg};border:1px solid ${border};color:${color};font-size:15px;font-family:var(--font-heading);` };
+          const sel = opt === ses.selected;
+          return { label: opt, onClick: () => this.selectOption(opt), style: `cursor:pointer;padding:14px;border-radius:var(--radius-md);background:${sel ? 'var(--color-accent-900)' : 'var(--color-surface)'};border:1px solid ${sel ? 'var(--color-accent)' : 'var(--color-divider)'};color:${sel ? 'var(--color-accent-100)' : 'var(--color-text)'};font-size:15px;font-family:var(--font-heading);` };
         });
       }
 
       if (q.qtype === 'table') {
-        vals.tableRows = this.pronouns.map((p, i) => {
-          const val = ses.tableInputs[i] || '';
-          const ok = ses.feedback && this.normalize(val) === this.normalize(q.answers[i]);
-          const bad = ses.feedback && !ok;
-          return { pronoun: p, value: val, onChange: (e) => this.updateTableInput(i, e.target.value), onFocus: () => this.setFocusedRow(i), style: `flex:1;${ses.feedback ? `border-color:${ok ? '#6fbf8f' : '#d98282'};` : ''}` };
-        });
+        vals.tableRows = this.pronouns.map((p, i) => ({
+          pronoun: p, value: ses.tableInputs[i] || '',
+          onChange: (e) => this.updateTableInput(i, e.target.value),
+          onFocus: () => this.setFocusedRow(i),
+          onKeyDown: (e) => this.onTableKeyDown(i, e),
+          style: 'flex:1;',
+        }));
       }
 
-      vals.showCheckButton = !ses.feedback;
-      vals.submitDisabled = q.qtype === 'mc' ? !ses.selected : (q.qtype === 'table' ? false : !ses.userInput);
+      vals.showNextButton = q.qtype !== 'mc';
+      vals.showCheckButton = false;
     } else {
-      vals.isTableQuestion = false; vals.isPlainFill = false; vals.isSentenceQuestion = false; vals.answered = false; vals.showTextInput = false; vals.showOptions = false; vals.showCheckButton = false;
+      vals.isTableQuestion = false; vals.isPlainFill = false; vals.isSentenceQuestion = false; vals.answered = false; vals.showTextInput = false; vals.showOptions = false; vals.showCheckButton = false; vals.showNextButton = false;
     }
 
     if (s.results) {
       vals.resultsAccuracy = s.results.accuracy; vals.resultsXp = s.results.xp; vals.resultsStreakBumped = s.results.streakBumped; vals.resultsHasMistakes = s.results.hadMistakes;
+      const R = s.results;
+      vals.resultsScoreLine = this.tr('scoreLine', { c: R.correct || 0, t: R.total || 0 });
+      vals.resultsSavedMsg = R.hadMistakes ? this.tr('savedToNotebook', { n: (R.wrongIds || []).length }) : this.tr('allCorrectMsg');
+      vals.reviewRows = (R.review || []).map(r => ({
+        title: `${r.verbInf} · ${r.pronoun}`,
+        sub: `${this.trTenseLabel(r.tenseId)}${r.sentence ? ' — ' + r.sentence : ''}`,
+        userAnswer: r.userAnswer || this.tr('noAnswer'),
+        answer: r.answer, wrong: !r.ok,
+        mark: r.ok ? '✓' : '✗',
+        markStyle: `font-size:15px;font-family:var(--font-heading);color:${r.ok ? '#8fd4ab' : '#e3a1a1'};`,
+        userStyle: r.ok ? 'color:#8fd4ab;font-family:var(--font-heading);' : 'color:#e3a1a1;text-decoration:line-through;',
+        style: `padding:10px 12px;border-radius:var(--radius-md);background:${r.ok ? 'rgba(111,191,143,0.07)' : 'rgba(217,130,130,0.09)'};border:1px solid ${r.ok ? 'rgba(111,191,143,0.35)' : 'rgba(217,130,130,0.45)'};display:flex;flex-direction:column;gap:3px;`,
+      }));
       vals.resultsHeadline = s.results.accuracy >= 90 ? this.tr('excellent') : s.results.accuracy >= 70 ? this.tr('good') : s.results.accuracy >= 40 ? this.tr('keepGoing') : this.tr('practiceMore');
     }
+    vals.notebookIsEmpty = s.mistakes.length === 0;
+    if (s.screen === 'notebook') {
+      const loc = { es: 'es-ES', ko: 'ko-KR', fr: 'fr-FR', it: 'it-IT', pt: 'pt-PT', de: 'de-DE', en: 'en-GB' }[s.language] || 'en-GB';
+      vals.notebookRows = s.mistakes.map(m => ({
+        title: `${m.verbInf} · ${m.pronoun}`,
+        sub: `${this.trTenseLabel(m.tenseId)}${m.sentence ? ' — ' + m.sentence : ''}`,
+        userAnswer: m.userAnswer || this.tr('noAnswer'),
+        answer: m.answer,
+        meta: `${m.date ? new Date(m.date).toLocaleDateString(loc) : ''}${(m.count || 1) > 1 ? ' · ' + this.tr('wrongTimes', { n: m.count }) : ''}`,
+        onDelete: () => this.deleteMistake(m.id),
+      }));
+    }
+    vals.txtNotebookTitle = this.tr('notebookTitle'); vals.txtNotebookOpen = this.tr('notebookOpen', { n: s.mistakes.length }); vals.txtNotebookEmpty = this.tr('notebookEmpty');
+    vals.txtYourAnswer = this.tr('yourAnswer'); vals.txtCorrectAnswerLbl = this.tr('correctAnswerLbl'); vals.txtClearAll = this.tr('clearAll'); vals.txtRetryAll = this.tr('retryAll');
+    vals.txtRetrySession = this.tr('retrySession'); vals.txtReviewTitle = this.tr('reviewTitle');
     vals.txtSessionComplete = this.tr('sessionComplete'); vals.txtAccuracyLabelResults = this.tr('accuracyLabel'); vals.txtXpEarnedLabel = this.tr('xpEarnedLabel'); vals.txtStreakHit = this.tr('streakHit', { n: s.streak }); vals.txtReviewSessionMistakes = this.tr('reviewSessionMistakes'); vals.txtBackToHome = this.tr('backToHome');
 
     return vals;
