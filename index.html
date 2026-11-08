@@ -165,12 +165,25 @@ body{margin:0;background:var(--color-bg);font-family:var(--font-body);}
             </div>
           </div>
 
-          <div onClick="{{ startMixed }}" style="cursor:pointer;padding:18px 16px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#FF7A59 0%,#FFB23F 100%);box-shadow:0 5px 0 #D9552F;display:flex;align-items:center;justify-content:space-between;">
-            <div>
-              <div style="font-family:var(--font-heading);font-size:19px;color:#fff;">▶ {{ txtContinuePractice }}</div>
-              <div style="font-size:12px;font-weight:700;color:#fff;opacity:.92;">{{ txtMixedSession }}</div>
+          <div style="padding:16px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#FF7A59 0%,#FFB23F 100%);box-shadow:0 5px 0 #D9552F;display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+              <div style="font-family:var(--font-heading);font-size:20px;color:#fff;">🗺️ {{ txtCourseTitle }}</div>
+              <div style="font-size:12px;font-weight:800;color:#fff;background:rgba(255,255,255,.25);padding:3px 10px;border-radius:99px;">{{ courseDoneCount }} / {{ courseTotalCount }}</div>
             </div>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+            <div style="height:10px;border-radius:99px;background:rgba(255,255,255,.35);overflow:hidden;"><div style="{{ courseBarStyle }}"></div></div>
+            <div style="font-size:13px;font-weight:700;color:#fff;">{{ txtNextUp }}: {{ courseNextTitle }}</div>
+            <div style="display:flex;gap:8px;">
+              <div onClick="{{ openNextLesson }}" style="cursor:pointer;flex:1;text-align:center;padding:11px;border-radius:14px;background:#fff;color:#E0583A;font-family:var(--font-heading);font-size:16px;box-shadow:0 3px 0 rgba(150,50,20,.35);">▶ {{ courseNextBtn }}</div>
+              <div onClick="{{ goCourse }}" style="cursor:pointer;padding:11px 14px;border-radius:14px;background:rgba(255,255,255,.22);border:2px solid rgba(255,255,255,.6);color:#fff;font-family:var(--font-heading);font-size:14px;">{{ txtCourseMap }}</div>
+            </div>
+          </div>
+
+          <div onClick="{{ startMixed }}" style="cursor:pointer;padding:14px 16px;border-radius:var(--radius-lg);background:#fff;border:2px solid var(--color-divider);box-shadow:0 3px 0 var(--color-divider);display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-family:var(--font-heading);font-size:16px;color:var(--color-accent);">🎲 {{ txtContinuePractice }}</div>
+              <div style="font-size:12px;font-weight:700;color:var(--color-text);opacity:.7;">{{ txtMixedSession }}</div>
+            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
           </div>
 
           <div>
@@ -460,6 +473,19 @@ body{margin:0;background:var(--color-bg);font-family:var(--font-body);}
           <sc-if value="{{ resultsStreakBumped }}" hint-placeholder-val="{{ false }}">
             <div style="padding:12px 14px;border-radius:var(--radius-md);background:var(--color-accent-900);border:1px solid var(--color-accent);font-size:13px;color:var(--color-accent-100);">{{ txtStreakHit }} 🔥</div>
           </sc-if>
+          <sc-if value="{{ resultsIsLesson }}" hint-placeholder-val="{{ false }}">
+            <div style="{{ lessonResultStyle }}">
+              <div style="font-size:30px;letter-spacing:4px;">{{ lessonStars }}</div>
+              <div style="font-family:var(--font-heading);font-size:16px;">{{ lessonResultMsg }}</div>
+            </div>
+            <sc-if value="{{ lessonHasNext }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ openResultNextLesson }}" class="btn btn-primary btn-block">▶ {{ txtNextLesson }}</button>
+            </sc-if>
+            <sc-if value="{{ lessonFailed }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ retryResultLesson }}" class="btn btn-primary btn-block">↻ {{ txtRetryLesson }}</button>
+            </sc-if>
+            <button type="button" onClick="{{ goCourse }}" class="btn btn-secondary btn-block">🗺️ {{ txtBackToCourse }}</button>
+          </sc-if>
           <div style="text-align:center;font-size:14px;color:var(--color-text);">{{ resultsScoreLine }}</div>
           <div style="padding:11px 13px;border-radius:var(--radius-md);background:var(--color-surface);border:1px solid var(--color-divider);font-size:12px;color:var(--color-text);opacity:.85;">{{ resultsSavedMsg }}</div>
 
@@ -488,6 +514,81 @@ body{margin:0;background:var(--color-bg);font-family:var(--font-body);}
         </div>
       </sc-if>
 
+
+      <!-- COURSE MAP -->
+      <sc-if value="{{ isCourse }}" hint-placeholder-val="{{ false }}">
+        <div style="flex-shrink:0;padding:54px 18px 10px;display:flex;flex-direction:column;gap:8px;background:var(--color-bg);border-bottom:2px solid var(--color-divider);">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div onClick="{{ goHome }}" style="cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+            </div>
+            <h2 style="flex:1;font-size:22px;margin:0;color:var(--color-text);">{{ txtCourseTitle }}</h2>
+            <div style="font-size:12px;font-weight:800;color:var(--color-accent);">{{ courseDoneCount }} / {{ courseTotalCount }}</div>
+          </div>
+          <div style="height:10px;border-radius:99px;background:var(--color-neutral-800);overflow:hidden;"><div style="{{ courseBarStyleMap }}"></div></div>
+        </div>
+        <div class="cj-scroll" style="flex:1;overflow:auto;padding:14px 18px 40px;display:flex;flex-direction:column;gap:14px;">
+          <sc-for list="{{ courseRows }}" as="row" hint-placeholder-count="8">
+            <sc-if value="{{ row.isHeader }}" hint-placeholder-val="{{ false }}">
+              <div style="{{ row.headerStyle }}">
+                <div style="font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:.85;">{{ row.unitLabel }}</div>
+                <div style="font-family:var(--font-heading);font-size:19px;">{{ row.title }}</div>
+                <div style="font-size:12px;font-weight:700;opacity:.9;">{{ row.sub }}</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ row.isNode }}" hint-placeholder-val="{{ true }}">
+              <div style="{{ row.wrapStyle }}">
+                <sc-if value="{{ row.isCurrent }}" hint-placeholder-val="{{ false }}">
+                  <img class="cj-mascot" src="{{ mascotHappy }}" alt="" style="width:46px;height:46px;" />
+                </sc-if>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                  <div onClick="{{ row.onClick }}" style="{{ row.nodeStyle }}">{{ row.icon }}</div>
+                  <div style="font-size:11px;font-weight:800;color:var(--color-text);opacity:.75;">{{ row.label }}</div>
+                  <div style="font-size:12px;letter-spacing:1px;color:#F5A300;">{{ row.stars }}</div>
+                </div>
+              </div>
+            </sc-if>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <!-- LESSON INTRO -->
+      <sc-if value="{{ isLessonIntro }}" hint-placeholder-val="{{ false }}">
+        <div style="flex-shrink:0;padding:54px 18px 8px;display:flex;align-items:center;gap:10px;">
+          <div onClick="{{ goCourse }}" style="cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:11px;font-weight:800;color:var(--color-accent);text-transform:uppercase;letter-spacing:.06em;">{{ introUnitLabel }}</div>
+            <h2 style="font-size:21px;margin:0;color:var(--color-text);">{{ introTitle }}</h2>
+          </div>
+        </div>
+        <div class="cj-scroll" style="flex:1;overflow:auto;padding:6px 18px 24px;display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <img class="cj-mascot" src="{{ mascotHappy }}" alt="Sol" style="width:62px;height:62px;flex-shrink:0;" />
+            <div class="cj-bubble" style="flex:1;">{{ introBubble }}</div>
+          </div>
+          <div style="padding:12px 14px;border-radius:var(--radius-md);background:#fff;border:2px solid var(--color-divider);display:flex;flex-direction:column;gap:5px;">
+            <div style="font-family:var(--font-heading);font-size:16px;color:var(--color-accent);">{{ introTenseLabel }}</div>
+            <div style="font-size:13px;font-weight:700;color:var(--color-text);">{{ introTenseUse }}</div>
+            <div style="font-size:12px;color:var(--color-text);opacity:.75;white-space:pre-line;font-family:ui-monospace,Menlo,monospace;">{{ introEndings }}</div>
+          </div>
+          <sc-for list="{{ introVerbs }}" as="v" hint-placeholder-count="3">
+            <div style="padding:12px 14px;border-radius:var(--radius-md);background:#fff;border:2px solid var(--color-divider);box-shadow:0 3px 0 var(--color-divider);display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;">
+                <div style="font-family:var(--font-heading);font-size:18px;color:var(--color-text);">{{ v.inf }}</div>
+                <div style="font-size:12px;font-weight:700;color:var(--color-text);opacity:.65;text-align:right;">{{ v.meaning }}</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;font-size:13px;color:var(--color-text);">
+                <div><span style="opacity:.5;">yo</span> <b>{{ v.f0 }}</b></div><div><span style="opacity:.5;">nosotros</span> <b>{{ v.f3 }}</b></div>
+                <div><span style="opacity:.5;">tú</span> <b>{{ v.f1 }}</b></div><div><span style="opacity:.5;">vosotros</span> <b>{{ v.f4 }}</b></div>
+                <div><span style="opacity:.5;">él/ella</span> <b>{{ v.f2 }}</b></div><div><span style="opacity:.5;">ellos</span> <b>{{ v.f5 }}</b></div>
+              </div>
+            </div>
+          </sc-for>
+          <button type="button" onClick="{{ startIntroLesson }}" class="btn btn-primary btn-block">▶ {{ txtStartLesson }}</button>
+        </div>
+      </sc-if>
 
       <!-- NOTEBOOK (오답노트) -->
       <sc-if value="{{ isNotebook }}" hint-placeholder-val="{{ false }}">
@@ -860,8 +961,10 @@ class Component extends DCLogic {
       this.pools[lvl] = { verbs: cumVerbs, tenses: this.levelTenses[lvl] };
     });
     this.state = {
-      screen: 'onboarding',
-      levelPicked: null,
+      screen: this.loadSaved('conjuga.level.v1') ? 'home' : 'onboarding',
+      levelPicked: this.loadSaved('conjuga.level.v1') || null,
+      courseProgress: this.loadSaved('conjuga.course.v1') || {},
+      lessonIntroId: null,
       xpTotal: 1280,
       streak: 6,
       streakBumpedToday: false,
@@ -988,6 +1091,16 @@ class Component extends DCLogic {
       de: { mascotHi:'Hallo! Ich bin Sol ☀️ Mit welchem Niveau starten wir?', mascotTip1:'Ein paar Minuten am Tag wirken Wunder! ✨', mascotTip2:'Noch ein Verb – du wirst immer besser! 💪', mascotTip3:'Wenig, aber oft – das ist das Geheimnis 🌱', mascotTipNotebook:'Du hast {n} Fehler im Heft. Wollen wir sie heute üben? 📒', mascotGreat:'Perfekt! Du bist ein Star! 🌟', mascotGood:'Super! Nur noch ein bisschen 👍', mascotTry:'Kein Problem! Deine Fehler sind im Heft – noch einmal 🌱', notebookEmpty:'Keine Fehler – super! 🌟 Falsche Antworten erscheinen hier nach der Auswertung.' },
     };
     Object.keys(SOL_T).forEach(l => { if (this.t[l]) Object.assign(this.t[l], SOL_T[l]); });
+    const COURSE_T = {
+      en: { courseTitle:'{level} course', courseMap:'Course map', nextUp:'Next', startCourse:'Start the course', continueCourse:'Continue', courseDone:'Course complete! 🎉', lessonLabel:'Lesson {n}', checkpointLabel:'Checkpoint', finalLabel:'Level mastery test', unitProgress:'{d} / {t} done', startLesson:'Start lesson', lessonDesc:'Learn these 6 verbs first, then answer 12 questions. 80% or more to pass!', checkpointDesc:'15 questions mixing all {n} verbs in this unit. 80% or more to pass!', finalDesc:'20 questions mixing every verb and tense of this level. 85% or more to complete the level!', finalUse:'Everything from this level, mixed together.', passMsg:'Passed! The next lesson is unlocked 🎉', failMsg:'So close! You need {p}% to pass. Want to try again?', levelDone:'{level} complete! You mastered this level 🏆', nextLesson:'Next lesson', retryLesson:'Try again', backToCourse:'Back to course', use_presente:'What happens now, habits and general facts', use_preterito:'Completed actions at a specific time in the past (ayer, el año pasado)', use_imperfecto:'Past habits, descriptions and ongoing actions (antes, siempre)', use_futuro:'Future plans and guesses about the present (mañana, el próximo año)', use_subjuntivo:'Wishes, emotions, doubt and necessity (quiero que…, es importante que…)' },
+      ko: { courseTitle:'{level} 코스', courseMap:'코스 지도', nextUp:'다음 학습', startCourse:'코스 시작하기', continueCourse:'이어서 학습', courseDone:'코스 완주! 🎉', lessonLabel:'레슨 {n}', checkpointLabel:'단원 평가', finalLabel:'레벨 마스터 테스트', unitProgress:'{t}개 중 {d}개 완료', startLesson:'레슨 시작', lessonDesc:'먼저 아래 동사 6개의 활용형을 익히고, 12문제를 풀어요. 80% 이상 맞히면 통과!', checkpointDesc:'이 단원의 동사 {n}개를 섞은 15문제예요. 80% 이상이면 통과!', finalDesc:'이 레벨의 모든 동사와 시제를 섞은 20문제예요. 85% 이상이면 레벨 완료!', finalUse:'이 레벨에서 배운 모든 시제를 섞어서 나와요.', passMsg:'통과! 다음 레슨이 열렸어요 🎉', failMsg:'아쉬워요! {p}% 이상 맞혀야 통과예요. 다시 도전해 볼까요?', levelDone:'{level} 레벨 완료! 이 레벨을 마스터했어요 🏆', nextLesson:'다음 레슨', retryLesson:'다시 도전', backToCourse:'코스로 돌아가기', use_presente:'지금 하는 일, 습관, 일반적인 사실', use_preterito:'과거의 특정 시점에 끝난 일 (ayer, el año pasado)', use_imperfecto:'과거의 습관, 배경 묘사, 진행 중이던 일 (antes, siempre)', use_futuro:'앞으로 할 일, 현재에 대한 추측 (mañana, el próximo año)', use_subjuntivo:'바람·감정·의심·필요를 나타낼 때 (quiero que…, es importante que…)' },
+      es: { courseTitle:'Curso {level}', courseMap:'Mapa del curso', nextUp:'Siguiente', startCourse:'Empezar el curso', continueCourse:'Continuar', courseDone:'¡Curso completado! 🎉', lessonLabel:'Lección {n}', checkpointLabel:'Control', finalLabel:'Prueba final del nivel', unitProgress:'{d} / {t} hechas', startLesson:'Empezar lección', lessonDesc:'Aprende primero estos 6 verbos y luego responde 12 preguntas. ¡Con 80% o más, apruebas!', checkpointDesc:'15 preguntas con los {n} verbos de esta unidad. ¡Con 80% o más, apruebas!', finalDesc:'20 preguntas con todos los verbos y tiempos del nivel. ¡Con 85% o más completas el nivel!', finalUse:'Todo lo del nivel, mezclado.', passMsg:'¡Aprobado! Se desbloqueó la siguiente lección 🎉', failMsg:'¡Casi! Necesitas {p}% para aprobar. ¿Lo intentas otra vez?', levelDone:'¡Nivel {level} completado! Lo dominas 🏆', nextLesson:'Siguiente lección', retryLesson:'Intentar de nuevo', backToCourse:'Volver al curso', use_presente:'Acciones actuales, hábitos y verdades generales', use_preterito:'Acciones terminadas en un momento concreto del pasado (ayer, el año pasado)', use_imperfecto:'Hábitos, descripciones y acciones en curso en el pasado (antes, siempre)', use_futuro:'Planes futuros y suposiciones sobre el presente (mañana, el próximo año)', use_subjuntivo:'Deseos, emociones, duda y necesidad (quiero que…, es importante que…)' },
+      fr: { courseTitle:'Parcours {level}', courseMap:'Carte du parcours', nextUp:'À suivre', startCourse:'Commencer le parcours', continueCourse:'Continuer', courseDone:'Parcours terminé ! 🎉', lessonLabel:'Leçon {n}', checkpointLabel:'Bilan', finalLabel:'Test final du niveau', unitProgress:'{d} / {t} faites', startLesson:'Commencer la leçon', lessonDesc:'Apprends d’abord ces 6 verbes, puis réponds à 12 questions. 80 % ou plus pour réussir !', checkpointDesc:'15 questions avec les {n} verbes de l’unité. 80 % ou plus pour réussir !', finalDesc:'20 questions avec tous les verbes et temps du niveau. 85 % ou plus pour valider le niveau !', finalUse:'Tout le niveau, mélangé.', passMsg:'Réussi ! La leçon suivante est débloquée 🎉', failMsg:'Presque ! Il faut {p} % pour réussir. On réessaie ?', levelDone:'Niveau {level} terminé ! Tu le maîtrises 🏆', nextLesson:'Leçon suivante', retryLesson:'Réessayer', backToCourse:'Retour au parcours', use_presente:'Ce qui se passe maintenant, habitudes, vérités générales', use_preterito:'Actions terminées à un moment précis du passé (ayer, el año pasado)', use_imperfecto:'Habitudes, descriptions et actions en cours dans le passé (antes, siempre)', use_futuro:'Projets futurs et suppositions sur le présent (mañana, el próximo año)', use_subjuntivo:'Souhaits, émotions, doute et nécessité (quiero que…, es importante que…)' },
+      it: { courseTitle:'Corso {level}', courseMap:'Mappa del corso', nextUp:'Prossimo', startCourse:'Inizia il corso', continueCourse:'Continua', courseDone:'Corso completato! 🎉', lessonLabel:'Lezione {n}', checkpointLabel:'Verifica', finalLabel:'Test finale del livello', unitProgress:'{d} / {t} fatte', startLesson:'Inizia la lezione', lessonDesc:'Prima impara questi 6 verbi, poi rispondi a 12 domande. Con l’80% o più superi!', checkpointDesc:'15 domande con i {n} verbi dell’unità. Con l’80% o più superi!', finalDesc:'20 domande con tutti i verbi e i tempi del livello. Con l’85% o più completi il livello!', finalUse:'Tutto il livello, mescolato.', passMsg:'Superata! La prossima lezione è sbloccata 🎉', failMsg:'Quasi! Serve il {p}% per superarla. Riprovi?', levelDone:'Livello {level} completato! Lo padroneggi 🏆', nextLesson:'Prossima lezione', retryLesson:'Riprova', backToCourse:'Torna al corso', use_presente:'Azioni attuali, abitudini, verità generali', use_preterito:'Azioni concluse in un momento preciso del passato (ayer, el año pasado)', use_imperfecto:'Abitudini, descrizioni e azioni in corso nel passato (antes, siempre)', use_futuro:'Piani futuri e supposizioni sul presente (mañana, el próximo año)', use_subjuntivo:'Desideri, emozioni, dubbio e necessità (quiero que…, es importante que…)' },
+      pt: { courseTitle:'Curso {level}', courseMap:'Mapa do curso', nextUp:'A seguir', startCourse:'Começar o curso', continueCourse:'Continuar', courseDone:'Curso concluído! 🎉', lessonLabel:'Lição {n}', checkpointLabel:'Revisão', finalLabel:'Teste final do nível', unitProgress:'{d} / {t} feitas', startLesson:'Começar lição', lessonDesc:'Primeiro aprenda estes 6 verbos e depois responda a 12 perguntas. Com 80% ou mais, você passa!', checkpointDesc:'15 perguntas com os {n} verbos desta unidade. Com 80% ou mais, você passa!', finalDesc:'20 perguntas com todos os verbos e tempos do nível. Com 85% ou mais, você conclui o nível!', finalUse:'Tudo do nível, misturado.', passMsg:'Aprovado! A próxima lição foi desbloqueada 🎉', failMsg:'Quase! Você precisa de {p}% para passar. Tentar de novo?', levelDone:'Nível {level} concluído! Você dominou 🏆', nextLesson:'Próxima lição', retryLesson:'Tentar de novo', backToCourse:'Voltar ao curso', use_presente:'Ações atuais, hábitos e verdades gerais', use_preterito:'Ações concluídas num momento específico do passado (ayer, el año pasado)', use_imperfecto:'Hábitos, descrições e ações em andamento no passado (antes, siempre)', use_futuro:'Planos futuros e suposições sobre o presente (mañana, el próximo año)', use_subjuntivo:'Desejos, emoções, dúvida e necessidade (quiero que…, es importante que…)' },
+      de: { courseTitle:'{level}-Kurs', courseMap:'Kurskarte', nextUp:'Als Nächstes', startCourse:'Kurs starten', continueCourse:'Weiter', courseDone:'Kurs geschafft! 🎉', lessonLabel:'Lektion {n}', checkpointLabel:'Checkpoint', finalLabel:'Abschlusstest', unitProgress:'{d} / {t} erledigt', startLesson:'Lektion starten', lessonDesc:'Lerne zuerst diese 6 Verben, dann beantworte 12 Fragen. Ab 80 % bestanden!', checkpointDesc:'15 Fragen mit allen {n} Verben dieser Einheit. Ab 80 % bestanden!', finalDesc:'20 Fragen mit allen Verben und Zeiten des Niveaus. Ab 85 % ist das Niveau geschafft!', finalUse:'Alles aus diesem Niveau, gemischt.', passMsg:'Bestanden! Die nächste Lektion ist frei 🎉', failMsg:'Fast! Du brauchst {p} %. Noch einmal?', levelDone:'Niveau {level} geschafft! Du beherrschst es 🏆', nextLesson:'Nächste Lektion', retryLesson:'Nochmal', backToCourse:'Zurück zum Kurs', use_presente:'Was jetzt passiert, Gewohnheiten, allgemeine Fakten', use_preterito:'Abgeschlossene Handlungen zu einem bestimmten Zeitpunkt (ayer, el año pasado)', use_imperfecto:'Gewohnheiten, Beschreibungen und laufende Handlungen in der Vergangenheit (antes, siempre)', use_futuro:'Zukunftspläne und Vermutungen über die Gegenwart (mañana, el próximo año)', use_subjuntivo:'Wünsche, Gefühle, Zweifel und Notwendigkeit (quiero que…, es importante que…)' },
+    };
+    Object.keys(COURSE_T).forEach(l => { if (this.t[l]) Object.assign(this.t[l], COURSE_T[l]); });
   }
 
   initVt() {
@@ -1048,7 +1161,7 @@ class Component extends DCLogic {
   toggleLanguageMenu = () => this.setState(s => ({ languageMenuOpen: !s.languageMenuOpen, levelMenuOpen: false }));
   selectLanguage = (lang) => { if (lang.soon) return; this.setState({ language: lang.code, languageMenuOpen: false }); };
   toggleLevelMenu = () => this.setState(s => ({ levelMenuOpen: !s.levelMenuOpen, languageMenuOpen: false }));
-  selectLevel = (lvl) => this.setState({ levelPicked: lvl, levelMenuOpen: false });
+  selectLevel = (lvl) => { this.storeSaved('conjuga.level.v1', lvl); this.setState({ levelPicked: lvl, levelMenuOpen: false }); };
 
   rand = (n) => Math.floor(Math.random() * n);
   pick = (arr) => arr[this.rand(arr.length)];
@@ -1330,7 +1443,70 @@ class Component extends DCLogic {
     return { ...base, sentence, options };
   }
 
+  // ── Course (Duolingo-style path): level's own verbs × level's tenses, in units by tense.
+  loadSaved(key) { try { const raw = window.localStorage.getItem(key); return raw ? JSON.parse(raw) : null; } catch (e) { return null; } }
+  storeSaved(key, val) { try { window.localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
+  chooseLevel(lvl, screen) { this.storeSaved('conjuga.level.v1', lvl); this.setState({ levelPicked: lvl, screen: screen || 'home', levelMenuOpen: false }); }
+
+  buildCourse(L) {
+    this._courses = this._courses || {};
+    if (this._courses[L]) return this._courses[L];
+    const own = this.verbs.filter(v => v.level === L);
+    const ordered = [...own.filter(v => v.group === 'regular'), ...own.filter(v => v.group !== 'regular')].map(v => v.inf);
+    const chunks = [];
+    for (let i = 0; i < ordered.length; i += 6) chunks.push(ordered.slice(i, i + 6));
+    if (chunks.length > 1 && chunks[chunks.length - 1].length < 3) { const last = chunks.pop(); chunks[chunks.length - 1].push(...last); }
+    const units = [], lessons = [];
+    this.levelTenses[L].forEach((tid, ui) => {
+      const unit = { idx: ui, tenseId: tid, lessons: [] };
+      chunks.forEach((verbs, li) => { const les = { id: `${L}-${tid}-${li + 1}`, kind: 'lesson', unitIdx: ui, num: li + 1, tenseId: tid, verbs }; unit.lessons.push(les); lessons.push(les); });
+      const cp = { id: `${L}-${tid}-cp`, kind: 'checkpoint', unitIdx: ui, tenseId: tid, verbs: ordered };
+      unit.lessons.push(cp); lessons.push(cp); units.push(unit);
+    });
+    const fin = { id: `${L}-final`, kind: 'final', unitIdx: units.length, tenses: this.levelTenses[L].slice(), verbs: ordered };
+    lessons.push(fin);
+    lessons.forEach((l, i) => { l.order = i; });
+    return (this._courses[L] = { level: L, units, lessons, final: fin });
+  }
+  course = () => this.buildCourse(this.state.levelPicked || 'A1');
+  lessonById = (id) => { const L = (id || '').split('-')[0]; return this.levelOrder.includes(L) ? this.buildCourse(L).lessons.find(l => l.id === id) : null; };
+  lessonPassThreshold = (les) => (les.kind === 'final' ? 85 : 80);
+  isLessonPassed = (id) => { const p = this.state.courseProgress[id]; return !!(p && p.passed); };
+  isLessonUnlocked = (les) => les.order === 0 || this.isLessonPassed(this.buildCourse(les.id.split('-')[0]).lessons[les.order - 1].id);
+  currentLesson = () => { const c = this.course(); return c.lessons.find(l => !this.isLessonPassed(l.id)) || null; };
+  lessonTitle(les) {
+    if (!les) return this.tr('courseDone');
+    if (les.kind === 'final') return this.tr('finalLabel');
+    const unit = `Unidad ${les.unitIdx + 1} · ${this.trTenseLabel(les.tenseId)}`;
+    return les.kind === 'checkpoint' ? `${unit} · ${this.tr('checkpointLabel')}` : `${unit} · ${this.tr('lessonLabel', { n: les.num })}`;
+  }
+  goCourse = () => this.setState({ screen: 'course' });
+  openLesson = (id) => { const les = this.lessonById(id); if (!les || !this.isLessonUnlocked(les)) return; this.setState({ screen: 'lessonIntro', lessonIntroId: id }); };
+  openNextLesson = () => { const les = this.currentLesson(); if (les) this.openLesson(les.id); else this.goCourse(); };
+  startIntroLesson = () => { if (this.state.lessonIntroId) this.startSessionWith('lesson', { lessonId: this.state.lessonIntroId }); };
+  openResultNextLesson = () => { const r = this.state.results; if (r && r.lesson && r.lesson.nextId) this.openLesson(r.lesson.nextId); };
+  retryResultLesson = () => { const r = this.state.results; if (r && r.lesson) this.startSessionWith('lesson', { lessonId: r.lesson.id }); };
+
+  lessonQuestions(les) {
+    if (les.kind === 'lesson') {
+      const fills = les.verbs.map(inf => this.buildQuestion('fill', { verbInf: inf, tenseId: les.tenseId }));
+      const kinds = ['mc', 'cloze', 'mc', 'cloze', 'mc', 'cloze'];
+      const extra = kinds.map((k, i) => this.buildQuestion(k, { verbInf: les.verbs[i % les.verbs.length], tenseId: les.tenseId }));
+      return [...this.shuffle(fills), ...this.shuffle(extra)];
+    }
+    if (les.kind === 'checkpoint') {
+      const vs = this.shuffle(les.verbs);
+      const tables = [0, 1].map(i => this.buildQuestion('table', { verbInf: vs[i % vs.length], tenseId: les.tenseId }));
+      const kinds = ['fill', 'mc', 'cloze'];
+      const mixed = Array.from({ length: 13 }, (_, i) => this.buildQuestion(kinds[i % 3], { verbInf: vs[(i + 2) % vs.length], tenseId: les.tenseId }));
+      return [...this.shuffle(mixed), ...tables];
+    }
+    const vs = this.shuffle(les.verbs), kinds = ['fill', 'mc', 'cloze'];
+    return Array.from({ length: 20 }, (_, i) => this.buildQuestion(kinds[i % 3], { verbInf: vs[i % vs.length], tenseId: les.tenses[i % les.tenses.length] }));
+  }
+
   generateSession(mode, opts = {}) {
+    if (mode === 'lesson') { const les = this.lessonById(opts.lessonId); return { mode, questions: les ? this.lessonQuestions(les) : [] }; }
     if (mode === 'mistakes') {
       const all = this.state.mistakes;
       const src = opts.ids ? all.filter(m => opts.ids.includes(m.id)) : all.slice(0, 20);
@@ -1353,7 +1529,7 @@ class Component extends DCLogic {
     const q0 = gen.questions[0];
     this.setState({
       screen: 'session',
-      session: { mode, questions: gen.questions, index: 0, answers: [], locked: false, userInput: '', selected: null, focusedRow: 0, tableInputs: q0 && q0.qtype === 'table' ? new Array(6).fill('') : [], timeLeft: gen.timeLeft || null },
+      session: { mode, lessonId: opts.lessonId || null, questions: gen.questions, index: 0, answers: [], locked: false, userInput: '', selected: null, focusedRow: 0, tableInputs: q0 && q0.qtype === 'table' ? new Array(6).fill('') : [], timeLeft: gen.timeLeft || null },
     });
     this.focusAnswer(0);
     if (mode === 'timed') {
@@ -1498,6 +1674,21 @@ class Component extends DCLogic {
     list = list.slice(0, 300);
     this.saveMistakes(list);
     const accuracy = totalUnits > 0 ? Math.round((correctUnits / totalUnits) * 100) : 0;
+    let lessonResult = null, courseProgress = this.state.courseProgress;
+    const les = s.mode === 'lesson' ? this.lessonById(s.lessonId) : null;
+    if (les) {
+      const answeredAll = (allAnswers.filter(Boolean).length === s.questions.length);
+      const threshold = this.lessonPassThreshold(les);
+      const passed = answeredAll && accuracy >= threshold;
+      const stars = !passed ? 0 : accuracy >= 100 ? 3 : accuracy >= 90 ? 2 : 1;
+      const prev = courseProgress[les.id] || {};
+      courseProgress = { ...courseProgress, [les.id]: { passed: passed || !!prev.passed, stars: Math.max(stars, prev.stars || 0), best: Math.max(accuracy, prev.best || 0) } };
+      this.storeSaved('conjuga.course.v1', courseProgress);
+      const L = les.id.split('-')[0];
+      const all = this.buildCourse(L).lessons;
+      const next = all[les.order + 1];
+      lessonResult = { id: les.id, kind: les.kind, passed, stars, threshold, level: L, nextId: passed && next ? next.id : null, levelDone: passed && les.kind === 'final' };
+    }
     this.setState(st => {
       const newDailyToday = st.dailyGoalToday + xp;
       const bump = !st.streakBumpedToday && newDailyToday >= st.dailyGoalTarget;
@@ -1511,7 +1702,8 @@ class Component extends DCLogic {
         streakBumpedToday: bump ? true : st.streakBumpedToday,
         lifetimeCorrect: st.lifetimeCorrect + correctUnits,
         lifetimeTotal: st.lifetimeTotal + totalUnits,
-        results: { accuracy, xp, streakBumped: bump, hadMistakes: wrong.length > 0, correct: correctUnits, total: totalUnits, review, wrongIds, fixedCount: fixedIds.length },
+        courseProgress,
+        results: { accuracy, xp, streakBumped: bump, hadMistakes: wrong.length > 0, correct: correctUnits, total: totalUnits, review, wrongIds, fixedCount: fixedIds.length, lesson: lessonResult },
       };
     });
   };
@@ -1521,12 +1713,12 @@ class Component extends DCLogic {
   goHome = () => this.setState({ screen: 'home' });
   goLibrary = () => this.setState({ screen: 'library', libraryVerbInf: null });
   goProfile = () => this.setState({ screen: 'profile' });
-  pickLevelA1 = () => this.setState({ screen: 'home', levelPicked: 'A1' });
-  pickLevelA2 = () => this.setState({ screen: 'home', levelPicked: 'A2' });
-  pickLevelB1 = () => this.setState({ screen: 'home', levelPicked: 'B1' });
-  pickLevelB2 = () => this.setState({ screen: 'home', levelPicked: 'B2' });
-  pickLevelC1 = () => this.setState({ screen: 'home', levelPicked: 'C1' });
-  pickLevelC2 = () => this.setState({ screen: 'home', levelPicked: 'C2' });
+  pickLevelA1 = () => this.chooseLevel('A1', 'course');
+  pickLevelA2 = () => this.chooseLevel('A2', 'course');
+  pickLevelB1 = () => this.chooseLevel('B1', 'course');
+  pickLevelB2 = () => this.chooseLevel('B2', 'course');
+  pickLevelC1 = () => this.chooseLevel('C1', 'course');
+  pickLevelC2 = () => this.chooseLevel('C2', 'course');
 
   filterAll = () => this.setState({ libraryFilter: 'all' });
   filterA1 = () => this.setState({ libraryFilter: 'A1' });
@@ -1713,6 +1905,96 @@ class Component extends DCLogic {
         style: `padding:10px 12px;border-radius:var(--radius-md);background:${r.ok ? 'rgba(111,191,143,0.07)' : 'rgba(217,130,130,0.09)'};border:1px solid ${r.ok ? 'rgba(111,191,143,0.35)' : 'rgba(217,130,130,0.45)'};display:flex;flex-direction:column;gap:3px;`,
       }));
       vals.resultsHeadline = s.results.accuracy >= 90 ? this.tr('excellent') : s.results.accuracy >= 70 ? this.tr('good') : s.results.accuracy >= 40 ? this.tr('keepGoing') : this.tr('practiceMore');
+    }
+    // ── course vals
+    vals.isCourse = s.screen === 'course'; vals.isLessonIntro = s.screen === 'lessonIntro';
+    vals.goCourse = this.goCourse; vals.openNextLesson = this.openNextLesson; vals.startIntroLesson = this.startIntroLesson;
+    vals.openResultNextLesson = this.openResultNextLesson; vals.retryResultLesson = this.retryResultLesson;
+    {
+      const c = this.course(), cur = this.currentLesson();
+      const done = c.lessons.filter(l => this.isLessonPassed(l.id)).length, total = c.lessons.length;
+      const pct = Math.round((done / Math.max(1, total)) * 100);
+      vals.courseDoneCount = done; vals.courseTotalCount = total;
+      vals.courseBarStyle = `height:100%;width:${Math.max(pct, 3)}%;border-radius:99px;background:#fff;`;
+      vals.courseBarStyleMap = `height:100%;width:${Math.max(pct, 3)}%;border-radius:99px;background:linear-gradient(90deg,#FFB23F,#FF7A59);`;
+      vals.txtCourseTitle = this.tr('courseTitle', { level: c.level });
+      vals.courseNextTitle = this.lessonTitle(cur);
+      vals.courseNextBtn = cur ? (cur.order === 0 && done === 0 ? this.tr('startCourse') : this.tr('continueCourse')) : this.tr('courseMap');
+      vals.txtNextUp = this.tr('nextUp'); vals.txtCourseMap = this.tr('courseMap'); vals.txtStartLesson = this.tr('startLesson');
+      vals.txtNextLesson = this.tr('nextLesson'); vals.txtRetryLesson = this.tr('retryLesson'); vals.txtBackToCourse = this.tr('backToCourse');
+
+      if (s.screen === 'course') {
+        const palette = [['#FF7A59', '#FFB23F', '#D9552F'], ['#14A39A', '#3FD0B4', '#0E7A73'], ['#7B5CD6', '#A88BFF', '#5A3FB0'], ['#2F7BD8', '#64B0FF', '#1F5DA8'], ['#E0457B', '#FF8FB1', '#B02E5C']];
+        const rows = [];
+        const zig = [0, 46, 70, 46, 0, -46, -70, -46];
+        let k = 0;
+        const nodeRow = (les, label, icon) => {
+          const passed = this.isLessonPassed(les.id), unlocked = this.isLessonUnlocked(les), isCur = cur && cur.id === les.id;
+          const col = palette[(les.kind === 'final' ? c.units.length : les.unitIdx) % palette.length];
+          const size = les.kind === 'lesson' ? 66 : 78;
+          const bg = passed ? `linear-gradient(180deg,#FFD54A,#FFB72E)` : unlocked ? `linear-gradient(180deg,${col[1]},${col[0]})` : '#E9E2EF';
+          const sh = passed ? '#D99A00' : unlocked ? col[2] : '#CFC6D8';
+          const st = (this.state.courseProgress[les.id] || {}).stars || 0;
+          const off = zig[k++ % zig.length];
+          rows.push({
+            isHeader: false, isNode: true, isCurrent: !!isCur,
+            wrapStyle: `display:flex;align-items:center;justify-content:center;gap:10px;transform:translateX(${off}px);`,
+            nodeStyle: `cursor:${unlocked ? 'pointer' : 'default'};width:${size}px;height:${size}px;border-radius:50%;background:${bg};box-shadow:0 6px 0 ${sh}${isCur ? `,0 0 0 6px ${col[0]}33` : ''};display:flex;align-items:center;justify-content:center;font-size:${les.kind === 'lesson' ? 24 : 30}px;color:${unlocked || passed ? '#fff' : '#9C91A8'};font-family:var(--font-heading);`,
+            icon: !unlocked ? '🔒' : passed && les.kind === 'lesson' ? '✓' : icon,
+            label, stars: passed ? '★'.repeat(st) + '☆'.repeat(3 - st) : '',
+            onClick: () => this.openLesson(les.id),
+          });
+        };
+        c.units.forEach(u => {
+          const col = palette[u.idx % palette.length];
+          const ud = u.lessons.filter(l => this.isLessonPassed(l.id)).length;
+          rows.push({ isHeader: true, isNode: false, unitLabel: `Unidad ${u.idx + 1}`, title: this.trTenseLabel(u.tenseId), sub: this.tr('unitProgress', { d: ud, t: u.lessons.length }),
+            headerStyle: `margin-top:6px;padding:14px 16px;border-radius:var(--radius-lg);background:linear-gradient(135deg,${col[0]},${col[1]});box-shadow:0 5px 0 ${col[2]};color:#fff;display:flex;flex-direction:column;gap:2px;` });
+          u.lessons.forEach(l => nodeRow(l, l.kind === 'checkpoint' ? this.tr('checkpointLabel') : this.tr('lessonLabel', { n: l.num }), l.kind === 'checkpoint' ? '🏆' : String(l.num)));
+        });
+        const fcol = palette[c.units.length % palette.length];
+        rows.push({ isHeader: true, isNode: false, unitLabel: c.level, title: this.tr('finalLabel'), sub: this.tr('finalDesc'), headerStyle: `margin-top:6px;padding:14px 16px;border-radius:var(--radius-lg);background:linear-gradient(135deg,${fcol[0]},${fcol[1]});box-shadow:0 5px 0 ${fcol[2]};color:#fff;display:flex;flex-direction:column;gap:2px;` });
+        nodeRow(c.final, this.tr('finalLabel'), '👑');
+        vals.courseRows = rows;
+      }
+
+      if (s.screen === 'lessonIntro') {
+        const les = this.lessonById(s.lessonIntroId);
+        if (les) {
+          const tid = les.tenseId || 'presente';
+          vals.introUnitLabel = les.kind === 'final' ? c.level : `Unidad ${les.unitIdx + 1}`;
+          vals.introTitle = les.kind === 'final' ? this.tr('finalLabel') : les.kind === 'checkpoint' ? `${this.trTenseLabel(tid)} · ${this.tr('checkpointLabel')}` : `${this.trTenseLabel(tid)} · ${this.tr('lessonLabel', { n: les.num })}`;
+          vals.introBubble = les.kind === 'lesson' ? this.tr('lessonDesc') : les.kind === 'checkpoint' ? this.tr('checkpointDesc', { n: les.verbs.length }) : this.tr('finalDesc');
+          const ENDINGS = {
+            presente: '-ar: o · as · a · amos · áis · an\n-er: o · es · e · emos · éis · en\n-ir: o · es · e · imos · ís · en',
+            preterito: '-ar: é · aste · ó · amos · asteis · aron\n-er/-ir: í · iste · ió · imos · isteis · ieron',
+            imperfecto: '-ar: aba · abas · aba · ábamos · abais · aban\n-er/-ir: ía · ías · ía · íamos · íais · ían',
+            futuro: 'infinitivo + é · ás · á · emos · éis · án',
+            subjuntivo: '-ar: e · es · e · emos · éis · en\n-er/-ir: a · as · a · amos · áis · an  (raíz de «yo»)',
+          };
+          const showT = les.kind === 'final' ? null : tid;
+          vals.introTenseLabel = showT ? this.trTenseLabel(showT) : les.tenses.map(t => this.trTenseLabel(t)).join(' · ');
+          vals.introTenseUse = showT ? this.tr('use_' + showT) : this.tr('finalUse');
+          vals.introEndings = showT ? ENDINGS[showT] : '';
+          const lang = s.language;
+          vals.introVerbs = les.kind === 'lesson' ? les.verbs.map(inf => {
+            const v = this.verbByInf(inf), f = v.forms[tid];
+            const idx = { ko: 0, fr: 1, it: 2, pt: 3, de: 4 }[lang];
+            const meaning = idx !== undefined && this.vt[inf] ? this.vt[inf][idx] : v.en;
+            return { inf, meaning, f0: f[0], f1: f[1], f2: f[2], f3: f[3], f4: f[4], f5: f[5] };
+          }) : [];
+        }
+      }
+
+      const R = s.results;
+      vals.resultsIsLesson = !!(R && R.lesson);
+      if (vals.resultsIsLesson) {
+        const LR = R.lesson;
+        vals.lessonStars = LR.passed ? '★'.repeat(LR.stars) + '☆'.repeat(3 - LR.stars) : '☆☆☆';
+        vals.lessonResultMsg = LR.levelDone ? this.tr('levelDone', { level: LR.level }) : LR.passed ? this.tr('passMsg') : this.tr('failMsg', { p: LR.threshold });
+        vals.lessonResultStyle = `padding:14px;border-radius:var(--radius-lg);text-align:center;display:flex;flex-direction:column;gap:4px;color:${LR.passed ? '#7A4E00' : '#8F2D18'};background:${LR.passed ? 'linear-gradient(135deg,#FFF1B8,#FFE08A)' : '#FFEDE7'};border:2px solid ${LR.passed ? '#F5C842' : '#FFC0AE'};`;
+        vals.lessonHasNext = !!LR.nextId; vals.lessonFailed = !LR.passed;
+      } else { vals.lessonHasNext = false; vals.lessonFailed = false; }
     }
     vals.notebookIsEmpty = s.mistakes.length === 0;
     if (!this._mascots) this._mascots = { happy: this.mascotSvg('happy'), cheer: this.mascotSvg('cheer'), wink: this.mascotSvg('wink'), calm: this.mascotSvg('calm') };
